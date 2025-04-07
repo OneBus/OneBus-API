@@ -1,8 +1,9 @@
 ﻿using OneBus.Domain.Entities;
+using OneBus.Domain.Filters;
 
 namespace OneBus.Domain.Interfaces.Repositories
 {
-    public interface IStopRepository : IBaseRepository<Stop>
+    public interface IStopRepository : IBaseRepository<Stop, BaseFilter>
     {
     }
 }

@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using OneBus.Infra.Data.DbContexts;
+using OneBus.Infra.Ioc;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -25,12 +26,19 @@ if (isDocker)
 
 builder.Configuration.AddEnvironmentVariables();
 
+// Adds IoC configurations
+builder.Services.AddInfrastructure();
+
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+
+builder.Services.AddSwaggerGen(options =>
+{
+    options.UseInlineDefinitionsForEnums();
+});
 
 // Add DbContext Service
 builder.Services.AddDbContext<OneBusDbContext>(options =>

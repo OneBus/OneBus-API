@@ -1,6 +1,6 @@
 ﻿namespace OneBus.Domain.Enums
 {
-    public enum OrderBy : byte
+    public enum OrderType : byte
     {
         Asc,
         Desc

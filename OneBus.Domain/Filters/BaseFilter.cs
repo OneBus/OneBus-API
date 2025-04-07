@@ -5,11 +5,13 @@ namespace OneBus.Domain.Filters
 {
     public abstract class BaseFilter
     {
-        private ulong _companyId;
-
         protected BaseFilter()
         {
+            IsEnabled = true;
+            CurrentPage = 1;
+            PageSize = 15;
             OrderField = "id";
+            OrderType = OrderType.Desc;
         }
 
         [DefaultValue(true)]
@@ -28,16 +30,7 @@ namespace OneBus.Domain.Filters
         [DefaultValue("id")]
         public string OrderField { get; set; }
 
-        public OrderBy OrderBy { get; set; }
-
-        public void SetCompanyId(ulong companyId)
-        {
-            _companyId = companyId;
-        }
-
-        public ulong GetCompanyId()
-        {
-            return _companyId;
-        }
+        [DefaultValue(OrderType.Desc)]
+        public OrderType OrderType { get; set; }       
     }
 }

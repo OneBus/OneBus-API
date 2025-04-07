@@ -20,7 +20,7 @@
         /// <summary>
         /// Total de itens no conjunto original (com filtros de página).
         /// </summary>
-        public uint TotalItems { get; private set; }
+        public ulong TotalItems { get; private set; }
 
         /// <summary>
         /// Número total de páginas (calculado).
@@ -37,18 +37,13 @@
         /// </summary>
         public bool HasNextPage { get { return CurrentPage < TotalPages; } }
 
-        public Pagination(uint totalItems, uint currentPage, uint pageSize)
+        public Pagination(IEnumerable<T> items, ulong totalItems, uint currentPage, uint pageSize)
         {
-            Items = []; 
+            Items = [.. items];
             TotalItems = totalItems;
             CurrentPage = currentPage;
             PageSize = pageSize;
             TotalPages = (uint)Math.Ceiling(totalItems / (double)pageSize);
-        }       
-
-        public void AddItems(IEnumerable<T> items)
-        {
-            Items = [.. items];
         }
     }
 }
