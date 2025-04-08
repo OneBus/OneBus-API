@@ -69,6 +69,7 @@ using (IServiceScope scope = app.Services.CreateScope())
 }
 
 app.MapOpenApi();
+
 app.UseSwagger();
 app.UseSwaggerUI(options =>
 {

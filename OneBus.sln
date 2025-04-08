@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.13.35919.96
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OneBus.API", "OneBus.API\OneBus.API.csproj", "{878E077F-F3EE-4DBD-9E05-E50476658AD2}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OneBus.Domain", "OneBus.Domain\OneBus.Domain.csproj", "{7BEA1397-696A-44EC-81BB-3A4DA0756174}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OneBus.Infra.Data", "OneBus.Infra.Data\OneBus.Infra.Data.csproj", "{4563ADB0-7B3D-47AE-B9BA-3316B3219A80}"
@@ -26,10 +24,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{878E077F-F3EE-4DBD-9E05-E50476658AD2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{878E077F-F3EE-4DBD-9E05-E50476658AD2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{878E077F-F3EE-4DBD-9E05-E50476658AD2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{878E077F-F3EE-4DBD-9E05-E50476658AD2}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7BEA1397-696A-44EC-81BB-3A4DA0756174}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7BEA1397-696A-44EC-81BB-3A4DA0756174}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7BEA1397-696A-44EC-81BB-3A4DA0756174}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -51,7 +45,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{878E077F-F3EE-4DBD-9E05-E50476658AD2} = {536ADF53-1EBB-40D5-AA1D-A1286D2F7B7D}
 		{7BEA1397-696A-44EC-81BB-3A4DA0756174} = {536ADF53-1EBB-40D5-AA1D-A1286D2F7B7D}
 		{4563ADB0-7B3D-47AE-B9BA-3316B3219A80} = {536ADF53-1EBB-40D5-AA1D-A1286D2F7B7D}
 		{64B5BC71-8BB7-44E1-B6F0-1E15B217D573} = {536ADF53-1EBB-40D5-AA1D-A1286D2F7B7D}
