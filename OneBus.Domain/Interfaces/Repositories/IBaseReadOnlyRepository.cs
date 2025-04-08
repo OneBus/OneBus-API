@@ -22,5 +22,10 @@ namespace OneBus.Domain.Interfaces.Repositories
             TFilter filter,
             DbQueryOptions? dbQueryOptions = null,
             CancellationToken cancellationToken = default);
+
+        Task<ulong> LongCountAsync(
+            TFilter filter, 
+            DbQueryOptions? dbQueryOptions = null, 
+            CancellationToken cancellationToken = default);
     }
 }

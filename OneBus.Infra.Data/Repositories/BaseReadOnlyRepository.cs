@@ -29,6 +29,7 @@ namespace OneBus.Infra.Data.Repositories
         {
             return await _dbSet
                 .Includes(dbQueryOptions)
+                .ApplyDbQueryOptions(dbQueryOptions)
                 .Where(c => predicate(c))
                 .ToListAsync(cancellationToken);
         }
@@ -39,8 +40,9 @@ namespace OneBus.Infra.Data.Repositories
             CancellationToken cancellationToken = default)
         {
             return await _dbSet
-                .Where(c => predicate(c))
                 .Includes(dbQueryOptions)
+                .ApplyDbQueryOptions(dbQueryOptions)
+                .Where(c => predicate(c))
                 .FirstOrDefaultAsync(cancellationToken);
         }
 
@@ -54,11 +56,25 @@ namespace OneBus.Infra.Data.Repositories
             //Using Skip|Take pagination
             return await _dbSet
                 .Includes(dbQueryOptions)
+                .ApplyDbQueryOptions(dbQueryOptions)
                 .Where(c => predicate(c))
                 .OrderBy("{0} {1}", filter.OrderField, filter.OrderType)
                 .Skip((int)((filter.CurrentPage - 1) * filter.PageSize))
                 .Take((int)filter.PageSize)
                 .ToListAsync(cancellationToken);
+        }
+
+        public virtual async Task<ulong> LongCountAsync(
+            TFilter filter, 
+            DbQueryOptions? dbQueryOptions = null, 
+            CancellationToken cancellationToken = default)
+        {
+            Predicate<TEntity> predicate = ApplyFilter(filter);
+
+            return (ulong)await _dbSet
+                .ApplyDbQueryOptions(dbQueryOptions)
+                .Where(c => predicate(c))
+                .LongCountAsync(cancellationToken);
         }
 
         protected virtual Predicate<TEntity> ApplyFilter(TFilter filter)

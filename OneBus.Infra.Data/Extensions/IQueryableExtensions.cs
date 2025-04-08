@@ -6,6 +6,16 @@ namespace OneBus.Infra.Data.Extensions
 {
     public static class IQueryableExtensions
     {
+        public static IQueryable<TEntity> ApplyDbQueryOptions<TEntity>(
+             this IQueryable<TEntity> query,
+             DbQueryOptions? dbQueryOptions) where TEntity : BaseEntity
+        {
+            if (dbQueryOptions is { IgnoreQueryFilter: false })
+                return query;
+           
+            return query.IgnoreQueryFilters();
+        }
+
         public static IQueryable<TEntity> Includes<TEntity>(
             this IQueryable<TEntity> query, 
             DbQueryOptions? dbQueryOptions = null) where TEntity : BaseEntity

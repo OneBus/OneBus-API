@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
+using OneBus.Application.Interfaces.Services;
 using OneBus.Domain.Interfaces.Repositories;
 using OneBus.Infra.Data.Repositories;
 using System.Reflection;
@@ -11,9 +12,10 @@ namespace OneBus.Infra.Ioc
         public static IServiceCollection AddInfrastructure(this IServiceCollection services)
         {            
             services.AddGenericRepositories(typeof(BaseReadOnlyRepository<,>).Assembly);
-
+           
             //services.AddValidatorsFromAssembly(typeof(BaseCreateDTOValidation<>).Assembly);
-            //services.AddGenericServices(typeof(BaseReadOnlyService<,>).Assembly);
+
+            services.AddGenericServices(typeof(IBaseReadOnlyService<,,>).Assembly);
 
             return services;
         }
@@ -40,8 +42,7 @@ namespace OneBus.Infra.Ioc
 
             return services;
         }
-
-        /*
+        
         private static IServiceCollection AddGenericServices(this IServiceCollection services, Assembly assembly)
         {
             var types = assembly.GetTypes()
@@ -52,9 +53,8 @@ namespace OneBus.Infra.Ioc
             {
                 var interfaces = type.GetInterfaces()
                     .Where(i => i.IsGenericType &&
-                                (i.GetGenericTypeDefinition() == typeof(IBaseReadOnlyService<,>) ||
-                                 i.GetGenericTypeDefinition() == typeof(IBaseService<,,,>) ||
-                                 i.GetGenericTypeDefinition() == typeof(IBaseSoftDeleteService<,,,>)))
+                                (i.GetGenericTypeDefinition() == typeof(IBaseReadOnlyService<,,>) ||
+                                 i.GetGenericTypeDefinition() == typeof(IBaseService<,,,,>)))
                     .ToList();
 
                 foreach (var @interface in interfaces)
@@ -64,7 +64,6 @@ namespace OneBus.Infra.Ioc
             }
 
             return services;
-        }
-        */
+        }        
     }
 }
