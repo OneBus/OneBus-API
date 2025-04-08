@@ -18,6 +18,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OneBus.Infra.Ioc", "OneBus.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OneBus.Application", "OneBus.Application\OneBus.Application.csproj", "{3A58F01B-324A-4F72-B327-E2AF14EED734}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OneBus.Test", "OneBus.Test\OneBus.Test.csproj", "{0B8D5CB9-CCC8-415D-A6BD-A0A77E7D27BC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{36B2DDF0-A944-4F7D-9B96-EBC605051E2F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -40,6 +44,10 @@ Global
 		{3A58F01B-324A-4F72-B327-E2AF14EED734}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3A58F01B-324A-4F72-B327-E2AF14EED734}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3A58F01B-324A-4F72-B327-E2AF14EED734}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0B8D5CB9-CCC8-415D-A6BD-A0A77E7D27BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B8D5CB9-CCC8-415D-A6BD-A0A77E7D27BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B8D5CB9-CCC8-415D-A6BD-A0A77E7D27BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B8D5CB9-CCC8-415D-A6BD-A0A77E7D27BC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -49,6 +57,7 @@ Global
 		{4563ADB0-7B3D-47AE-B9BA-3316B3219A80} = {536ADF53-1EBB-40D5-AA1D-A1286D2F7B7D}
 		{64B5BC71-8BB7-44E1-B6F0-1E15B217D573} = {536ADF53-1EBB-40D5-AA1D-A1286D2F7B7D}
 		{3A58F01B-324A-4F72-B327-E2AF14EED734} = {536ADF53-1EBB-40D5-AA1D-A1286D2F7B7D}
+		{0B8D5CB9-CCC8-415D-A6BD-A0A77E7D27BC} = {36B2DDF0-A944-4F7D-9B96-EBC605051E2F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DF1E3455-64BE-4349-8794-9E1D4B9D1A18}
