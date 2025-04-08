@@ -15,14 +15,14 @@ namespace OneBus.Domain.Entities
 
         public DateTime? DeletedAt { get; set; }
 
-        public void Enable()
-        {
-            DeletedAt = null;
-        }
-
         public void Disable() 
         {
             DeletedAt = DateTime.UtcNow.ToBrazilianDateTime();
+        }
+        
+        public void Enable()
+        {
+            DeletedAt = null;
         }
     }
 }

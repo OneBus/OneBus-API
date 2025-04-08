@@ -20,7 +20,7 @@ namespace OneBus.Infra.Data.Extensions
             this IQueryable<TEntity> query, 
             DbQueryOptions? dbQueryOptions = null) where TEntity : BaseEntity
         {
-            if (dbQueryOptions is { Includes.Length: 0 })
+            if (dbQueryOptions is null or { Includes.Length: 0 })
                 return query;
 
             foreach (string include in dbQueryOptions!.Includes!)

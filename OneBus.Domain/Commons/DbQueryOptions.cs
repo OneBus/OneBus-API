@@ -10,6 +10,6 @@
 
         public bool IgnoreQueryFilter { get; }
 
-        public string[]? Includes { get; }
+        public string[]? Includes { get; }                   
     }
 }
