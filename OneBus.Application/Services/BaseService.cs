@@ -8,6 +8,7 @@ using FluentValidation.Results;
 using Ardalis.Result.FluentValidation;
 using OneBus.Domain.Interfaces.Repositories;
 using OneBus.Application.Interfaces.Services;
+using OneBus.Domain.Commons;
 
 namespace OneBus.Application.Services
 {
@@ -61,7 +62,7 @@ namespace OneBus.Application.Services
         
         public virtual async Task<Result<bool>> DisableAsync(ulong id, CancellationToken cancellationToken = default)
         {
-            TEntity? entity = await _baseReadOnlyRepository.GetOneAsync(c => c.Id == id, dbQueryOptions: new(), cancellationToken);
+            TEntity? entity = await _baseReadOnlyRepository.GetOneAsync(c => c.Id == id, DbQueryOptions.Default(), cancellationToken);
 
             if (entity is null)
                 return Result.NotFound();

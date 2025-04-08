@@ -13,7 +13,7 @@ namespace OneBus.Infra.Ioc
         {            
             services.AddGenericRepositories(typeof(BaseReadOnlyRepository<,>).Assembly);
            
-            //services.AddValidatorsFromAssembly(typeof(BaseCreateDTOValidation<>).Assembly);
+            services.AddValidatorsFromAssembly(typeof(IBaseReadOnlyService<,,>).Assembly);
 
             services.AddGenericServices(typeof(IBaseReadOnlyService<,,>).Assembly);
 

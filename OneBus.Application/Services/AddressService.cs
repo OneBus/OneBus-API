@@ -7,7 +7,8 @@ using OneBus.Domain.Interfaces.Repositories;
 
 namespace OneBus.Application.Services
 {
-    public class AddressService : BaseService<Address, CreateAddressDTO, ReadAddressDTO, UpdateAddressDTO, AddressFilter>, IAddressService
+    public class AddressService : BaseService<Address, CreateAddressDTO, ReadAddressDTO, UpdateAddressDTO, AddressFilter>, 
+        IAddressService
     {
         public AddressService(
             IBaseRepository<Address, AddressFilter> baseRepository, 
