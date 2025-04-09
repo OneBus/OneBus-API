@@ -54,7 +54,12 @@ namespace OneBus.Application.Services
             if (!validation.IsValid)
                 return Result.Invalid(validation.AsErrors());
 
-            TEntity entity = updateDTO.Adapt<TEntity>();
+            TEntity? entity = await _baseReadOnlyRepository.GetOneAsync(c => c.Id == updateDTO.Id, dbQueryOptions: null, cancellationToken);
+
+            if (entity is null)
+                return Result.NotFound();
+
+            UpdateFields(entity, updateDTO);
             entity = await _baseRepository.UpdateAsync(entity, cancellationToken);
 
             return Result.Success(entity.Adapt<TReadDTO>());
@@ -87,5 +92,7 @@ namespace OneBus.Application.Services
 
             return Result.Success();
         }
+
+        protected abstract void UpdateFields(TEntity entity, TUpdateDTO updateDTO);
     }
 }

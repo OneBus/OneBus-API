@@ -17,5 +17,10 @@ namespace OneBus.Application.Services
             : base(baseRepository, createValidator, updateValidator)
         {
         }
+
+        protected override void UpdateFields(BusOperation entity, UpdateBusOperationDTO updateDTO)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
