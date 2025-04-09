@@ -12,18 +12,9 @@
 
         public string[]? Includes { get; }               
         
-        public static DbQueryOptions Create(bool ignoreQueryFilter, params string[]? includes)
+        public static DbQueryOptions Create(bool ignoreQueryFilter = false, params string[]? includes)
         {
             return new DbQueryOptions(ignoreQueryFilter, includes);
-        }
-
-        /// <summary>
-        /// Applies Ignore query filter to false
-        /// </summary>
-        /// <returns></returns>
-        public static DbQueryOptions Default(params string[]? includes)
-        {
-            return new DbQueryOptions(ignoreQueryFilter: false, includes);
-        }
+        }        
     }
 }

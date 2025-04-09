@@ -13,12 +13,10 @@ namespace OneBus.Application.Interfaces.Services
     {
         Task<Result<Pagination<TReadDTO>>> GetPaginedAsync(
             TFilter filter,
-            DbQueryOptions? dbQueryOptions = null,
             CancellationToken cancellationToken = default);
 
         Task<Result<TReadDTO>> GetByIdAsync(
             ulong id, 
-            DbQueryOptions? dbQueryOptions = null, 
             CancellationToken cancellationToken = default);    
     }
 }

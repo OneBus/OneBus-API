@@ -62,7 +62,7 @@ namespace OneBus.Application.Services
         
         public virtual async Task<Result<bool>> DisableAsync(ulong id, CancellationToken cancellationToken = default)
         {
-            TEntity? entity = await _baseReadOnlyRepository.GetOneAsync(c => c.Id == id, DbQueryOptions.Default(), cancellationToken);
+            TEntity? entity = await _baseReadOnlyRepository.GetOneAsync(c => c.Id == id, dbQueryOptions: null, cancellationToken);
 
             if (entity is null)
                 return Result.NotFound();
@@ -75,8 +75,8 @@ namespace OneBus.Application.Services
 
         public virtual async Task<Result<bool>> EnableAsync(ulong id, CancellationToken cancellationToken = default)
         {
-            TEntity? entity = await _baseReadOnlyRepository.GetOneAsync(c => c.Id == id && c.DeletedAt != null, 
-                dbQueryOptions: null,
+            TEntity? entity = await _baseReadOnlyRepository.GetOneAsync(c => c.Id == id && c.DeletedAt != null,
+                DbQueryOptions.Create(ignoreQueryFilter: true), 
                 cancellationToken);
 
             if (entity is null)

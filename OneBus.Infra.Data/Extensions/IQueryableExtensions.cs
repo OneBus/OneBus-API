@@ -1,29 +1,18 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using OneBus.Domain.Commons;
 using OneBus.Domain.Entities;
 
 namespace OneBus.Infra.Data.Extensions
 {
     public static class IQueryableExtensions
-    {
-        public static IQueryable<TEntity> ApplyDbQueryOptions<TEntity>(
-             this IQueryable<TEntity> query,
-             DbQueryOptions? dbQueryOptions) where TEntity : BaseEntity
-        {
-            if (dbQueryOptions is { IgnoreQueryFilter: false })
-                return query;
-           
-            return query.IgnoreQueryFilters();
-        }
-
+    {        
         public static IQueryable<TEntity> Includes<TEntity>(
             this IQueryable<TEntity> query, 
-            DbQueryOptions? dbQueryOptions = null) where TEntity : BaseEntity
+            string[]? includes) where TEntity : BaseEntity
         {
-            if (dbQueryOptions is null or { Includes.Length: 0 })
+            if (includes == null || includes.Length == 0)
                 return query;
 
-            foreach (string include in dbQueryOptions!.Includes!)
+            foreach (string include in includes)
             {
                 query = query.Include(include);
             }

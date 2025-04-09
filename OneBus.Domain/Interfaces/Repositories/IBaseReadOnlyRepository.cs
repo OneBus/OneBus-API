@@ -20,7 +20,7 @@ namespace OneBus.Domain.Interfaces.Repositories
 
         Task<IEnumerable<TEntity>> GetPaginedAsync(
             TFilter filter,
-            DbQueryOptions? dbQueryOptions = null,
+            DbQueryOptions? dbQueryOptions = null, 
             CancellationToken cancellationToken = default);
 
         Task<ulong> LongCountAsync(

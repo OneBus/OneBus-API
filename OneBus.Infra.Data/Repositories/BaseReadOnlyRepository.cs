@@ -27,9 +27,9 @@ namespace OneBus.Infra.Data.Repositories
             DbQueryOptions? dbQueryOptions = null,
             CancellationToken cancellationToken = default)
         {
-            return await _dbSet
-                .Includes(dbQueryOptions)
-                .ApplyDbQueryOptions(dbQueryOptions)
+            IQueryable<TEntity> query = ApplyDbQueryOptions(dbQueryOptions);
+
+            return await query
                 .Where(c => predicate(c))
                 .ToListAsync(cancellationToken);
         }
@@ -39,9 +39,9 @@ namespace OneBus.Infra.Data.Repositories
             DbQueryOptions? dbQueryOptions = null,
             CancellationToken cancellationToken = default)
         {
-            return await _dbSet
-                .Includes(dbQueryOptions)
-                .ApplyDbQueryOptions(dbQueryOptions)
+            IQueryable<TEntity> query = ApplyDbQueryOptions(dbQueryOptions);
+
+            return await query
                 .Where(c => predicate(c))
                 .FirstOrDefaultAsync(cancellationToken);
         }
@@ -53,10 +53,9 @@ namespace OneBus.Infra.Data.Repositories
         {
             Predicate<TEntity> predicate = ApplyFilter(filter);
 
-            //Using Skip|Take pagination
-            return await _dbSet
-                .Includes(dbQueryOptions)
-                .ApplyDbQueryOptions(dbQueryOptions)
+            IQueryable<TEntity> query = ApplyDbQueryOptions(dbQueryOptions);
+
+            return await query
                 .Where(c => predicate(c))
                 .OrderBy("{0} {1}", filter.OrderField, filter.OrderType)
                 .Skip((int)((filter.CurrentPage - 1) * filter.PageSize))
@@ -65,16 +64,32 @@ namespace OneBus.Infra.Data.Repositories
         }
 
         public virtual async Task<ulong> LongCountAsync(
-            TFilter filter, 
-            DbQueryOptions? dbQueryOptions = null, 
+            TFilter filter,
+            DbQueryOptions? dbQueryOptions = null,
             CancellationToken cancellationToken = default)
         {
             Predicate<TEntity> predicate = ApplyFilter(filter);
 
-            return (ulong)await _dbSet
-                .ApplyDbQueryOptions(dbQueryOptions)
+            IQueryable<TEntity> query = ApplyDbQueryOptions(dbQueryOptions);
+
+            return (ulong)await query
                 .Where(c => predicate(c))
                 .LongCountAsync(cancellationToken);
+        }
+
+        protected virtual IQueryable<TEntity> ApplyDbQueryOptions(DbQueryOptions? dbQueryOptions)
+        {
+            IQueryable<TEntity> query = _dbSet;
+
+            if (dbQueryOptions is null)
+                return query;
+
+            query = query.Includes(dbQueryOptions.Includes);
+
+            if (dbQueryOptions is { IgnoreQueryFilter: false })
+                return query;
+
+            return query.IgnoreQueryFilters();
         }
 
         protected virtual Predicate<TEntity> ApplyFilter(TFilter filter)
