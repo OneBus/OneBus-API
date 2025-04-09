@@ -1,3 +1,4 @@
+using Ardalis.Result.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using OneBus.Infra.Data.DbContexts;
 using OneBus.Infra.Ioc;
@@ -8,7 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services
-    .AddControllers()
+    .AddControllers(mvcOptions => mvcOptions.AddDefaultResultConvention())
     .AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 
 // appsettings Configurations
