@@ -3,8 +3,9 @@ using OneBus.Domain.Entities;
 using OneBus.Domain.Filters;
 using OneBus.Application.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
-using Ardalis.Result.AspNetCore;
-using Ardalis.Result;
+using OneBus.API.Extensions;
+using OneBus.Domain.Commons;
+using OneBus.Domain.Commons.Result;
 
 namespace OneBus.API.Controllers
 {
@@ -23,15 +24,8 @@ namespace OneBus.API.Controllers
         where TUpdateDTO : BaseUpdateDTO
         where TFilter    : BaseFilter
     {
-        /// <summary>
-        /// 
-        /// </summary>
         protected readonly IBaseService<TEntity, TCreateDTO, TReadDTO, TUpdateDTO, TFilter> _baseService;
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="baseService"></param>
         protected BaseController(IBaseService<TEntity, TCreateDTO, TReadDTO, TUpdateDTO, TFilter> baseService) 
             : base(baseService)
         {
@@ -44,12 +38,12 @@ namespace OneBus.API.Controllers
         /// <param name="createDTO"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        [HttpPost, TranslateResultToActionResult]
-        public async Task<ActionResult<Result<TReadDTO>>> CreateAsync(
+        [HttpPost]
+        public async virtual Task<IActionResult> CreateAsync(
             [FromBody] TCreateDTO createDTO, 
             CancellationToken cancellationToken = default)
         {
-            return await _baseService.CreateAsync(createDTO, cancellationToken);
+            return (await _baseService.CreateAsync(createDTO, cancellationToken)).ToActionResult();
         }
 
         /// <summary>
@@ -59,16 +53,19 @@ namespace OneBus.API.Controllers
         /// <param name="updateDTO"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        [HttpPut("{id}"), TranslateResultToActionResult]
-        public async Task<ActionResult<Result<TReadDTO>>> UpdateAsync(
+        [HttpPut("{id}")]
+        public async virtual Task<IActionResult> UpdateAsync(
             [FromRoute] ulong id, 
             [FromBody] TUpdateDTO updateDTO, 
             CancellationToken cancellationToken = default)
         {
             if (id != updateDTO.Id)
-                return Result<TReadDTO>.Conflict();
+            {
+                return ConflictResult<TUpdateDTO>.Create(
+                    new Error("Route Id and Body Id are differents.", nameof(id))).ToActionResult();
+            }
 
-            return await _baseService.UpdateAsync(updateDTO, cancellationToken);
+            return (await _baseService.UpdateAsync(updateDTO, cancellationToken)).ToActionResult();
         }
 
         /// <summary>
@@ -77,12 +74,12 @@ namespace OneBus.API.Controllers
         /// <param name="id"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        [HttpDelete("{id}"), TranslateResultToActionResult]
-        public async Task<ActionResult<Result<bool>>> DisableAsync(
+        [HttpDelete("{id}")]
+        public async virtual Task<IActionResult> DisableAsync(
             [FromRoute] ulong id,
             CancellationToken cancellationToken = default)
         {
-            return await _baseService.DisableAsync(id, cancellationToken);
+            return (await _baseService.DisableAsync(id, cancellationToken)).ToActionResult();
         }
 
         /// <summary>
@@ -91,12 +88,12 @@ namespace OneBus.API.Controllers
         /// <param name="id"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        [HttpPut("{id}/enablements"), TranslateResultToActionResult]
-        public async Task<ActionResult<Result<bool>>> EnableAsync(
+        [HttpPut("{id}/enablements")]
+        public async virtual Task<IActionResult> EnableAsync(
             [FromRoute] ulong id,
             CancellationToken cancellationToken = default)
         {
-            return await _baseService.EnableAsync(id, cancellationToken);
+            return (await _baseService.EnableAsync(id, cancellationToken)).ToActionResult();
         }
     }
 }
