@@ -1,6 +1,6 @@
-﻿using Ardalis.Result;
-using OneBus.Application.DTOs;
+﻿using OneBus.Application.DTOs;
 using OneBus.Domain.Commons;
+using OneBus.Domain.Commons.Result;
 using OneBus.Domain.Entities;
 using OneBus.Domain.Filters;
 

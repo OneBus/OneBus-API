@@ -1,14 +1,14 @@
 ﻿using Mapster;
-using Ardalis.Result;
 using FluentValidation;
 using OneBus.Domain.Filters;
 using OneBus.Domain.Entities;
 using OneBus.Application.DTOs;
 using FluentValidation.Results;
-using Ardalis.Result.FluentValidation;
 using OneBus.Domain.Interfaces.Repositories;
 using OneBus.Application.Interfaces.Services;
 using OneBus.Domain.Commons;
+using OneBus.Application.Extensions;
+using OneBus.Domain.Commons.Result;
 
 namespace OneBus.Application.Services
 {
@@ -39,12 +39,12 @@ namespace OneBus.Application.Services
             ValidationResult validation = await _createValidator.ValidateAsync(createDTO, cancellationToken);
 
             if (!validation.IsValid)
-                return Result.Invalid(validation.AsErrors());
+                return InvalidResult<TReadDTO>.Create(validation.ToErrors());
 
             TEntity entity = createDTO.Adapt<TEntity>();
             entity = await _baseRepository.CreateAsync(entity, cancellationToken);
 
-            return Result.Success(entity.Adapt<TReadDTO>());
+            return SuccessResult<TReadDTO>.Create(entity.Adapt<TReadDTO>());
         }
 
         public virtual async Task<Result<TReadDTO>> UpdateAsync(TUpdateDTO updateDTO, CancellationToken cancellationToken = default)
@@ -52,17 +52,17 @@ namespace OneBus.Application.Services
             ValidationResult validation = await _updateValidator.ValidateAsync(updateDTO, cancellationToken);
 
             if (!validation.IsValid)
-                return Result.Invalid(validation.AsErrors());
+                return InvalidResult<TReadDTO>.Create(validation.ToErrors());
 
             TEntity? entity = await _baseReadOnlyRepository.GetOneAsync(c => c.Id == updateDTO.Id, dbQueryOptions: null, cancellationToken);
 
             if (entity is null)
-                return Result.NotFound();
+                return NotFoundResult<TReadDTO>.Create();
 
             UpdateFields(entity, updateDTO);
             entity = await _baseRepository.UpdateAsync(entity, cancellationToken);
 
-            return Result.Success(entity.Adapt<TReadDTO>());
+            return SuccessResult<TReadDTO>.Create(entity.Adapt<TReadDTO>());
         }
         
         public virtual async Task<Result<bool>> DisableAsync(ulong id, CancellationToken cancellationToken = default)
@@ -70,12 +70,12 @@ namespace OneBus.Application.Services
             TEntity? entity = await _baseReadOnlyRepository.GetOneAsync(c => c.Id == id, dbQueryOptions: null, cancellationToken);
 
             if (entity is null)
-                return Result.NotFound();
+                return NotFoundResult<bool>.Create();
 
             entity.Disable();
             await _baseRepository.UpdateAsync(entity, cancellationToken);
 
-            return Result.Success();
+            return SuccessResult<bool>.Create(true);
         }
 
         public virtual async Task<Result<bool>> EnableAsync(ulong id, CancellationToken cancellationToken = default)
@@ -85,12 +85,12 @@ namespace OneBus.Application.Services
                 cancellationToken);
 
             if (entity is null)
-                return Result.NotFound();
+                return NotFoundResult<bool>.Create();
 
             entity.Enable();
             await _baseRepository.UpdateAsync(entity, cancellationToken);
 
-            return Result.Success();
+            return SuccessResult<bool>.Create(true);
         }
 
         protected abstract void UpdateFields(TEntity entity, TUpdateDTO updateDTO);

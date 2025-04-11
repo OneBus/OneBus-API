@@ -1,8 +1,8 @@
-﻿using Ardalis.Result;
-using Mapster;
+﻿using Mapster;
 using OneBus.Application.DTOs;
 using OneBus.Application.Interfaces.Services;
 using OneBus.Domain.Commons;
+using OneBus.Domain.Commons.Result;
 using OneBus.Domain.Entities;
 using OneBus.Domain.Filters;
 using OneBus.Domain.Interfaces.Repositories;
@@ -10,9 +10,9 @@ using OneBus.Domain.Interfaces.Repositories;
 namespace OneBus.Application.Services
 {
     public abstract class BaseReadOnlyService<TEntity, TReadDTO, TFilter> : IBaseReadOnlyService<TEntity, TReadDTO, TFilter>
-        where TEntity  : BaseEntity
+        where TEntity : BaseEntity
         where TReadDTO : BaseReadDTO
-        where TFilter  : BaseFilter
+        where TFilter : BaseFilter
     {
         protected readonly IBaseReadOnlyRepository<TEntity, TFilter> _baseReadOnlyRepository;
 
@@ -28,13 +28,17 @@ namespace OneBus.Application.Services
             ulong totalItems = await _baseReadOnlyRepository.LongCountAsync(filter, dbQueryOptions: null, cancellationToken);
 
             if (totalItems < 1)
-                return Result.Success(new Pagination<TReadDTO>(items: [], totalItems, filter.CurrentPage, filter.PageSize));
+            {
+                return SuccessResult<Pagination<TReadDTO>>
+                    .Create(new Pagination<TReadDTO>(items: [], totalItems, filter.CurrentPage, filter.PageSize));
+            }
 
             IEnumerable<TEntity> entities = await _baseReadOnlyRepository.GetPaginedAsync(filter, dbQueryOptions: null, cancellationToken);
 
             IEnumerable<TReadDTO> entitiesDTO = entities.Adapt<IEnumerable<TReadDTO>>();
 
-            return Result.Success(new Pagination<TReadDTO>(entitiesDTO, totalItems, filter.CurrentPage, filter.PageSize));
+            return SuccessResult<Pagination<TReadDTO>>
+                .Create(new Pagination<TReadDTO>(entitiesDTO, totalItems, filter.CurrentPage, filter.PageSize));
         }
 
         public virtual async Task<Result<TReadDTO>> GetByIdAsync(
@@ -44,9 +48,9 @@ namespace OneBus.Application.Services
             TEntity? entity = await _baseReadOnlyRepository.GetOneAsync(c => c.Id == id, dbQueryOptions: null, cancellationToken);
 
             if (entity is null)
-                return Result.NotFound();
+                return NotFoundResult<TReadDTO>.Create();
 
-            return entity.Adapt<TReadDTO>();
+            return SuccessResult<TReadDTO>.Create(entity.Adapt<TReadDTO>());
         }
     }
 }
