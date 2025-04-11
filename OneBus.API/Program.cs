@@ -1,5 +1,6 @@
 using System.Text;
 using OneBus.Infra.Ioc;
+using OneBus.API.Handlers;
 using Microsoft.OpenApi.Models;
 using OneBus.Infra.Data.DbContexts;
 using Microsoft.EntityFrameworkCore;
@@ -102,6 +103,9 @@ builder.Services.AddAuthentication(o =>
     };
 });
 
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+builder.Services.AddProblemDetails();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 
@@ -128,6 +132,12 @@ builder.Services.AddCors(o => o.AddPolicy("*", builder =>
 }));
 
 var app = builder.Build();
+
+// Just use ExceptionHandler in PRODUCTION Environment
+if (!app.Environment.IsDevelopment())
+{
+    app.UseExceptionHandler();
+}
 
 // Adds automatic Migration when running application
 using (IServiceScope scope = app.Services.CreateScope())
