@@ -12,9 +12,10 @@ namespace OneBus.API.Handlers
         {
             ProblemDetails problemDetails = new()
             {
+                Title = "Erro do servidor.",
+                Instance = httpContext.Request.Path,
                 Status = StatusCodes.Status500InternalServerError,
-                Detail = "Sorry but an unexpected error occurred.",
-                Title = "Server Error."
+                Detail = "Desculpe mas um erro inesperado ocorreu."
             };
 
             httpContext.Response.StatusCode = problemDetails.Status.Value;
