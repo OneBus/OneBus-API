@@ -43,7 +43,7 @@ builder.Services.AddInfrastructure();
 
 // Add Swagger with JWT Bearer configuration
 builder.Services.AddSwaggerGen(options =>
-{
+{    
     options.SwaggerDoc("v1", new OpenApiInfo
     {
         Title = "OneBus API",
@@ -63,6 +63,7 @@ builder.Services.AddSwaggerGen(options =>
         //TermsOfService = new Uri("..."),
     });
 
+    options.EnableAnnotations();
     options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, "OneBus.API.xml"));
 
     options.SupportNonNullableReferenceTypes();
