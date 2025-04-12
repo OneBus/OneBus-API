@@ -7,10 +7,7 @@ using OneBus.Domain.Entities;
 using OneBus.Domain.Filters;
 
 namespace OneBus.API.Controllers
-{
-    /// <summary>
-    /// Representa a classe base para Endpoints somente leitura
-    /// </summary>
+{   
     [Route("api/v1/[controller]")]
     [ApiController]
     [Produces("application/json")]
@@ -26,13 +23,7 @@ namespace OneBus.API.Controllers
         {
             _baseReadOnlyService = baseReadOnlyService;
         }
-
-        /// <summary>
-        /// Obter itens paginados por filtro
-        /// </summary>
-        /// <param name="filter"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
+       
         [HttpGet]
         public async virtual Task<IActionResult> GetPaginedAsync(
             [FromQuery] TFilter filter, 
@@ -40,15 +31,9 @@ namespace OneBus.API.Controllers
         {
             return (await _baseReadOnlyService.GetPaginedAsync(filter, cancellationToken)).ToActionResult();
         }
-
-        /// <summary>
-        /// Obter por Id
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
+       
         [HttpGet("{id}")]
-        public async virtual Task<IActionResult> GetPaginedAsync(
+        public async virtual Task<IActionResult> GetByIdAsync(
             [FromRoute] ulong id, 
             CancellationToken cancellationToken = default)
         {

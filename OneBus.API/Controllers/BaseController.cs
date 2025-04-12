@@ -8,15 +8,7 @@ using OneBus.Domain.Commons;
 using OneBus.Domain.Commons.Result;
 
 namespace OneBus.API.Controllers
-{
-    /// <summary>
-    /// Representa a classe base para Endpoints de escrita
-    /// </summary>
-    /// <typeparam name="TEntity"></typeparam>
-    /// <typeparam name="TCreateDTO"></typeparam>
-    /// <typeparam name="TReadDTO"></typeparam>
-    /// <typeparam name="TUpdateDTO"></typeparam>
-    /// <typeparam name="TFilter"></typeparam>
+{  
     public abstract class BaseController<TEntity, TCreateDTO, TReadDTO, TUpdateDTO, TFilter> : BaseReadOnlyController<TEntity, TReadDTO, TFilter>
         where TEntity    : BaseEntity
         where TCreateDTO : BaseCreateDTO
@@ -31,13 +23,7 @@ namespace OneBus.API.Controllers
         {
             _baseService = baseService;
         }
-
-        /// <summary>
-        /// Cadastra novo registro 
-        /// </summary>
-        /// <param name="createDTO"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
+       
         [HttpPost]
         public async virtual Task<IActionResult> CreateAsync(
             [FromBody] TCreateDTO createDTO, 
@@ -46,13 +32,6 @@ namespace OneBus.API.Controllers
             return (await _baseService.CreateAsync(createDTO, cancellationToken)).ToActionResult();
         }
 
-        /// <summary>
-        /// Atualiza registro 
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="updateDTO"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
         [HttpPut("{id}")]
         public async virtual Task<IActionResult> UpdateAsync(
             [FromRoute] ulong id, 
@@ -64,13 +43,7 @@ namespace OneBus.API.Controllers
 
             return (await _baseService.UpdateAsync(updateDTO, cancellationToken)).ToActionResult();
         }
-
-        /// <summary>
-        /// Desabilita registro 
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
+ 
         [HttpDelete("{id}")]
         public async virtual Task<IActionResult> DisableAsync(
             [FromRoute] ulong id,
@@ -78,13 +51,7 @@ namespace OneBus.API.Controllers
         {
             return (await _baseService.DisableAsync(id, cancellationToken)).ToActionResult();
         }
-
-        /// <summary>
-        /// Habilita registro 
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
+       
         [HttpPut("{id}/enablements")]
         public async virtual Task<IActionResult> EnableAsync(
             [FromRoute] ulong id,
