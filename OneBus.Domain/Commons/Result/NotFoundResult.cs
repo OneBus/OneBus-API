@@ -2,11 +2,23 @@
 {
     public class NotFoundResult<T> : Result<T>
     {
-        private NotFoundResult() : base(default, success: false) { }
-    
-        public static NotFoundResult<T> Create()
+        private NotFoundResult(IEnumerable<Error> errors) : base(default, success: false)
         {
-            return new NotFoundResult<T>();
+            Errors = errors;
         }
+
+        private NotFoundResult(Error error) : this([error]) { }
+
+        public IEnumerable<Error> Errors { get; }
+
+        public static NotFoundResult<T> Create(IEnumerable<Error> errors)
+        {
+            return new NotFoundResult<T>(errors);
+        }
+
+        public static NotFoundResult<T> Create(Error error)
+        {
+            return new NotFoundResult<T>(error);
+        }       
     }
 }
