@@ -48,7 +48,7 @@ namespace OneBus.Application.Services
             TEntity? entity = await _baseReadOnlyRepository.GetOneAsync(c => c.Id == id, dbQueryOptions: null, cancellationToken);
 
             if (entity is null)
-                return NotFoundResult<TReadDTO>.Create();
+                return NotFoundResult<TReadDTO>.Create(ErrorUtils.EntityNotFound());
 
             return SuccessResult<TReadDTO>.Create(entity.Adapt<TReadDTO>());
         }

@@ -57,7 +57,7 @@ namespace OneBus.Application.Services
             TEntity? entity = await _baseReadOnlyRepository.GetOneAsync(c => c.Id == updateDTO.Id, dbQueryOptions: null, cancellationToken);
 
             if (entity is null)
-                return NotFoundResult<TReadDTO>.Create();
+                return NotFoundResult<TReadDTO>.Create(ErrorUtils.EntityNotFound());
 
             UpdateFields(entity, updateDTO);
             entity = await _baseRepository.UpdateAsync(entity, cancellationToken);
@@ -70,7 +70,7 @@ namespace OneBus.Application.Services
             TEntity? entity = await _baseReadOnlyRepository.GetOneAsync(c => c.Id == id, dbQueryOptions: null, cancellationToken);
 
             if (entity is null)
-                return NotFoundResult<bool>.Create();
+                return NotFoundResult<bool>.Create(ErrorUtils.EntityNotFound());
 
             entity.Disable();
             await _baseRepository.UpdateAsync(entity, cancellationToken);
@@ -85,7 +85,7 @@ namespace OneBus.Application.Services
                 cancellationToken);
 
             if (entity is null)
-                return NotFoundResult<bool>.Create();
+                return NotFoundResult<bool>.Create(ErrorUtils.EntityNotFound());
 
             entity.Enable();
             await _baseRepository.UpdateAsync(entity, cancellationToken);
