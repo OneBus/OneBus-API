@@ -42,20 +42,37 @@ builder.Configuration.AddEnvironmentVariables();
 builder.Services.AddInfrastructure();
 
 // Add Swagger with JWT Bearer configuration
-builder.Services.AddSwaggerGen(c =>
+builder.Services.AddSwaggerGen(options =>
 {
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "OneBus API", Version = "v1" });
+    options.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "OneBus API",
+        Version = "v1",
+        Description = "OneBus API - Gestão de frotas para empresas de ônibus urbanos",
+        License = new OpenApiLicense
+        {
+            Name = "MIT",
+            Url = new Uri("https://github.com/OneBus/OneBus-API?tab=MIT-1-ov-file#readme")
+        },
+        Contact = new OpenApiContact
+        {
+            Email = "iseduardo.rezende@gmail.com",
+            Name = "OneBus API Owner",
+            Url = new Uri("https://www.linkedin.com/in/eduardo-rezende-5218bb234/")
+        },
+        //TermsOfService = new Uri("..."),
+    });
 
-    c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, "OneBus.API.xml"));
+    options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, "OneBus.API.xml"));
 
-    c.SupportNonNullableReferenceTypes();
-    c.UseAllOfToExtendReferenceSchemas();
+    options.SupportNonNullableReferenceTypes();
+    options.UseAllOfToExtendReferenceSchemas();
 
     // Apply default value into Enums
-    c.UseInlineDefinitionsForEnums();
+    options.UseInlineDefinitionsForEnums();
 
     // Add JWT Bearer configuration to Swagger
-    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
         Name = "Authorization",
@@ -64,7 +81,7 @@ builder.Services.AddSwaggerGen(c =>
         Scheme = "Bearer"
     });
 
-    c.AddSecurityRequirement(new OpenApiSecurityRequirement()
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement()
     {
         {
             new OpenApiSecurityScheme
@@ -84,14 +101,14 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 // Authentication settings
-builder.Services.AddAuthentication(o =>
+builder.Services.AddAuthentication(options =>
 {
-    o.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    o.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 })
-.AddJwtBearer(o =>
+.AddJwtBearer(options =>
 {
-    o.TokenValidationParameters = new TokenValidationParameters
+    options.TokenValidationParameters = new TokenValidationParameters
     {
         ValidateIssuer = true,
         ValidateAudience = true,
@@ -103,6 +120,7 @@ builder.Services.AddAuthentication(o =>
     };
 });
 
+// Exception Handler configurations
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddProblemDetails();
 
@@ -124,7 +142,7 @@ builder.Services.AddDbContext<OneBusDbContext>(options =>
     );
 });
 
-builder.Services.AddCors(o => o.AddPolicy("*", builder =>
+builder.Services.AddCors(options => options.AddPolicy("*", builder =>
 {
     builder.AllowAnyOrigin()
            .AllowAnyMethod()
@@ -149,13 +167,13 @@ using (IServiceScope scope = app.Services.CreateScope())
 app.MapOpenApi();
 
 app.UseSwagger();
-app.UseSwaggerUI(c =>
+app.UseSwaggerUI(options =>
 {
-    c.SwaggerEndpoint("/swagger/v1/swagger.json", "OneBus API v1");
-    c.RoutePrefix = "swagger";
-    c.DisplayRequestDuration();
-    c.EnableDeepLinking();
-    c.EnablePersistAuthorization();
+    options.EnableDeepLinking();
+    options.RoutePrefix = "swagger";
+    options.DisplayRequestDuration();
+    options.EnablePersistAuthorization();
+    options.SwaggerEndpoint("/swagger/v1/swagger.json", "OneBus API v1");
 });
 
 app.UseHttpsRedirection();
