@@ -59,11 +59,8 @@ namespace OneBus.API.Controllers
             [FromBody] TUpdateDTO updateDTO, 
             CancellationToken cancellationToken = default)
         {
-            if (id != updateDTO.Id)
-            {
-                return ConflictResult<TUpdateDTO>.Create(
-                    new Error("Route Id and Body Id are differents.", nameof(id))).ToActionResult();
-            }
+            if (id != updateDTO.Id)            
+                return ConflictResult<TUpdateDTO>.Create(ErrorUtils.IdConflict()).ToActionResult();            
 
             return (await _baseService.UpdateAsync(updateDTO, cancellationToken)).ToActionResult();
         }
