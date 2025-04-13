@@ -9,7 +9,7 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace OneBus.API.Controllers
 {
-    [SwaggerTag("Controlador responsável por gerenciar Auditoria de Ônibus")]
+    [SwaggerTag("Controlador responsável por gerenciar Auditorias de Ônibus")]
     public class BusAuditController : BaseController<BusAudit, CreateBusAuditDTO, ReadBusAuditDTO, UpdateBusAuditDTO, BaseFilter>
     {
         public BusAuditController(
@@ -96,15 +96,15 @@ namespace OneBus.API.Controllers
         }
 
         /// <summary>
-        /// Obter auditoria de ônibus paginados e filtrados
+        /// Obter auditorias de ônibus paginadas e filtradas
         /// </summary>
         /// <remarks>
         /// GET de Auditoria de Ônibus
         /// </remarks>
         /// <param name="filter">Filtros para aplicar</param>
         /// <param name="cancellationToken"></param>
-        /// <returns>Auditoria de Ônibus paginados e filtrados</returns>
-        /// <response code="200">Auditoria de Ônibus paginados e filtrados com sucesso</response>
+        /// <returns>Auditorias de Ônibus paginadas e filtradas</returns>
+        /// <response code="200">Auditorias de Ônibus paginadas e filtradas com sucesso</response>
         [ProducesResponseType(typeof(SuccessResult<Pagination<ReadBusAuditDTO>>), StatusCodes.Status200OK)]
         public override Task<IActionResult> GetPaginedAsync([FromQuery] BaseFilter filter, CancellationToken cancellationToken = default)
         {
