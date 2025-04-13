@@ -81,7 +81,7 @@ namespace OneBus.API.Controllers
         /// Desabilitar ônibus 
         /// </summary>
         /// <remarks>
-        /// DELETE de ônibus 
+        /// DELETE de Ônibus 
         /// </remarks>
         /// <param name="id">Id do ônibus</param>
         /// <param name="cancellationToken"></param>
@@ -99,7 +99,7 @@ namespace OneBus.API.Controllers
         /// Obter ônibus paginados e filtrados
         /// </summary>
         /// <remarks>
-        /// GET de ônibus
+        /// GET de Ônibus
         /// </remarks>
         /// <param name="filter">Filtros para aplicar</param>
         /// <param name="cancellationToken"></param>

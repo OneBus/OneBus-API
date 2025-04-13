@@ -81,7 +81,7 @@ namespace OneBus.API.Controllers
         /// Desabilitar endereço 
         /// </summary>
         /// <remarks>
-        /// DELETE de endereço 
+        /// DELETE de Endereço 
         /// </remarks>
         /// <param name="id">Id do endereço</param>
         /// <param name="cancellationToken"></param>
@@ -99,7 +99,7 @@ namespace OneBus.API.Controllers
         /// Obter endereços paginados e filtrados
         /// </summary>
         /// <remarks>
-        /// GET de endereço
+        /// GET de Endereço
         /// </remarks>
         /// <param name="filter">Filtros para aplicar</param>
         /// <param name="cancellationToken"></param>
