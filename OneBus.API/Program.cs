@@ -71,7 +71,7 @@ builder.Services.AddSwaggerGen(options =>
             Name = "OneBus API Owner",
             Url = new Uri("https://www.linkedin.com/in/eduardo-rezende-5218bb234/")
         },
-        //TermsOfService = new Uri("..."),
+        TermsOfService = new Uri("https://github.com/OneBus/OneBus-API?tab=MIT-1-ov-file#readme")
     });
 
     options.EnableAnnotations();
