@@ -8,6 +8,7 @@ using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Http.Json;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using OneBus.Domain.Settings;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -37,6 +38,16 @@ if (isDocker)
 }
 
 builder.Configuration.AddEnvironmentVariables();
+
+// Add Options Pattern
+
+builder.Services
+    .AddOptions<TokenSettings>()
+    .BindConfiguration("TokenSettings");
+
+builder.Services
+    .AddOptions<EmailSettings>()
+    .BindConfiguration("EmailSettings");
 
 // Adds IoC configurations
 builder.Services.AddInfrastructure();
