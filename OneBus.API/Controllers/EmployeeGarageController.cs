@@ -99,7 +99,7 @@ namespace OneBus.API.Controllers
         /// Obter garagens dos funcionários paginadas e filtradas
         /// </summary>
         /// <remarks>
-        /// GET de Garagem do Funcionário
+        /// GET de Garagens dos Funcionários
         /// </remarks>
         /// <param name="filter">Filtros para aplicar</param>
         /// <param name="cancellationToken"></param>

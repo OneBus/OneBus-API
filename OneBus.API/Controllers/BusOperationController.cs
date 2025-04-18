@@ -99,7 +99,7 @@ namespace OneBus.API.Controllers
         /// Obter operações de ônibus paginadas e filtradas
         /// </summary>
         /// <remarks>
-        /// GET de Operação de Ônibus
+        /// GET de Operações de Ônibus
         /// </remarks>
         /// <param name="filter">Filtros para aplicar</param>
         /// <param name="cancellationToken"></param>

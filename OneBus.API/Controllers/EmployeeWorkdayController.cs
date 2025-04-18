@@ -99,7 +99,7 @@ namespace OneBus.API.Controllers
         /// Obter horários dos funcionários paginados e filtrados
         /// </summary>
         /// <remarks>
-        /// GET de Horário do Funcionário
+        /// GET de Horários dos Funcionários
         /// </remarks>
         /// <param name="filter">Filtros para aplicar</param>
         /// <param name="cancellationToken"></param>

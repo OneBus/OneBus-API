@@ -99,7 +99,7 @@ namespace OneBus.API.Controllers
         /// Obter endereços paginados e filtrados
         /// </summary>
         /// <remarks>
-        /// GET de Endereço
+        /// GET de Endereços
         /// </remarks>
         /// <param name="filter">Filtros para aplicar</param>
         /// <param name="cancellationToken"></param>
