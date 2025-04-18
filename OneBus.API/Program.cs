@@ -1,6 +1,7 @@
 using System.Text;
 using OneBus.Infra.Ioc;
 using OneBus.API.Handlers;
+using OneBus.Domain.Settings;
 using Microsoft.OpenApi.Models;
 using OneBus.Infra.Data.DbContexts;
 using Microsoft.EntityFrameworkCore;
@@ -8,7 +9,6 @@ using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Http.Json;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using OneBus.Domain.Settings;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -39,6 +39,13 @@ if (isDocker)
 
 builder.Configuration.AddEnvironmentVariables();
 
+// Lower case URLs
+builder.Services.AddRouting(c =>
+{
+    c.LowercaseUrls = true;
+    c.LowercaseQueryStrings = true;
+});
+
 // Add Options Pattern
 
 builder.Services
@@ -54,7 +61,7 @@ builder.Services.AddInfrastructure();
 
 // Add Swagger with JWT Bearer configuration
 builder.Services.AddSwaggerGen(options =>
-{    
+{
     options.SwaggerDoc("v1", new OpenApiInfo
     {
         Title = "OneBus API",
