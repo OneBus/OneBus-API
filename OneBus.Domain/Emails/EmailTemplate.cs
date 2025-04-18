@@ -12,7 +12,6 @@
             FileName = string.Empty;
             FilePath = string.Empty;
             FileType = string.Empty;
-            FileStream = new();
             Variables = new Dictionary<string, string>();
         }
 
@@ -34,7 +33,7 @@
 
         public string FileType { get; set; }
 
-        public MemoryStream FileStream { get; set; }
+        public MemoryStream? FileStream { get; set; }
 
         public IDictionary<string, string> Variables { get; set; }        
     }
