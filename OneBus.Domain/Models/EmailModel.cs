@@ -1,8 +1,8 @@
-﻿namespace OneBus.Domain.Emails
+﻿namespace OneBus.Domain.Models
 {
-    public class EmailTemplate
+    public class EmailModel
     {
-        public EmailTemplate()
+        public EmailModel()
         {
             FromName = string.Empty;
             From = string.Empty;
