@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using OneBus.Application.Interfaces.Services;
+using OneBus.Application.Services;
 using OneBus.Domain.Interfaces.Repositories;
 using OneBus.Infra.Data.Repositories;
 using System.Reflection;
@@ -45,6 +46,8 @@ namespace OneBus.Infra.Ioc
         
         private static IServiceCollection AddGenericServices(this IServiceCollection services, Assembly assembly)
         {
+            services.AddScoped<ITokenService, TokenService>();
+
             var types = assembly.GetTypes()
                 .Where(t => t is { IsClass: true, IsAbstract: false }) // Apenas classes concretas
                 .ToList();
