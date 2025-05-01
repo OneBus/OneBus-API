@@ -2,7 +2,7 @@
 using OneBus.Application.Interfaces.Services;
 using System.Security.Claims;
 
-namespace OneBus.API.Auths
+namespace OneBus.API.Authorizations
 {
     public class FeatureHandler : AuthorizationHandler<FeatureRequirement>
     {
