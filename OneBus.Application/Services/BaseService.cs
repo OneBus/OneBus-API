@@ -39,7 +39,7 @@ namespace OneBus.Application.Services
             ValidationResult validation = await _createValidator.ValidateAsync(createDTO, cancellationToken);
 
             if (!validation.IsValid)
-                return InvalidResult<TReadDTO>.Create(validation.ToErrors());
+                return validation.Errors.ToInvalidResult<TReadDTO>();
 
             TEntity entity = createDTO.Adapt<TEntity>();
             entity = await _baseRepository.CreateAsync(entity, cancellationToken);
@@ -52,7 +52,7 @@ namespace OneBus.Application.Services
             ValidationResult validation = await _updateValidator.ValidateAsync(updateDTO, cancellationToken);
 
             if (!validation.IsValid)
-                return InvalidResult<TReadDTO>.Create(validation.ToErrors());
+                return validation.Errors.ToInvalidResult<TReadDTO>();
 
             TEntity? entity = await _baseReadOnlyRepository.GetOneAsync(c => c.Id == updateDTO.Id, dbQueryOptions: null, cancellationToken);
 
