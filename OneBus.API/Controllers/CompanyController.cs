@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using OneBus.Application.DTOs.Company;
 using OneBus.Application.Interfaces.Services;
 using OneBus.Domain.Commons;
@@ -29,6 +31,8 @@ namespace OneBus.API.Controllers
         /// <returns>Empresa cadastrada</returns>
         /// <response code="200">Empresa cadastrada com sucesso</response>
         /// <response code="422">Validação encontrou erros</response>
+        [AllowAnonymous]
+        [EnableRateLimiting("create_company")]
         [ProducesResponseType(typeof(SuccessResult<ReadCompanyDTO>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(InvalidResult<ReadCompanyDTO>), StatusCodes.Status422UnprocessableEntity)]
         public override Task<IActionResult> CreateAsync([FromBody] CreateCompanyDTO createDTO, CancellationToken cancellationToken = default)

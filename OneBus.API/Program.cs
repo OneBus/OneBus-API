@@ -161,6 +161,10 @@ builder.Services.AddDbContext<OneBusDbContext>(options =>
     );
 });
 
+// Add Rate Limiter configurations
+
+builder.Services.AddRateLimiter();
+
 builder.Services.AddCors(options => options.AddPolicy("*", builder =>
 {
     builder.AllowAnyOrigin()
@@ -194,6 +198,8 @@ app.UseSwaggerUI(options =>
     options.EnablePersistAuthorization();
     options.SwaggerEndpoint("/swagger/v1/swagger.json", "OneBus API v1");
 });
+
+app.UseRateLimiter();
 
 app.UseHttpsRedirection();
 
