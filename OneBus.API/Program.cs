@@ -1,10 +1,10 @@
 using System.Text;
 using OneBus.Infra.Ioc;
-using OneBus.API.Auths;
 using OneBus.API.Handlers;
 using OneBus.Domain.Settings;
 using OneBus.Domain.Constants;
 using Microsoft.OpenApi.Models;
+using OneBus.API.Authorizations;
 using OneBus.Infra.Data.DbContexts;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;

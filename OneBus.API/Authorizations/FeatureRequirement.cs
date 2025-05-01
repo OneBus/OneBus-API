@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 
-namespace OneBus.API.Auths
+namespace OneBus.API.Authorizations
 {
     public class FeatureRequirement : IAuthorizationRequirement
     {
