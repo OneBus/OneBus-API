@@ -4,14 +4,12 @@
     {
         public EmailModel()
         {
-            FromName = string.Empty;
-            From = string.Empty;
             To = [];
-            Subject = string.Empty;
             Body = string.Empty;
-            FileName = string.Empty;
-            FilePath = string.Empty;
-            FileType = string.Empty;
+            From = string.Empty;
+            Subject = string.Empty;
+            BodyPath = string.Empty;
+            FromName = string.Empty;
             Variables = new Dictionary<string, string>();
         }
 
@@ -23,15 +21,17 @@
 
         public string Subject { get; set; }
 
+        public string BodyPath { get; set; }
+
         public string Body { get; set; }
 
-        public bool IsHtml { get; set; }
+        public bool IsCid { get; set; }
 
-        public string FileName { get; set; }
+        public string? FileName { get; set; }
 
-        public string FilePath { get; set; }
+        public string? FilePath { get; set; }
 
-        public string FileType { get; set; }
+        public string? FileType { get; set; }
 
         public MemoryStream? FileStream { get; set; }
 
