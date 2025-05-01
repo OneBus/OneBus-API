@@ -1,18 +1,21 @@
 using System.Text;
 using OneBus.Infra.Ioc;
+using OneBus.API.Auths;
 using OneBus.API.Handlers;
 using OneBus.Domain.Settings;
+using OneBus.Domain.Constants;
 using Microsoft.OpenApi.Models;
 using OneBus.Infra.Data.DbContexts;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Http.Json;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Add services to the container:
 
 builder.Services
     .AddControllers()
@@ -47,7 +50,6 @@ builder.Services.AddRouting(c =>
 });
 
 // Add Options Pattern
-
 builder.Services
     .AddOptions<TokenSettings>()
     .BindConfiguration("TokenSettings");
@@ -143,6 +145,13 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddProblemDetails();
 
+// Authorization settings
+builder.Services.AddAuthorizationBuilder()
+    .AddPolicy(PolicyConstants.UpdateUser, policy =>
+        policy.Requirements.Add(new FeatureRequirement(FeaturesCode.UpdateUserCode)));
+
+builder.Services.AddSingleton<IAuthorizationHandler, FeatureHandler>();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 
@@ -162,7 +171,6 @@ builder.Services.AddDbContext<OneBusDbContext>(options =>
 });
 
 // Add Rate Limiter configurations
-
 builder.Services.AddRateLimiter();
 
 builder.Services.AddCors(options => options.AddPolicy("*", builder =>
