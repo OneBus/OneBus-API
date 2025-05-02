@@ -5,12 +5,14 @@ using OneBus.Domain.Settings;
 using OneBus.Domain.Constants;
 using Microsoft.OpenApi.Models;
 using OneBus.API.Authorizations;
+using OneBus.Application.Services;
 using OneBus.Infra.Data.DbContexts;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Http.Json;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authorization;
+using OneBus.Application.Interfaces.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -150,7 +152,8 @@ builder.Services.AddAuthorizationBuilder()
     .AddPolicy(PolicyConstants.UpdateUser, policy =>
         policy.Requirements.Add(new FeatureRequirement(FeaturesCode.UpdateUserCode)));
 
-builder.Services.AddSingleton<IAuthorizationHandler, FeatureHandler>();
+builder.Services.AddScoped<IUserTypeFeatureService, UserTypeFeatureService>();
+builder.Services.AddScoped<IAuthorizationHandler, FeatureHandler>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
