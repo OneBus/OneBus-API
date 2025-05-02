@@ -11,8 +11,8 @@
             Phone = string.Empty;
         }
 
-        public ulong CompanyId { get; set; }
-        
+        public ulong UserTypeId { get; set; }
+
         public string Name { get; set; }
 
         public string Email { get; set; }
@@ -25,6 +25,6 @@
 
         public string? Image { get; set; }
 
-        public Company? Company { get; set; }
+        public UserType? UserType { get; set; }
     }
 }

@@ -4,11 +4,11 @@ namespace OneBus.API.Authorizations
 {
     public class FeatureRequirement : IAuthorizationRequirement
     {
-        public FeatureRequirement(string featureCode)
+        public FeatureRequirement(byte featureCode)
         {
             FeatureCode = featureCode;
         }
         
-        public string FeatureCode { get; }
+        public byte FeatureCode { get; }
     }
 }
