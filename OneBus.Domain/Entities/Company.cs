@@ -24,7 +24,7 @@
 
         public Address? Address { get; set; }
 
-        public ICollection<User>? Users { get; set; }
+        public ICollection<UserType>? UserTypes { get; set; }
 
         public ICollection<Garage>? Garages { get; set; }
 
