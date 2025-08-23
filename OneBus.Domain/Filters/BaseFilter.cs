@@ -14,6 +14,8 @@ namespace OneBus.Domain.Filters
             OrderType = OrderType.Desc;
         }
 
+        public string? Value { get; set; }
+
         [DefaultValue(true)]
         public bool? IsEnabled { get; set; }
 
@@ -31,6 +33,6 @@ namespace OneBus.Domain.Filters
         public string OrderField { get; set; }
 
         [DefaultValue(OrderType.Desc)]
-        public OrderType OrderType { get; set; }       
+        public OrderType OrderType { get; set; }
     }
 }
