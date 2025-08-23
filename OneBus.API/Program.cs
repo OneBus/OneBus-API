@@ -164,7 +164,7 @@ builder.Services.AddOpenApi();
 // Add DbContext Service
 builder.Services.AddDbContext<OneBusDbContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DbConnection"),
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DbConnection"),
         sqlServerOpts =>
         {
             sqlServerOpts.MigrationsAssembly(typeof(OneBusDbContext).Assembly);
