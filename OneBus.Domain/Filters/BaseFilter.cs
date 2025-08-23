@@ -7,21 +7,13 @@ namespace OneBus.Domain.Filters
     {
         protected BaseFilter()
         {
-            IsEnabled = true;
             CurrentPage = 1;
             PageSize = 15;
             OrderField = "id";
             OrderType = OrderType.Desc;
         }
 
-        public string? Value { get; set; }
-
-        [DefaultValue(true)]
-        public bool? IsEnabled { get; set; }
-
-        public DateTime? StartDateTime { get; set; }
-
-        public DateTime? EndDateTime { get; set; }
+        public string? Value { get; set; }           
 
         [DefaultValue(1)]
         public uint CurrentPage { get; set; }

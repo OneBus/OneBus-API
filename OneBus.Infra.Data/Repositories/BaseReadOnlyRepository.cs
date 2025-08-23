@@ -94,9 +94,7 @@ namespace OneBus.Infra.Data.Repositories
 
         protected virtual Predicate<TEntity> ApplyFilter(TFilter filter)
         {
-            return c
-                => (filter.IsEnabled == null || (filter.IsEnabled.Value ? c.DeletedAt == null : c.DeletedAt != null)) &&
-                   (filter.StartDateTime == null || filter.EndDateTime == null || (c.CreatedAt >= filter.StartDateTime && c.CreatedAt <= filter.EndDateTime));
+            return c => true;
         }
     }
 }
