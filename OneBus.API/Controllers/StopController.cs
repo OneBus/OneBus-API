@@ -13,7 +13,7 @@ namespace OneBus.API.Controllers
     public class StopController : BaseController<Stop, CreateStopDTO, ReadStopDTO, UpdateStopDTO, BaseFilter>
     {
         public StopController(
-            IBaseService<Stop, CreateStopDTO, ReadStopDTO, UpdateStopDTO, BaseFilter> baseService) 
+            IBaseService<Stop, CreateStopDTO, ReadStopDTO, UpdateStopDTO, BaseFilter> baseService)
             : base(baseService)
         {
         }
@@ -60,25 +60,7 @@ namespace OneBus.API.Controllers
         }
 
         /// <summary>
-        /// Habilitar parada 
-        /// </summary>
-        /// <remarks>
-        /// PUT para habilitar parada 
-        /// </remarks>
-        /// <param name="id">Id da parada</param>
-        /// <param name="cancellationToken"></param>
-        /// <returns>Parada habilitada</returns>
-        /// <response code="200">Parada habilitada com sucesso</response>
-        /// <response code="404">Parada não encontrada</response>
-        [ProducesResponseType(typeof(SuccessResult<bool>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(NotFoundResult<bool>), StatusCodes.Status404NotFound)]
-        public override Task<IActionResult> EnableAsync([FromRoute] ulong id, CancellationToken cancellationToken = default)
-        {
-            return base.EnableAsync(id, cancellationToken);
-        }
-
-        /// <summary>
-        /// Desabilitar parada
+        /// Deletar parada
         /// </summary>
         /// <remarks>
         /// DELETE de Parada 
@@ -90,9 +72,9 @@ namespace OneBus.API.Controllers
         /// <response code="404">Parada não encontrada</response>
         [ProducesResponseType(typeof(SuccessResult<bool>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(NotFoundResult<bool>), StatusCodes.Status404NotFound)]
-        public override Task<IActionResult> DisableAsync([FromRoute] ulong id, CancellationToken cancellationToken = default)
+        public override Task<IActionResult> DeleteAsync([FromRoute] ulong id, CancellationToken cancellationToken = default)
         {
-            return base.DisableAsync(id, cancellationToken);
+            return base.DeleteAsync(id, cancellationToken);
         }
 
         /// <summary>

@@ -12,7 +12,7 @@ namespace OneBus.API.Controllers
     [SwaggerTag("Controlador responsável por gerenciar Funcionalidades de Tipos de Usuários")]
     public class UserTypeFeatureController : BaseController<UserTypeFeature, CreateUserTypeFeatureDTO, ReadUserTypeFeatureDTO, UpdateUserTypeFeatureDTO, BaseFilter>
     {
-        public UserTypeFeatureController(IBaseService<UserTypeFeature, CreateUserTypeFeatureDTO, ReadUserTypeFeatureDTO, UpdateUserTypeFeatureDTO, BaseFilter> baseService) 
+        public UserTypeFeatureController(IBaseService<UserTypeFeature, CreateUserTypeFeatureDTO, ReadUserTypeFeatureDTO, UpdateUserTypeFeatureDTO, BaseFilter> baseService)
             : base(baseService)
         {
         }
@@ -59,25 +59,7 @@ namespace OneBus.API.Controllers
         }
 
         /// <summary>
-        /// Habilitar funcionalidade de tipo de usuário 
-        /// </summary>
-        /// <remarks>
-        /// PUT para habilitar funcionalidade de tipo de usuário 
-        /// </remarks>
-        /// <param name="id">Id da funcionalidade de tipo de usuário</param>
-        /// <param name="cancellationToken"></param>
-        /// <returns>Funcionalidade de Tipo de Usuário habilitada</returns>
-        /// <response code="200">Funcionalidade de Tipo de Usuário habilitada com sucesso</response>
-        /// <response code="404">Funcionalidade de Tipo de Usuário não encontrada</response>
-        [ProducesResponseType(typeof(SuccessResult<bool>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(NotFoundResult<bool>), StatusCodes.Status404NotFound)]
-        public override Task<IActionResult> EnableAsync([FromRoute] ulong id, CancellationToken cancellationToken = default)
-        {
-            return base.EnableAsync(id, cancellationToken);
-        }
-
-        /// <summary>
-        /// Desabilitar funcionalidade de tipo de usuário 
+        /// Deletar funcionalidade de tipo de usuário 
         /// </summary>
         /// <remarks>
         /// DELETE de Funcionalidade de Tipo de Usuário 
@@ -89,9 +71,9 @@ namespace OneBus.API.Controllers
         /// <response code="404">Funcionalidade de Tipo de Usuário não encontrada</response>
         [ProducesResponseType(typeof(SuccessResult<bool>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(NotFoundResult<bool>), StatusCodes.Status404NotFound)]
-        public override Task<IActionResult> DisableAsync([FromRoute] ulong id, CancellationToken cancellationToken = default)
+        public override Task<IActionResult> DeleteAsync([FromRoute] ulong id, CancellationToken cancellationToken = default)
         {
-            return base.DisableAsync(id, cancellationToken);
+            return base.DeleteAsync(id, cancellationToken);
         }
 
         /// <summary>

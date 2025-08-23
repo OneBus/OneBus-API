@@ -58,27 +58,9 @@ namespace OneBus.API.Controllers
         {
             return base.UpdateAsync(id, updateDTO, cancellationToken);
         }
-
+        
         /// <summary>
-        /// Habilitar endereço 
-        /// </summary>
-        /// <remarks>
-        /// PUT para habilitar endereço 
-        /// </remarks>
-        /// <param name="id">Id do endereço</param>
-        /// <param name="cancellationToken"></param>
-        /// <returns>Endereço habilitado</returns>
-        /// <response code="200">Endereço habilitado com sucesso</response>
-        /// <response code="404">Endereço não encontrado</response>
-        [ProducesResponseType(typeof(SuccessResult<bool>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(NotFoundResult<bool>), StatusCodes.Status404NotFound)]
-        public override Task<IActionResult> EnableAsync([FromRoute] ulong id, CancellationToken cancellationToken = default)
-        {
-            return base.EnableAsync(id, cancellationToken);
-        }
-
-        /// <summary>
-        /// Desabilitar endereço 
+        /// Deletar endereço 
         /// </summary>
         /// <remarks>
         /// DELETE de Endereço 
@@ -90,9 +72,9 @@ namespace OneBus.API.Controllers
         /// <response code="404">Endereço não encontrado</response>
         [ProducesResponseType(typeof(SuccessResult<bool>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(NotFoundResult<bool>), StatusCodes.Status404NotFound)]
-        public override Task<IActionResult> DisableAsync([FromRoute] ulong id, CancellationToken cancellationToken = default)
+        public override Task<IActionResult> DeleteAsync([FromRoute] ulong id, CancellationToken cancellationToken = default)
         {
-            return base.DisableAsync(id, cancellationToken);
+            return base.DeleteAsync(id, cancellationToken);
         }
 
         /// <summary>

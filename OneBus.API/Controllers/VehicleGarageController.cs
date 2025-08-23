@@ -60,25 +60,7 @@ namespace OneBus.API.Controllers
         }
 
         /// <summary>
-        /// Habilitar garagem de veículo 
-        /// </summary>
-        /// <remarks>
-        /// PUT para habilitar garagem de veículo
-        /// </remarks>
-        /// <param name="id">Id da garagem de veículo</param>
-        /// <param name="cancellationToken"></param>
-        /// <returns>Garagem de Veículo habilitada</returns>
-        /// <response code="200">Garagem de Veículo habilitada com sucesso</response>
-        /// <response code="404">Garagem de Veículo não encontrada</response>
-        [ProducesResponseType(typeof(SuccessResult<bool>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(NotFoundResult<bool>), StatusCodes.Status404NotFound)]
-        public override Task<IActionResult> EnableAsync([FromRoute] ulong id, CancellationToken cancellationToken = default)
-        {
-            return base.EnableAsync(id, cancellationToken);
-        }
-
-        /// <summary>
-        /// Desabilitar garagem de veículo 
+        /// Deletar garagem de veículo 
         /// </summary>
         /// <remarks>
         /// DELETE de Garagem de Veículo
@@ -90,9 +72,9 @@ namespace OneBus.API.Controllers
         /// <response code="404">Garagem de Veículo não encontrada</response>
         [ProducesResponseType(typeof(SuccessResult<bool>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(NotFoundResult<bool>), StatusCodes.Status404NotFound)]
-        public override Task<IActionResult> DisableAsync([FromRoute] ulong id, CancellationToken cancellationToken = default)
+        public override Task<IActionResult> DeleteAsync([FromRoute] ulong id, CancellationToken cancellationToken = default)
         {
-            return base.DisableAsync(id, cancellationToken);
+            return base.DeleteAsync(id, cancellationToken);
         }
 
         /// <summary>

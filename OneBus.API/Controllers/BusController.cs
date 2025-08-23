@@ -57,28 +57,10 @@ namespace OneBus.API.Controllers
         public override Task<IActionResult> UpdateAsync([FromRoute] ulong id, [FromBody] UpdateBusDTO updateDTO, CancellationToken cancellationToken = default)
         {
             return base.UpdateAsync(id, updateDTO, cancellationToken);
-        }
+        }        
 
         /// <summary>
-        /// Habilitar ônibus 
-        /// </summary>
-        /// <remarks>
-        /// PUT para habilitar ônibus 
-        /// </remarks>
-        /// <param name="id">Id do ônibus</param>
-        /// <param name="cancellationToken"></param>
-        /// <returns>Ônibus habilitado</returns>
-        /// <response code="200">Ônibus habilitado com sucesso</response>
-        /// <response code="404">Ônibus não encontrado</response>
-        [ProducesResponseType(typeof(SuccessResult<bool>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(NotFoundResult<bool>), StatusCodes.Status404NotFound)]
-        public override Task<IActionResult> EnableAsync([FromRoute] ulong id, CancellationToken cancellationToken = default)
-        {
-            return base.EnableAsync(id, cancellationToken);
-        }
-
-        /// <summary>
-        /// Desabilitar ônibus 
+        /// Deletar ônibus 
         /// </summary>
         /// <remarks>
         /// DELETE de Ônibus 
@@ -90,9 +72,9 @@ namespace OneBus.API.Controllers
         /// <response code="404">Ônibus não encontrado</response>
         [ProducesResponseType(typeof(SuccessResult<bool>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(NotFoundResult<bool>), StatusCodes.Status404NotFound)]
-        public override Task<IActionResult> DisableAsync([FromRoute] ulong id, CancellationToken cancellationToken = default)
+        public override Task<IActionResult> DeleteAsync([FromRoute] ulong id, CancellationToken cancellationToken = default)
         {
-            return base.DisableAsync(id, cancellationToken);
+            return base.DeleteAsync(id, cancellationToken);
         }
 
         /// <summary>

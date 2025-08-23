@@ -8,7 +8,7 @@ using OneBus.Domain.Commons;
 using OneBus.Domain.Commons.Result;
 
 namespace OneBus.API.Controllers
-{  
+{
     public abstract class BaseController<TEntity, TCreateDTO, TReadDTO, TUpdateDTO, TFilter> : BaseReadOnlyController<TEntity, TReadDTO, TFilter>
         where TEntity    : BaseEntity
         where TCreateDTO : BaseCreateDTO
@@ -18,15 +18,15 @@ namespace OneBus.API.Controllers
     {
         protected readonly IBaseService<TEntity, TCreateDTO, TReadDTO, TUpdateDTO, TFilter> _baseService;
 
-        protected BaseController(IBaseService<TEntity, TCreateDTO, TReadDTO, TUpdateDTO, TFilter> baseService) 
+        protected BaseController(IBaseService<TEntity, TCreateDTO, TReadDTO, TUpdateDTO, TFilter> baseService)
             : base(baseService)
         {
             _baseService = baseService;
         }
-       
+
         [HttpPost]
         public async virtual Task<IActionResult> CreateAsync(
-            [FromBody] TCreateDTO createDTO, 
+            [FromBody] TCreateDTO createDTO,
             CancellationToken cancellationToken = default)
         {
             return (await _baseService.CreateAsync(createDTO, cancellationToken)).ToActionResult();
@@ -34,30 +34,22 @@ namespace OneBus.API.Controllers
 
         [HttpPut("{id}")]
         public async virtual Task<IActionResult> UpdateAsync(
-            [FromRoute] ulong id, 
-            [FromBody] TUpdateDTO updateDTO, 
+            [FromRoute] ulong id,
+            [FromBody] TUpdateDTO updateDTO,
             CancellationToken cancellationToken = default)
         {
-            if (id != updateDTO.Id)            
-                return ConflictResult<TUpdateDTO>.Create(ErrorUtils.IdConflict()).ToActionResult();            
+            if (id != updateDTO.Id)
+                return ConflictResult<TUpdateDTO>.Create(ErrorUtils.IdConflict()).ToActionResult();
 
             return (await _baseService.UpdateAsync(updateDTO, cancellationToken)).ToActionResult();
         }
- 
+
         [HttpDelete("{id}")]
-        public async virtual Task<IActionResult> DisableAsync(
+        public async virtual Task<IActionResult> DeleteAsync(
             [FromRoute] ulong id,
             CancellationToken cancellationToken = default)
         {
-            return (await _baseService.DisableAsync(id, cancellationToken)).ToActionResult();
-        }
-       
-        [HttpPut("{id}/enablements")]
-        public async virtual Task<IActionResult> EnableAsync(
-            [FromRoute] ulong id,
-            CancellationToken cancellationToken = default)
-        {
-            return (await _baseService.EnableAsync(id, cancellationToken)).ToActionResult();
+            return (await _baseService.DeleteAsync(id, cancellationToken)).ToActionResult();
         }
     }
 }

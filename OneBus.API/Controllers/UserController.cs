@@ -77,28 +77,10 @@ namespace OneBus.API.Controllers
         public override Task<IActionResult> UpdateAsync([FromRoute] ulong id, [FromBody] UpdateUserDTO updateDTO, CancellationToken cancellationToken = default)
         {
             return base.UpdateAsync(id, updateDTO, cancellationToken);
-        }
+        }        
 
         /// <summary>
-        /// Habilitar usuário 
-        /// </summary>
-        /// <remarks>
-        /// PUT para habilitar usuário 
-        /// </remarks>
-        /// <param name="id">Id do usuário</param>
-        /// <param name="cancellationToken"></param>
-        /// <returns>Usuário habilitado</returns>
-        /// <response code="200">Usuário habilitado com sucesso</response>
-        /// <response code="404">Usuário não encontrado</response>
-        [ProducesResponseType(typeof(SuccessResult<bool>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(NotFoundResult<bool>), StatusCodes.Status404NotFound)]
-        public override Task<IActionResult> EnableAsync([FromRoute] ulong id, CancellationToken cancellationToken = default)
-        {
-            return base.EnableAsync(id, cancellationToken);
-        }
-
-        /// <summary>
-        /// Desabilitar usuário 
+        /// Deletar usuário 
         /// </summary>
         /// <remarks>
         /// DELETE de Usuário 
@@ -110,9 +92,9 @@ namespace OneBus.API.Controllers
         /// <response code="404">Usuário não encontrado</response>
         [ProducesResponseType(typeof(SuccessResult<bool>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(NotFoundResult<bool>), StatusCodes.Status404NotFound)]
-        public override Task<IActionResult> DisableAsync([FromRoute] ulong id, CancellationToken cancellationToken = default)
+        public override Task<IActionResult> DeleteAsync([FromRoute] ulong id, CancellationToken cancellationToken = default)
         {
-            return base.DisableAsync(id, cancellationToken);
+            return base.DeleteAsync(id, cancellationToken);
         }
 
         /// <summary>

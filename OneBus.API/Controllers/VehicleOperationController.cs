@@ -57,28 +57,10 @@ namespace OneBus.API.Controllers
         public override Task<IActionResult> UpdateAsync([FromRoute] ulong id, [FromBody] UpdateVehicleOperationDTO updateDTO, CancellationToken cancellationToken = default)
         {
             return base.UpdateAsync(id, updateDTO, cancellationToken);
-        }
+        }        
 
         /// <summary>
-        /// Habilitar operação de veículo 
-        /// </summary>
-        /// <remarks>
-        /// PUT para habilitar operação de veículo 
-        /// </remarks>
-        /// <param name="id">Id da operação de veículo</param>
-        /// <param name="cancellationToken"></param>
-        /// <returns>Operação de Veículo habilitada</returns>
-        /// <response code="200">Operação de Veículo habilitada com sucesso</response>
-        /// <response code="404">Operação de Veículo não encontrada</response>
-        [ProducesResponseType(typeof(SuccessResult<bool>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(NotFoundResult<bool>), StatusCodes.Status404NotFound)]
-        public override Task<IActionResult> EnableAsync([FromRoute] ulong id, CancellationToken cancellationToken = default)
-        {
-            return base.EnableAsync(id, cancellationToken);
-        }
-
-        /// <summary>
-        /// Desabilitar operação de veículo 
+        /// Deletar operação de veículo 
         /// </summary>
         /// <remarks>
         /// DELETE de Operação de Veículo 
@@ -90,9 +72,9 @@ namespace OneBus.API.Controllers
         /// <response code="404">Operação de Veículo não encontrada</response>
         [ProducesResponseType(typeof(SuccessResult<bool>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(NotFoundResult<bool>), StatusCodes.Status404NotFound)]
-        public override Task<IActionResult> DisableAsync([FromRoute] ulong id, CancellationToken cancellationToken = default)
+        public override Task<IActionResult> DeleteAsync([FromRoute] ulong id, CancellationToken cancellationToken = default)
         {
-            return base.DisableAsync(id, cancellationToken);
+            return base.DeleteAsync(id, cancellationToken);
         }
 
         /// <summary>

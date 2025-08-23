@@ -56,28 +56,10 @@ namespace OneBus.API.Controllers
         public override Task<IActionResult> UpdateAsync([FromRoute] ulong id, [FromBody] UpdateUserTypeDTO updateDTO, CancellationToken cancellationToken = default)
         {
             return base.UpdateAsync(id, updateDTO, cancellationToken);
-        }
+        }        
 
         /// <summary>
-        /// Habilitar tipo de usuário 
-        /// </summary>
-        /// <remarks>
-        /// PUT para habilitar tipo de usuário 
-        /// </remarks>
-        /// <param name="id">Id do tipo de usuário</param>
-        /// <param name="cancellationToken"></param>
-        /// <returns>Tipo de Usuário habilitado</returns>
-        /// <response code="200">Tipo de Usuário habilitado com sucesso</response>
-        /// <response code="404">Tipo de Usuário não encontrado</response>
-        [ProducesResponseType(typeof(SuccessResult<bool>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(NotFoundResult<bool>), StatusCodes.Status404NotFound)]
-        public override Task<IActionResult> EnableAsync([FromRoute] ulong id, CancellationToken cancellationToken = default)
-        {
-            return base.EnableAsync(id, cancellationToken);
-        }
-
-        /// <summary>
-        /// Desabilitar tipo de usuário 
+        /// Deletar tipo de usuário 
         /// </summary>
         /// <remarks>
         /// DELETE de Tipo de Usuário 
@@ -89,9 +71,9 @@ namespace OneBus.API.Controllers
         /// <response code="404">Tipo de Usuário não encontrado</response>
         [ProducesResponseType(typeof(SuccessResult<bool>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(NotFoundResult<bool>), StatusCodes.Status404NotFound)]
-        public override Task<IActionResult> DisableAsync([FromRoute] ulong id, CancellationToken cancellationToken = default)
+        public override Task<IActionResult> DeleteAsync([FromRoute] ulong id, CancellationToken cancellationToken = default)
         {
-            return base.DisableAsync(id, cancellationToken);
+            return base.DeleteAsync(id, cancellationToken);
         }
 
         /// <summary>
