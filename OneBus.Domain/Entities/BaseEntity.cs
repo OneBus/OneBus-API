@@ -1,12 +1,10 @@
-﻿using OneBus.Domain.Extensions;
-
-namespace OneBus.Domain.Entities
+﻿namespace OneBus.Domain.Entities
 {
     public abstract class BaseEntity
     {
         protected BaseEntity()
         {
-            CreatedAt = DateTime.UtcNow.ToBrazilianDateTime();
+            CreatedAt = DateTime.UtcNow;
         }
 
         public ulong Id { get; set; }
@@ -17,7 +15,7 @@ namespace OneBus.Domain.Entities
 
         public void Disable() 
         {
-            DeletedAt = DateTime.UtcNow.ToBrazilianDateTime();
+            DeletedAt = DateTime.UtcNow;
         }
         
         public void Enable()
