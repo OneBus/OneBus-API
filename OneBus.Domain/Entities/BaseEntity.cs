@@ -11,16 +11,11 @@
 
         public DateTime CreatedAt { get; set; }
 
-        public DateTime? DeletedAt { get; set; }
+        public bool IsDeleted { get; set; }
 
-        public void Disable() 
+        public void Delete()
         {
-            DeletedAt = DateTime.UtcNow;
-        }
-        
-        public void Enable()
-        {
-            DeletedAt = null;
+            IsDeleted = true;
         }
     }
 }
