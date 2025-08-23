@@ -29,7 +29,7 @@ namespace OneBus.Application.Services
             IValidator<TCreateDTO> createValidator,
             IValidator<TUpdateDTO> updateValidator) : base(baseRepository)
         {
-            _baseRepository = baseRepository;           
+            _baseRepository = baseRepository;
             _createValidator = createValidator;
             _updateValidator = updateValidator;
         }
@@ -64,30 +64,16 @@ namespace OneBus.Application.Services
 
             return SuccessResult<TReadDTO>.Create(entity.Adapt<TReadDTO>());
         }
-        
-        public virtual async Task<Result<bool>> DisableAsync(ulong id, CancellationToken cancellationToken = default)
+
+        public virtual async Task<Result<bool>> DeleteAsync(ulong id, CancellationToken cancellationToken = default)
         {
-            TEntity? entity = await _baseReadOnlyRepository.GetOneAsync(c => c.Id == id, dbQueryOptions: null, cancellationToken);
+            TEntity? entity = await _baseReadOnlyRepository.GetOneAsync(c => c.Id == id,
+                cancellationToken: cancellationToken);
 
             if (entity is null)
                 return NotFoundResult<bool>.Create(ErrorUtils.EntityNotFound());
 
-            entity.Disable();
-            await _baseRepository.UpdateAsync(entity, cancellationToken);
-
-            return SuccessResult<bool>.Create(true);
-        }
-
-        public virtual async Task<Result<bool>> EnableAsync(ulong id, CancellationToken cancellationToken = default)
-        {
-            TEntity? entity = await _baseReadOnlyRepository.GetOneAsync(c => c.Id == id && c.DeletedAt != null,
-                DbQueryOptions.Create(ignoreQueryFilter: true), 
-                cancellationToken);
-
-            if (entity is null)
-                return NotFoundResult<bool>.Create(ErrorUtils.EntityNotFound());
-
-            entity.Enable();
+            entity.Delete();
             await _baseRepository.UpdateAsync(entity, cancellationToken);
 
             return SuccessResult<bool>.Create(true);
