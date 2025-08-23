@@ -1,7 +1,9 @@
 ﻿using OneBus.Domain.Enums.Maintenance;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace OneBus.Domain.Entities
 {
+    [NotMapped]
     public class Maintenance : BaseEntity
     {
         public Maintenance()

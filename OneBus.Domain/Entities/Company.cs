@@ -1,5 +1,8 @@
-﻿namespace OneBus.Domain.Entities
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace OneBus.Domain.Entities
 {
+    [NotMapped]
     public class Company : BaseEntity
     {
         public Company()

@@ -1,7 +1,9 @@
 ﻿using OneBus.Domain.Enums.StopTime;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace OneBus.Domain.Entities
 {
+    [NotMapped]
     public class LineTime : BaseEntity
     {
         public ulong LineId { get; set; }

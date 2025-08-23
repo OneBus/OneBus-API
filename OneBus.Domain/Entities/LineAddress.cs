@@ -1,7 +1,9 @@
 ﻿using OneBus.Domain.Enums.LineAddress;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace OneBus.Domain.Entities
-{   
+{
+    [NotMapped]
     public class LineAddress : BaseEntity
     {
         public ulong LineId { get; set; }

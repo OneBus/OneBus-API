@@ -1,7 +1,9 @@
 ﻿using OneBus.Domain.Enums.Line;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace OneBus.Domain.Entities
 {
+    [NotMapped]
     public class Line : BaseEntity
     {
         public Line()

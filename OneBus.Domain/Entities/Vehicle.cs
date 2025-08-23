@@ -1,7 +1,9 @@
 ﻿using OneBus.Domain.Enums.Vehicle;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace OneBus.Domain.Entities
 {
+    [NotMapped]
     public class Vehicle : BaseEntity
     {
         public Vehicle()
