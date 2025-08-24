@@ -9,8 +9,5 @@ namespace OneBus.Application.DTOs
 
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public DateTime CreatedAt { get; set; }
-
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public DateTime? DeletedAt { get; set; }
     }
 }
