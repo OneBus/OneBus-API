@@ -1,21 +1,27 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using OneBus.API.Extensions;
 using OneBus.Application.DTOs.Maintenance;
 using OneBus.Application.Interfaces.Services;
 using OneBus.Domain.Commons;
 using OneBus.Domain.Commons.Result;
-using OneBus.Domain.Entities;
 using OneBus.Domain.Filters;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace OneBus.API.Controllers
 {
+    [Route("api/v1/maintenances")]
+    [ApiController]
+    [Produces("application/json")]
+    [Authorize]
     [SwaggerTag("Controlador responsável por gerenciar Manutenções")]
-    public class MaintenanceController : BaseController<Maintenance, CreateMaintenanceDTO, ReadMaintenanceDTO, UpdateMaintenanceDTO, BaseFilter>
+    public class MaintenanceController
     {
-        public MaintenanceController(
-            IBaseService<Maintenance, CreateMaintenanceDTO, ReadMaintenanceDTO, UpdateMaintenanceDTO, BaseFilter> baseService) 
-            : base(baseService)
+        private readonly IMaintenanceService _maintenanceService;
+
+        public MaintenanceController(IMaintenanceService maintenanceService)
         {
+            _maintenanceService = maintenanceService;
         }
 
         /// <summary>
@@ -29,11 +35,12 @@ namespace OneBus.API.Controllers
         /// <returns>Manutenção cadastrada</returns>
         /// <response code="200">Manutenção cadastrada com sucesso</response>
         /// <response code="422">Validação encontrou erros</response>
+        [HttpPost]
         [ProducesResponseType(typeof(SuccessResult<ReadMaintenanceDTO>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(InvalidResult<ReadMaintenanceDTO>), StatusCodes.Status422UnprocessableEntity)]
-        public override Task<IActionResult> CreateAsync([FromBody] CreateMaintenanceDTO createDTO, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> CreateAsync([FromBody] CreateMaintenanceDTO createDTO, CancellationToken cancellationToken = default)
         {
-            return base.CreateAsync(createDTO, cancellationToken);
+            return (await _maintenanceService.CreateAsync(createDTO, cancellationToken)).ToActionResult();
         }
 
         /// <summary>
@@ -50,35 +57,21 @@ namespace OneBus.API.Controllers
         /// <response code="422">Validação encontrou erros</response>
         /// <response code="404">Manutenção não encontrada</response>
         /// <response code="409">Conflito entre ids</response>
+        [HttpPut("{id}")]
         [ProducesResponseType(typeof(SuccessResult<ReadMaintenanceDTO>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(InvalidResult<ReadMaintenanceDTO>), StatusCodes.Status422UnprocessableEntity)]
         [ProducesResponseType(typeof(NotFoundResult<ReadMaintenanceDTO>), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ConflictResult<ReadMaintenanceDTO>), StatusCodes.Status409Conflict)]
-        public override Task<IActionResult> UpdateAsync([FromRoute] ulong id, [FromBody] UpdateMaintenanceDTO updateDTO, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> UpdateAsync([FromRoute] long id, [FromBody] UpdateMaintenanceDTO updateDTO, CancellationToken cancellationToken = default)
         {
-            return base.UpdateAsync(id, updateDTO, cancellationToken);
+            if (id != updateDTO.Id)
+                return ConflictResult<ReadMaintenanceDTO>.Create(ErrorUtils.IdConflict()).ToActionResult();
+
+            return (await _maintenanceService.UpdateAsync(updateDTO, cancellationToken)).ToActionResult();
         }
 
         /// <summary>
-        /// Habilitar manutenção 
-        /// </summary>
-        /// <remarks>
-        /// PUT para habilitar manutenção 
-        /// </remarks>
-        /// <param name="id">Id da manutenção</param>
-        /// <param name="cancellationToken"></param>
-        /// <returns>Manutenção habilitada</returns>
-        /// <response code="200">Manutenção habilitada com sucesso</response>
-        /// <response code="404">Manutenção não encontrada</response>
-        [ProducesResponseType(typeof(SuccessResult<bool>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(NotFoundResult<bool>), StatusCodes.Status404NotFound)]
-        public override Task<IActionResult> EnableAsync([FromRoute] ulong id, CancellationToken cancellationToken = default)
-        {
-            return base.EnableAsync(id, cancellationToken);
-        }
-
-        /// <summary>
-        /// Desabilitar manutenção
+        /// Deletar manutenção
         /// </summary>
         /// <remarks>
         /// DELETE de Manutenção 
@@ -88,11 +81,12 @@ namespace OneBus.API.Controllers
         /// <returns>Manutenção deletada</returns>
         /// <response code="200">Manutenção deletada com sucesso</response>
         /// <response code="404">Manutenção não encontrada</response>
+        [HttpDelete("{id}")]
         [ProducesResponseType(typeof(SuccessResult<bool>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(NotFoundResult<bool>), StatusCodes.Status404NotFound)]
-        public override Task<IActionResult> DisableAsync([FromRoute] ulong id, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> DeleteAsync([FromRoute] long id, CancellationToken cancellationToken = default)
         {
-            return base.DisableAsync(id, cancellationToken);
+            return (await _maintenanceService.DeleteAsync(id, cancellationToken)).ToActionResult();
         }
 
         /// <summary>
@@ -105,10 +99,11 @@ namespace OneBus.API.Controllers
         /// <param name="cancellationToken"></param>
         /// <returns>Manutenções paginadas e filtradas</returns>
         /// <response code="200">Manutenções paginadas e filtradas com sucesso</response>
+        [HttpGet]
         [ProducesResponseType(typeof(SuccessResult<Pagination<ReadMaintenanceDTO>>), StatusCodes.Status200OK)]
-        public override Task<IActionResult> GetPaginedAsync([FromQuery] BaseFilter filter, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> GetPaginedAsync([FromQuery] BaseFilter filter, CancellationToken cancellationToken = default)
         {
-            return base.GetPaginedAsync(filter, cancellationToken);
+            return (await _maintenanceService.GetPaginedAsync(filter, cancellationToken)).ToActionResult();
         }
 
         /// <summary>
@@ -122,11 +117,12 @@ namespace OneBus.API.Controllers
         /// <returns>Manutenção encontrada</returns>
         /// <response code="200">Manutenção encontrada com sucesso</response>
         /// <response code="404">Manutenção não encontrada</response>
+        [HttpGet("{id}")]
         [ProducesResponseType(typeof(SuccessResult<ReadMaintenanceDTO>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(NotFoundResult<ReadMaintenanceDTO>), StatusCodes.Status404NotFound)]
-        public override Task<IActionResult> GetByIdAsync([FromRoute] ulong id, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> GetByIdAsync([FromRoute] long id, CancellationToken cancellationToken = default)
         {
-            return base.GetByIdAsync(id, cancellationToken);
+            return (await _maintenanceService.GetByIdAsync(id, cancellationToken)).ToActionResult();
         }
     }
 }

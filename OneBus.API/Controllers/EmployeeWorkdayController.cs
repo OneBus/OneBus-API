@@ -1,21 +1,27 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using OneBus.API.Extensions;
 using OneBus.Application.DTOs.EmployeeWorkday;
 using OneBus.Application.Interfaces.Services;
 using OneBus.Domain.Commons;
 using OneBus.Domain.Commons.Result;
-using OneBus.Domain.Entities;
 using OneBus.Domain.Filters;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace OneBus.API.Controllers
 {
+    [Route("api/v1/employeesWorkdays")]
+    [ApiController]
+    [Produces("application/json")]
+    [Authorize]
     [SwaggerTag("Controlador responsável por gerenciar Horários dos Funcionários")]
-    public class EmployeeWorkdayController : BaseController<EmployeeWorkday, CreateEmployeeWorkdayDTO, ReadEmployeeWorkdayDTO, UpdateEmployeeWorkdayDTO, BaseFilter>
+    public class EmployeeWorkdayController
     {
-        public EmployeeWorkdayController(
-            IBaseService<EmployeeWorkday, CreateEmployeeWorkdayDTO, ReadEmployeeWorkdayDTO, UpdateEmployeeWorkdayDTO, BaseFilter> baseService) 
-            : base(baseService)
+        private readonly IEmployeeWorkdayService _employeeWorkdayService;
+
+        public EmployeeWorkdayController(IEmployeeWorkdayService employeeWorkdayService)
         {
+            _employeeWorkdayService = employeeWorkdayService;
         }
 
         /// <summary>
@@ -29,11 +35,12 @@ namespace OneBus.API.Controllers
         /// <returns>Horário do Funcionário cadastrado</returns>
         /// <response code="200">Horário do Funcionário cadastrado com sucesso</response>
         /// <response code="422">Validação encontrou erros</response>
+        [HttpPost]
         [ProducesResponseType(typeof(SuccessResult<ReadEmployeeWorkdayDTO>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(InvalidResult<ReadEmployeeWorkdayDTO>), StatusCodes.Status422UnprocessableEntity)]
-        public override Task<IActionResult> CreateAsync([FromBody] CreateEmployeeWorkdayDTO createDTO, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> CreateAsync([FromBody] CreateEmployeeWorkdayDTO createDTO, CancellationToken cancellationToken = default)
         {
-            return base.CreateAsync(createDTO, cancellationToken);
+            return (await _employeeWorkdayService.CreateAsync(createDTO, cancellationToken)).ToActionResult();
         }
 
         /// <summary>
@@ -50,35 +57,21 @@ namespace OneBus.API.Controllers
         /// <response code="422">Validação encontrou erros</response>
         /// <response code="404">Horário do Funcionário não encontrado</response>
         /// <response code="409">Conflito entre ids</response>
+        [HttpPut("{id}")]
         [ProducesResponseType(typeof(SuccessResult<ReadEmployeeWorkdayDTO>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(InvalidResult<ReadEmployeeWorkdayDTO>), StatusCodes.Status422UnprocessableEntity)]
         [ProducesResponseType(typeof(NotFoundResult<ReadEmployeeWorkdayDTO>), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ConflictResult<ReadEmployeeWorkdayDTO>), StatusCodes.Status409Conflict)]
-        public override Task<IActionResult> UpdateAsync([FromRoute] ulong id, [FromBody] UpdateEmployeeWorkdayDTO updateDTO, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> UpdateAsync([FromRoute] long id, [FromBody] UpdateEmployeeWorkdayDTO updateDTO, CancellationToken cancellationToken = default)
         {
-            return base.UpdateAsync(id, updateDTO, cancellationToken);
+            if (id != updateDTO.Id)
+                return ConflictResult<ReadEmployeeWorkdayDTO>.Create(ErrorUtils.IdConflict()).ToActionResult();
+
+            return (await _employeeWorkdayService.UpdateAsync(updateDTO, cancellationToken)).ToActionResult();
         }
 
         /// <summary>
-        /// Habilitar horário do funcionário 
-        /// </summary>
-        /// <remarks>
-        /// PUT para habilitar horário do funcionário 
-        /// </remarks>
-        /// <param name="id">Id do horário do funcionário</param>
-        /// <param name="cancellationToken"></param>
-        /// <returns>Horário do Funcionário habilitado</returns>
-        /// <response code="200">Horário do Funcionário habilitado com sucesso</response>
-        /// <response code="404">Horário do Funcionário não encontrado</response>
-        [ProducesResponseType(typeof(SuccessResult<bool>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(NotFoundResult<bool>), StatusCodes.Status404NotFound)]
-        public override Task<IActionResult> EnableAsync([FromRoute] ulong id, CancellationToken cancellationToken = default)
-        {
-            return base.EnableAsync(id, cancellationToken);
-        }
-
-        /// <summary>
-        /// Desabilitar horário do funcionário
+        /// Deletar horário do funcionário
         /// </summary>
         /// <remarks>
         /// DELETE de Horário do Funcionário 
@@ -88,11 +81,12 @@ namespace OneBus.API.Controllers
         /// <returns>Horário do Funcionário deletado</returns>
         /// <response code="200">Horário do Funcionário deletado com sucesso</response>
         /// <response code="404">Horário do Funcionário não encontrado</response>
+        [HttpDelete("{id}")]
         [ProducesResponseType(typeof(SuccessResult<bool>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(NotFoundResult<bool>), StatusCodes.Status404NotFound)]
-        public override Task<IActionResult> DisableAsync([FromRoute] ulong id, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> DeleteAsync([FromRoute] long id, CancellationToken cancellationToken = default)
         {
-            return base.DisableAsync(id, cancellationToken);
+            return (await _employeeWorkdayService.DeleteAsync(id, cancellationToken)).ToActionResult();
         }
 
         /// <summary>
@@ -105,10 +99,11 @@ namespace OneBus.API.Controllers
         /// <param name="cancellationToken"></param>
         /// <returns>Horários dos Funcionários paginados e filtrados</returns>
         /// <response code="200">Horários dos Funcionários paginados e filtrados com sucesso</response>
+        [HttpGet]
         [ProducesResponseType(typeof(SuccessResult<Pagination<ReadEmployeeWorkdayDTO>>), StatusCodes.Status200OK)]
-        public override Task<IActionResult> GetPaginedAsync([FromQuery] BaseFilter filter, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> GetPaginedAsync([FromQuery] BaseFilter filter, CancellationToken cancellationToken = default)
         {
-            return base.GetPaginedAsync(filter, cancellationToken);
+            return (await _employeeWorkdayService.GetPaginedAsync(filter, cancellationToken)).ToActionResult();
         }
 
         /// <summary>
@@ -122,11 +117,12 @@ namespace OneBus.API.Controllers
         /// <returns>Horário do Funcionário encontrado</returns>
         /// <response code="200">Horário do Funcionário encontrado com sucesso</response>
         /// <response code="404">Horário do Funcionário não encontrado</response>
+        [HttpGet("{id}")]
         [ProducesResponseType(typeof(SuccessResult<ReadEmployeeWorkdayDTO>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(NotFoundResult<ReadEmployeeWorkdayDTO>), StatusCodes.Status404NotFound)]
-        public override Task<IActionResult> GetByIdAsync([FromRoute] ulong id, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> GetByIdAsync([FromRoute] long id, CancellationToken cancellationToken = default)
         {
-            return base.GetByIdAsync(id, cancellationToken);
+            return (await _employeeWorkdayService.GetByIdAsync(id, cancellationToken)).ToActionResult();
         }
     }
 }

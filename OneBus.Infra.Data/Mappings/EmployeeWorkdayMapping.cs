@@ -8,13 +8,7 @@ namespace OneBus.Infra.Data.Mappings
     {
         public override void Configure(EntityTypeBuilder<EmployeeWorkday> builder)
         {
-            builder.ToTable("FuncionarioHorario");
             base.Configure(builder);
-
-            builder.Property(c => c.EmployeeId).HasColumnName("FuncionarioId");
-            builder.Property(c => c.StartTime).HasColumnName("HoraInicio");
-            builder.Property(c => c.EndTime).HasColumnName("HoraFim");
-            builder.Property(c => c.DayType).HasColumnName("Dia").HasConversion<byte>();
 
             builder
                 .HasOne(c => c.Employee)

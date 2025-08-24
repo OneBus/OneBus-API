@@ -16,7 +16,7 @@ namespace OneBus.Application.Interfaces.Services
             CancellationToken cancellationToken = default);
 
         Task<Result<TReadDTO>> GetByIdAsync(
-            ulong id, 
+            long id, 
             CancellationToken cancellationToken = default);    
     }
 }

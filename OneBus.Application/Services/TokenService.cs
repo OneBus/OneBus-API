@@ -2,7 +2,6 @@
 using OneBus.Domain.Models;
 using OneBus.Domain.Settings;
 using System.Security.Claims;
-using OneBus.Domain.Extensions;
 using System.Security.Principal;
 using Microsoft.Extensions.Options;
 using OneBus.Application.DTOs.User;
@@ -25,7 +24,6 @@ namespace OneBus.Application.Services
         {
             var claims = new List<Claim>
             {
-                new("company_id", user.CompanyId.ToString()),
                 new(JwtRegisteredClaimNames.Email, user.Email),
                 new(JwtRegisteredClaimNames.NameId, user.Id.ToString()!),
                 new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString("N"))
@@ -33,7 +31,7 @@ namespace OneBus.Application.Services
 
             ClaimsIdentity identity = new(new GenericIdentity(user.Email, "login"), claims);
 
-            DateTime createdAt = DateTime.UtcNow.ToBrazilianDateTime();
+            DateTime createdAt = DateTime.UtcNow;
             DateTime expiresAt = createdAt.AddDays(_tokenSettings.DaysUntilExpires);
 
             return new TokenModel(Create(
