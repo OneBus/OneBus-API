@@ -39,13 +39,6 @@ if (isDocker)
 
 builder.Configuration.AddEnvironmentVariables();
 
-// Lower case URLs
-builder.Services.AddRouting(c =>
-{
-    c.LowercaseUrls = true;
-    c.LowercaseQueryStrings = true;
-});
-
 // Add Options Pattern
 builder.Services
     .AddOptions<TokenSettings>()
