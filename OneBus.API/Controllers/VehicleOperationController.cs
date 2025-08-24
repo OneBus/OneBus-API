@@ -1,21 +1,27 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using OneBus.API.Extensions;
 using OneBus.Application.DTOs.VehicleOperation;
 using OneBus.Application.Interfaces.Services;
 using OneBus.Domain.Commons;
 using OneBus.Domain.Commons.Result;
-using OneBus.Domain.Entities;
 using OneBus.Domain.Filters;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace OneBus.API.Controllers
 {
+    [Route("api/v1/vehiclesOperations")]
+    [ApiController]
+    [Produces("application/json")]
+    [Authorize]
     [SwaggerTag("Controlador responsável por gerenciar Operações de Veículos")]
-    public class VehicleOperationController : BaseController<VehicleOperation, CreateVehicleOperationDTO, ReadVehicleOperationDTO, UpdateVehicleOperationDTO, BaseFilter>
+    public class VehicleOperationController
     {
-        public VehicleOperationController(
-            IBaseService<VehicleOperation, CreateVehicleOperationDTO, ReadVehicleOperationDTO, UpdateVehicleOperationDTO, BaseFilter> baseService) 
-            : base(baseService)
+        private readonly IVehicleOperationService _vehicleOperationService;
+
+        public VehicleOperationController(IVehicleOperationService vehicleOperationService)
         {
+            _vehicleOperationService = vehicleOperationService;
         }
 
         /// <summary>
@@ -29,11 +35,12 @@ namespace OneBus.API.Controllers
         /// <returns>Operação de Veículo cadastrada</returns>
         /// <response code="200">Operação de Veículo cadastrada com sucesso</response>
         /// <response code="422">Validação encontrou erros</response>
+        [HttpPost]
         [ProducesResponseType(typeof(SuccessResult<ReadVehicleOperationDTO>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(InvalidResult<ReadVehicleOperationDTO>), StatusCodes.Status422UnprocessableEntity)]
-        public override Task<IActionResult> CreateAsync([FromBody] CreateVehicleOperationDTO createDTO, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> CreateAsync([FromBody] CreateVehicleOperationDTO createDTO, CancellationToken cancellationToken = default)
         {
-            return base.CreateAsync(createDTO, cancellationToken);
+            return (await _vehicleOperationService.CreateAsync(createDTO, cancellationToken)).ToActionResult();
         }
 
         /// <summary>
@@ -50,14 +57,18 @@ namespace OneBus.API.Controllers
         /// <response code="422">Validação encontrou erros</response>
         /// <response code="404">Operação de Veículo não encontrada</response>
         /// <response code="409">Conflito entre ids</response>
+        [HttpPut("{id}")]
         [ProducesResponseType(typeof(SuccessResult<ReadVehicleOperationDTO>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(InvalidResult<ReadVehicleOperationDTO>), StatusCodes.Status422UnprocessableEntity)]
         [ProducesResponseType(typeof(NotFoundResult<ReadVehicleOperationDTO>), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ConflictResult<ReadVehicleOperationDTO>), StatusCodes.Status409Conflict)]
-        public override Task<IActionResult> UpdateAsync([FromRoute] long id, [FromBody] UpdateVehicleOperationDTO updateDTO, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> UpdateAsync([FromRoute] long id, [FromBody] UpdateVehicleOperationDTO updateDTO, CancellationToken cancellationToken = default)
         {
-            return base.UpdateAsync(id, updateDTO, cancellationToken);
-        }        
+            if (id != updateDTO.Id)
+                return ConflictResult<ReadVehicleOperationDTO>.Create(ErrorUtils.IdConflict()).ToActionResult();
+
+            return (await _vehicleOperationService.UpdateAsync(updateDTO, cancellationToken)).ToActionResult();
+        }
 
         /// <summary>
         /// Deletar operação de veículo 
@@ -70,11 +81,12 @@ namespace OneBus.API.Controllers
         /// <returns>Operação de Veículo deletada</returns>
         /// <response code="200">Operação de Veículo deletada com sucesso</response>
         /// <response code="404">Operação de Veículo não encontrada</response>
+        [HttpDelete("{id}")]
         [ProducesResponseType(typeof(SuccessResult<bool>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(NotFoundResult<bool>), StatusCodes.Status404NotFound)]
-        public override Task<IActionResult> DeleteAsync([FromRoute] long id, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> DeleteAsync([FromRoute] long id, CancellationToken cancellationToken = default)
         {
-            return base.DeleteAsync(id, cancellationToken);
+            return (await _vehicleOperationService.DeleteAsync(id, cancellationToken)).ToActionResult();
         }
 
         /// <summary>
@@ -87,10 +99,11 @@ namespace OneBus.API.Controllers
         /// <param name="cancellationToken"></param>
         /// <returns>Operações de Veículos paginadas e filtradas</returns>
         /// <response code="200">Operações de Veículos paginadas e filtradas com sucesso</response>
+        [HttpGet]
         [ProducesResponseType(typeof(SuccessResult<Pagination<ReadVehicleOperationDTO>>), StatusCodes.Status200OK)]
-        public override Task<IActionResult> GetPaginedAsync([FromQuery] BaseFilter filter, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> GetPaginedAsync([FromQuery] BaseFilter filter, CancellationToken cancellationToken = default)
         {
-            return base.GetPaginedAsync(filter, cancellationToken);
+            return (await _vehicleOperationService.GetPaginedAsync(filter, cancellationToken)).ToActionResult();
         }
 
         /// <summary>
@@ -104,11 +117,12 @@ namespace OneBus.API.Controllers
         /// <returns>Operação de Veículo encontrada</returns>
         /// <response code="200">Operação de Veículo encontrada com sucesso</response>
         /// <response code="404">Operação de Veículo não encontrada</response>
+        [HttpGet("{id}")]
         [ProducesResponseType(typeof(SuccessResult<ReadVehicleOperationDTO>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(NotFoundResult<ReadVehicleOperationDTO>), StatusCodes.Status404NotFound)]
-        public override Task<IActionResult> GetByIdAsync([FromRoute] long id, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> GetByIdAsync([FromRoute] long id, CancellationToken cancellationToken = default)
         {
-            return base.GetByIdAsync(id, cancellationToken);
+            return (await _vehicleOperationService.GetByIdAsync(id, cancellationToken)).ToActionResult();
         }
     }
 }

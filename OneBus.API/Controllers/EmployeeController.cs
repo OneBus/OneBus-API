@@ -1,21 +1,27 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using OneBus.API.Extensions;
 using OneBus.Application.DTOs.Employee;
 using OneBus.Application.Interfaces.Services;
 using OneBus.Domain.Commons;
 using OneBus.Domain.Commons.Result;
-using OneBus.Domain.Entities;
 using OneBus.Domain.Filters;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace OneBus.API.Controllers
 {
+    [Route("api/v1/employees")]
+    [ApiController]
+    [Produces("application/json")]
+    [Authorize]
     [SwaggerTag("Controlador responsável por gerenciar Funcionários")]
-    public class EmployeeController : BaseController<Employee, CreateEmployeeDTO, ReadEmployeeDTO, UpdateEmployeeDTO, BaseFilter>
+    public class EmployeeController
     {
-        public EmployeeController(
-            IBaseService<Employee, CreateEmployeeDTO, ReadEmployeeDTO, UpdateEmployeeDTO, BaseFilter> baseService) 
-            : base(baseService)
+        private readonly IEmployeeService _employeeService;
+
+        public EmployeeController(IEmployeeService employeeService)
         {
+            _employeeService = employeeService;
         }
 
         /// <summary>
@@ -29,11 +35,12 @@ namespace OneBus.API.Controllers
         /// <returns>Funcionário cadastrado</returns>
         /// <response code="200">Funcionário cadastrado com sucesso</response>
         /// <response code="422">Validação encontrou erros</response>
+        [HttpPost]
         [ProducesResponseType(typeof(SuccessResult<ReadEmployeeDTO>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(InvalidResult<ReadEmployeeDTO>), StatusCodes.Status422UnprocessableEntity)]
-        public override Task<IActionResult> CreateAsync([FromBody] CreateEmployeeDTO createDTO, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> CreateAsync([FromBody] CreateEmployeeDTO createDTO, CancellationToken cancellationToken = default)
         {
-            return base.CreateAsync(createDTO, cancellationToken);
+            return (await _employeeService.CreateAsync(createDTO, cancellationToken)).ToActionResult();
         }
 
         /// <summary>
@@ -50,14 +57,18 @@ namespace OneBus.API.Controllers
         /// <response code="422">Validação encontrou erros</response>
         /// <response code="404">Funcionário não encontrado</response>
         /// <response code="409">Conflito entre ids</response>
+        [HttpPut("{id}")]
         [ProducesResponseType(typeof(SuccessResult<ReadEmployeeDTO>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(InvalidResult<ReadEmployeeDTO>), StatusCodes.Status422UnprocessableEntity)]
         [ProducesResponseType(typeof(NotFoundResult<ReadEmployeeDTO>), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ConflictResult<ReadEmployeeDTO>), StatusCodes.Status409Conflict)]
-        public override Task<IActionResult> UpdateAsync([FromRoute] long id, [FromBody] UpdateEmployeeDTO updateDTO, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> UpdateAsync([FromRoute] long id, [FromBody] UpdateEmployeeDTO updateDTO, CancellationToken cancellationToken = default)
         {
-            return base.UpdateAsync(id, updateDTO, cancellationToken);
-        }        
+            if (id != updateDTO.Id)
+                return ConflictResult<ReadEmployeeDTO>.Create(ErrorUtils.IdConflict()).ToActionResult();
+
+            return (await _employeeService.UpdateAsync(updateDTO, cancellationToken)).ToActionResult();
+        }
 
         /// <summary>
         /// Deletar funcionário
@@ -70,11 +81,12 @@ namespace OneBus.API.Controllers
         /// <returns>Funcionário deletado</returns>
         /// <response code="200">Funcionário deletado com sucesso</response>
         /// <response code="404">Funcionário não encontrado</response>
+        [HttpDelete("{id}")]
         [ProducesResponseType(typeof(SuccessResult<bool>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(NotFoundResult<bool>), StatusCodes.Status404NotFound)]
-        public override Task<IActionResult> DeleteAsync([FromRoute] long id, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> DeleteAsync([FromRoute] long id, CancellationToken cancellationToken = default)
         {
-            return base.DeleteAsync(id, cancellationToken);
+            return (await _employeeService.DeleteAsync(id, cancellationToken)).ToActionResult();
         }
 
         /// <summary>
@@ -87,10 +99,11 @@ namespace OneBus.API.Controllers
         /// <param name="cancellationToken"></param>
         /// <returns>Funcionários paginados e filtrados</returns>
         /// <response code="200">Funcionários paginados e filtrados com sucesso</response>
+        [HttpGet]
         [ProducesResponseType(typeof(SuccessResult<Pagination<ReadEmployeeDTO>>), StatusCodes.Status200OK)]
-        public override Task<IActionResult> GetPaginedAsync([FromQuery] BaseFilter filter, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> GetPaginedAsync([FromQuery] BaseFilter filter, CancellationToken cancellationToken = default)
         {
-            return base.GetPaginedAsync(filter, cancellationToken);
+            return (await _employeeService.GetPaginedAsync(filter, cancellationToken)).ToActionResult();
         }
 
         /// <summary>
@@ -104,11 +117,12 @@ namespace OneBus.API.Controllers
         /// <returns>Funcionário encontrado</returns>
         /// <response code="200">Funcionário encontrado com sucesso</response>
         /// <response code="404">Funcionário não encontrado</response>
+        [HttpGet("{id}")]
         [ProducesResponseType(typeof(SuccessResult<ReadEmployeeDTO>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(NotFoundResult<ReadEmployeeDTO>), StatusCodes.Status404NotFound)]
-        public override Task<IActionResult> GetByIdAsync([FromRoute] long id, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> GetByIdAsync([FromRoute] long id, CancellationToken cancellationToken = default)
         {
-            return base.GetByIdAsync(id, cancellationToken);
+            return (await _employeeService.GetByIdAsync(id, cancellationToken)).ToActionResult();
         }
     }
 }
