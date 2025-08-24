@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using OneBus.Application.Interfaces.Services;
+using OneBus.Application.Services;
 using OneBus.Domain.Interfaces.Repositories;
 using OneBus.Infra.Data.Repositories;
 
@@ -24,6 +25,7 @@ namespace OneBus.Infra.Ioc
             .AsImplementedInterfaces()
             .WithScopedLifetime());
 
+            services.AddScoped<ITokenService, TokenService>();
             return services;
         }
     }

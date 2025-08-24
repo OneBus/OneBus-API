@@ -34,11 +34,26 @@ namespace OneBus.Application.Services
             DateTime createdAt = DateTime.UtcNow;
             DateTime expiresAt = createdAt.AddDays(_tokenSettings.DaysUntilExpires);
 
-            return new TokenModel(Create(
+            string token = Create(
                 key: Encoding.ASCII.GetBytes(_tokenSettings.Key),
                 identity,
                 createdAt,
-                expiresAt)
+                expiresAt);
+
+            string refreshToken = Create(
+                key: Encoding.ASCII.GetBytes(_tokenSettings.Key),
+                identity,
+                createdAt,
+                createdAt.AddDays(_tokenSettings.DaysUntilExpires * 2));
+
+            return new TokenModel(
+                user.Id!.Value,
+                user.Name,
+                user.Email,
+                token,
+                createdAt,
+                expiresAt,
+                refreshToken
             );
         }
 

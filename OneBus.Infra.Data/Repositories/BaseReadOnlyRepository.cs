@@ -6,6 +6,7 @@ using OneBus.Domain.Interfaces.Repositories;
 using OneBus.Infra.Data.DbContexts;
 using OneBus.Infra.Data.Extensions;
 using System.Linq.Dynamic.Core;
+using System.Linq.Expressions;
 
 namespace OneBus.Infra.Data.Repositories
 {
@@ -23,26 +24,40 @@ namespace OneBus.Infra.Data.Repositories
         }
 
         public virtual async Task<IEnumerable<TEntity>> GetManyAsync(
-            Predicate<TEntity> predicate,
+            Expression<Func<TEntity, bool>> expression,
             DbQueryOptions? dbQueryOptions = null,
             CancellationToken cancellationToken = default)
         {
             IQueryable<TEntity> query = ApplyDbQueryOptions(dbQueryOptions);
 
             return await query
-                .Where(c => predicate(c))
+                .Where(expression)
+                .ToListAsync(cancellationToken);
+        }
+
+        public virtual async Task<IEnumerable<TEntity>> GetManyAsync(
+            TFilter filter,
+            DbQueryOptions? dbQueryOptions = null,
+            CancellationToken cancellationToken = default)
+        {
+            Expression<Func<TEntity, bool>> expression = ApplyFilter(filter);
+
+            IQueryable<TEntity> query = ApplyDbQueryOptions(dbQueryOptions);
+
+            return await query
+                .Where(expression)
                 .ToListAsync(cancellationToken);
         }
 
         public virtual async Task<TEntity?> GetOneAsync(
-            Predicate<TEntity> predicate,
+            Expression<Func<TEntity, bool>> expression,
             DbQueryOptions? dbQueryOptions = null,
             CancellationToken cancellationToken = default)
         {
             IQueryable<TEntity> query = ApplyDbQueryOptions(dbQueryOptions);
 
             return await query
-                .Where(c => predicate(c))
+                .Where(expression)
                 .FirstOrDefaultAsync(cancellationToken);
         }
 
@@ -51,16 +66,28 @@ namespace OneBus.Infra.Data.Repositories
             DbQueryOptions? dbQueryOptions = null,
             CancellationToken cancellationToken = default)
         {
-            Predicate<TEntity> predicate = ApplyFilter(filter);
+            Expression<Func<TEntity, bool>> expression = ApplyFilter(filter);
 
             IQueryable<TEntity> query = ApplyDbQueryOptions(dbQueryOptions);
 
             return await query
-                .Where(c => predicate(c))
-                .OrderBy("{0} {1}", filter.OrderField, filter.OrderType)
+                .Where(expression)
+                .OrderBy($"{filter.OrderField} {filter.OrderType}")
                 .Skip((int)((filter.CurrentPage - 1) * filter.PageSize))
                 .Take((int)filter.PageSize)
                 .ToListAsync(cancellationToken);
+        }
+
+        public virtual async Task<long> LongCountAsync(
+            Expression<Func<TEntity, bool>> expression,
+            DbQueryOptions? dbQueryOptions = null,
+            CancellationToken cancellationToken = default)
+        {
+            IQueryable<TEntity> query = ApplyDbQueryOptions(dbQueryOptions);
+
+            return await query
+                .Where(expression)
+                .LongCountAsync(cancellationToken);
         }
 
         public virtual async Task<long> LongCountAsync(
@@ -68,13 +95,23 @@ namespace OneBus.Infra.Data.Repositories
             DbQueryOptions? dbQueryOptions = null,
             CancellationToken cancellationToken = default)
         {
-            Predicate<TEntity> predicate = ApplyFilter(filter);
+            Expression<Func<TEntity, bool>> expression = ApplyFilter(filter);
 
             IQueryable<TEntity> query = ApplyDbQueryOptions(dbQueryOptions);
 
             return await query
-                .Where(c => predicate(c))
+                .Where(expression)
                 .LongCountAsync(cancellationToken);
+        }
+
+        public virtual async Task<bool> AnyAsync(
+            Expression<Func<TEntity, bool>> expression,
+            DbQueryOptions? dbQueryOptions = null,
+            CancellationToken cancellationToken = default)
+        {
+            IQueryable<TEntity> query = ApplyDbQueryOptions(dbQueryOptions);
+
+            return await query.AnyAsync(expression, cancellationToken);
         }
 
         protected virtual IQueryable<TEntity> ApplyDbQueryOptions(DbQueryOptions? dbQueryOptions)
@@ -92,9 +129,9 @@ namespace OneBus.Infra.Data.Repositories
             return query.IgnoreQueryFilters();
         }
 
-        protected virtual Predicate<TEntity> ApplyFilter(TFilter filter)
+        protected virtual Expression<Func<TEntity, bool>> ApplyFilter(TFilter filter)
         {
-            return c => true;
+            return _ => true;
         }
     }
 }
