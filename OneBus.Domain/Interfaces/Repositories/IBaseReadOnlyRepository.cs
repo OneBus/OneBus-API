@@ -1,6 +1,7 @@
 ﻿using OneBus.Domain.Commons;
 using OneBus.Domain.Entities;
 using OneBus.Domain.Filters;
+using System.Linq.Expressions;
 
 namespace OneBus.Domain.Interfaces.Repositories
 {
@@ -9,23 +10,38 @@ namespace OneBus.Domain.Interfaces.Repositories
         where TFilter : BaseFilter
     {
         Task<TEntity?> GetOneAsync(
-            Predicate<TEntity> predicate, 
-            DbQueryOptions? dbQueryOptions = null, 
+            Expression<Func<TEntity, bool>> expression,
+            DbQueryOptions? dbQueryOptions = null,
             CancellationToken cancellationToken = default);
 
         Task<IEnumerable<TEntity>> GetManyAsync(
-            Predicate<TEntity> predicate, 
-            DbQueryOptions? dbQueryOptions = null, 
+            Expression<Func<TEntity, bool>> expression,
+            DbQueryOptions? dbQueryOptions = null,
+            CancellationToken cancellationToken = default);
+
+        Task<IEnumerable<TEntity>> GetManyAsync(
+            TFilter filter,
+            DbQueryOptions? dbQueryOptions = null,
             CancellationToken cancellationToken = default);
 
         Task<IEnumerable<TEntity>> GetPaginedAsync(
             TFilter filter,
-            DbQueryOptions? dbQueryOptions = null, 
+            DbQueryOptions? dbQueryOptions = null,
             CancellationToken cancellationToken = default);
 
         Task<long> LongCountAsync(
-            TFilter filter, 
-            DbQueryOptions? dbQueryOptions = null, 
+            TFilter filter,
+            DbQueryOptions? dbQueryOptions = null,
+            CancellationToken cancellationToken = default);
+
+        Task<long> LongCountAsync(
+            Expression<Func<TEntity, bool>> expression,
+            DbQueryOptions? dbQueryOptions = null,
+            CancellationToken cancellationToken = default);
+
+        Task<bool> AnyAsync(
+            Expression<Func<TEntity, bool>> expression,
+            DbQueryOptions? dbQueryOptions = null,
             CancellationToken cancellationToken = default);
     }
 }
