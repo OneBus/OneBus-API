@@ -10,6 +10,7 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace OneBus.API.Controllers
 {
+    [NonController]
     [Route("api/v1/vehicles")]
     [ApiController]
     [Produces("application/json")]
