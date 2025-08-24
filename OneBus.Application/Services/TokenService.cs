@@ -24,7 +24,6 @@ namespace OneBus.Application.Services
         {
             var claims = new List<Claim>
             {
-                new("company_id", user.CompanyId.ToString()),
                 new(JwtRegisteredClaimNames.Email, user.Email),
                 new(JwtRegisteredClaimNames.NameId, user.Id.ToString()!),
                 new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString("N"))
