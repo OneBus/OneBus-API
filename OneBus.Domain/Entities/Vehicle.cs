@@ -1,9 +1,5 @@
-﻿using OneBus.Domain.Enums.Vehicle;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace OneBus.Domain.Entities
+﻿namespace OneBus.Domain.Entities
 {
-    [NotMapped]
     public class Vehicle : BaseEntity
     {
         public Vehicle()
@@ -15,7 +11,7 @@ namespace OneBus.Domain.Entities
             Renavam = string.Empty;
         }
 
-        public VehicleType Type { get; set; }
+        public byte Type { get; set; }
 
         public string Prefix { get; set; }
 
@@ -25,7 +21,7 @@ namespace OneBus.Domain.Entities
 
         public bool HasAccessibility { get; set; }
 
-        public FuelType FuelType { get; set; }
+        public byte FuelType { get; set; }
 
         public string Brand { get; set; }
 
@@ -51,13 +47,13 @@ namespace OneBus.Domain.Entities
 
         public string Renavam { get; set; }
 
-        public TransmissionType TransmissionType { get; set; }
+        public byte TransmissionType { get; set; }
 
         public DateOnly AcquisitionDate { get; set; }
 
-        public VehicleStatus Status { get; set; }
+        public byte Status { get; set; }
 
-        public string? Image { get; set; }
+        public byte[]? Image { get; set; }
 
         public ICollection<Bus>? Buses { get; set; }
 

@@ -1,9 +1,5 @@
-﻿using OneBus.Domain.Enums.Bus;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace OneBus.Domain.Entities
+﻿namespace OneBus.Domain.Entities
 {
-    [NotMapped]
     public class Bus : BaseEntity
     {
         public Bus()
@@ -14,7 +10,7 @@ namespace OneBus.Domain.Entities
 
         public long VehicleId { get; set; }
 
-        public ServiceType ServiceType { get; set; }
+        public byte ServiceType { get; set; }
 
         public string ChassisBrand { get; set; }
 

@@ -1,9 +1,5 @@
-﻿using OneBus.Domain.Enums.Maintenance;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace OneBus.Domain.Entities
+﻿namespace OneBus.Domain.Entities
 {
-    [NotMapped]
     public class Maintenance : BaseEntity
     {
         public Maintenance()
@@ -13,7 +9,7 @@ namespace OneBus.Domain.Entities
 
         public long VehicleId { get; set; }
 
-        public Sector Sector { get; set; }
+        public byte Sector { get; set; }
 
         public string Description { get; set; }
 

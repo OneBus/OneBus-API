@@ -1,8 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
-namespace OneBus.Domain.Entities
+﻿namespace OneBus.Domain.Entities
 {
-    [NotMapped]
     public class BusOperation : BaseEntity
     {
         public long LineTimeId { get; set; }

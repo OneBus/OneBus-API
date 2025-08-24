@@ -1,9 +1,5 @@
-﻿using OneBus.Domain.Enums;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace OneBus.Domain.Entities
+﻿namespace OneBus.Domain.Entities
 {
-    [NotMapped]
     public class LineTime : BaseEntity
     {
         public long LineId { get; set; }
@@ -12,7 +8,7 @@ namespace OneBus.Domain.Entities
 
         public TimeOnly EndTime { get; set; }
 
-        public DayType DayType { get; set; }
+        public byte DayType { get; set; }
 
         public Line? Line { get; set; }
 
