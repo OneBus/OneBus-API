@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using OneBus.Domain.Entities;
 
 namespace OneBus.Infra.Data.Mappings
@@ -8,13 +7,7 @@ namespace OneBus.Infra.Data.Mappings
     {
         public override void Configure(EntityTypeBuilder<BusOperation> builder)
         {
-            builder.ToTable("OnibusOperacao");
             base.Configure(builder);
-
-            builder.Property(c => c.Date).HasColumnName("Data");
-            builder.Property(c => c.BusId).HasColumnName("OnibusId");
-            builder.Property(c => c.LineTimeId).HasColumnName("LinhaHorarioId");
-            builder.Property(c => c.EmployeeWorkDayId).HasColumnName("FuncionarioHorarioId");
 
             builder
                 .HasOne(c => c.LineTime)
