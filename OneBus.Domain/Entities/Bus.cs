@@ -33,7 +33,5 @@ namespace OneBus.Domain.Entities
         public Vehicle? Vehicle { get; set; }
 
         public ICollection<BusOperation>? BusOperations { get; set; }
-
-        public ICollection<BusAudit>? BusAudits { get; set; }
     }
 }

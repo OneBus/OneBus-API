@@ -16,8 +16,6 @@ namespace OneBus.Domain.Entities
             Phone = string.Empty;
         }
 
-        public ulong AddressId { get; set; }
-
         public string Name { get; set; }
 
         public string Rg { get; set; }
@@ -44,16 +42,8 @@ namespace OneBus.Domain.Entities
 
         public EmployeeStatus Status { get; set; }
 
-        public string? Image { get; set; }
-
-        public Address? Address { get; set; }
-
-        public ICollection<EmployeeGarage>? EmployeeGarages { get; set; }
+        public string? Image { get; set; }       
 
         public ICollection<EmployeeWorkday>? EmployeeWorkdays { get; set; }
-
-        public ICollection<BusAudit>? BusAudits { get; set; }
-
-        public ICollection<LineTariffAudit>? LineTariffAudits { get; set; }
     }
 }

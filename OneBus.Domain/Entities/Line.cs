@@ -26,13 +26,7 @@ namespace OneBus.Domain.Entities
 
         public byte MinNumberBuses { get; set; }
             
-        public byte MaxNumberBuses { get; set; }
-
-        public Company? Company { get; set; }
-
-        public ICollection<LineAddress>? LineAddresses { get; set; }
-
-        public ICollection<LineTariff>? LineTariffs { get; set; }
+        public byte MaxNumberBuses { get; set; }      
 
         public ICollection<LineTime>? LineTimes { get; set; }
     }

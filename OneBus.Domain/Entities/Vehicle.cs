@@ -59,8 +59,6 @@ namespace OneBus.Domain.Entities
 
         public string? Image { get; set; }
 
-        public ICollection<VehicleGarage>? VehicleGarages { get; set; }
-
         public ICollection<Bus>? Buses { get; set; }
 
         public ICollection<Maintenance>? Maintenances { get; set; }

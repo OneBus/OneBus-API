@@ -1,4 +1,4 @@
-﻿using OneBus.Domain.Enums.StopTime;
+﻿using OneBus.Domain.Enums;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace OneBus.Domain.Entities
