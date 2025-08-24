@@ -8,14 +8,14 @@
         /// <returns></returns>
         public static Error EntityNotFound()
         {
-            return new Error("Entidade não encontrada.", "id");
+            return new Error("Registro não encontrado.", "id");
         }
 
         /// <summary>
         /// Id da rota e Id do corpo estão diferentes.
         /// </summary>
         /// <returns></returns>
-        public static Error IdConflict() 
+        public static Error IdConflict()
         {
             return new Error("Id da rota e Id do corpo estão diferentes.", "ids");
         }
