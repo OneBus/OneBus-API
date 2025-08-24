@@ -2,17 +2,12 @@ using System.Text;
 using OneBus.Infra.Ioc;
 using OneBus.API.Handlers;
 using OneBus.Domain.Settings;
-using OneBus.Domain.Constants;
 using Microsoft.OpenApi.Models;
-using OneBus.API.Authorizations;
-using OneBus.Application.Services;
 using OneBus.Infra.Data.DbContexts;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Http.Json;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.AspNetCore.Authorization;
-using OneBus.Application.Interfaces.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -55,10 +50,6 @@ builder.Services.AddRouting(c =>
 builder.Services
     .AddOptions<TokenSettings>()
     .BindConfiguration("TokenSettings");
-
-builder.Services
-    .AddOptions<EmailSettings>()
-    .BindConfiguration("EmailSettings");
 
 // Adds IoC configurations
 builder.Services.AddInfrastructure();
@@ -137,23 +128,15 @@ builder.Services.AddAuthentication(options =>
         ValidateAudience = true,
         ValidateLifetime = true,
         ValidateIssuerSigningKey = true,
-        ValidIssuer = builder.Configuration["TokenConfigurations:Issuer"],
-        ValidAudience = builder.Configuration["TokenConfigurations:Audience"],
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(builder.Configuration["TokenConfigurations:Key"]!))
+        ValidIssuer = builder.Configuration["TokenSettings:Issuer"],
+        ValidAudience = builder.Configuration["TokenSettings:Audience"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(builder.Configuration["TokenSettings:Key"]!))
     };
 });
 
 // Exception Handler configurations
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddProblemDetails();
-
-// Authorization settings
-builder.Services.AddAuthorizationBuilder()
-    .AddPolicy(PolicyConstants.UpdateUser, policy =>
-        policy.Requirements.Add(new FeatureRequirement(FeaturesCode.UpdateUserCode)));
-
-builder.Services.AddScoped<IUserTypeFeatureService, UserTypeFeatureService>();
-builder.Services.AddScoped<IAuthorizationHandler, FeatureHandler>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
