@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using OneBus.Domain.Commons.Result;
 
 namespace OneBus.API.Extensions
@@ -12,7 +11,7 @@ namespace OneBus.API.Extensions
             {
                 SuccessResult<T>  => new OkObjectResult(result),
                 ConflictResult<T> => new ConflictObjectResult(result),
-                NotFound<T>       => new NotFoundObjectResult(result),
+                NotFoundResult<T> => new NotFoundObjectResult(result),
                 ErrorResult<T>    => new BadRequestObjectResult(result),
                 InvalidResult<T>  => new UnprocessableEntityObjectResult(result),
                 _ => new StatusCodeResult(StatusCodes.Status500InternalServerError)
