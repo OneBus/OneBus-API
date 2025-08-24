@@ -3,7 +3,7 @@
     public static class ErrorUtils
     {
         /// <summary>
-        /// Entidade não encontrada.
+        /// Registro não encontrado.
         /// </summary>
         /// <returns></returns>
         public static Error EntityNotFound()
