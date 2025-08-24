@@ -65,7 +65,7 @@ namespace OneBus.Application.Services
             return SuccessResult<TReadDTO>.Create(entity.Adapt<TReadDTO>());
         }
 
-        public virtual async Task<Result<bool>> DeleteAsync(ulong id, CancellationToken cancellationToken = default)
+        public virtual async Task<Result<bool>> DeleteAsync(long id, CancellationToken cancellationToken = default)
         {
             TEntity? entity = await _baseReadOnlyRepository.GetOneAsync(c => c.Id == id,
                 cancellationToken: cancellationToken);

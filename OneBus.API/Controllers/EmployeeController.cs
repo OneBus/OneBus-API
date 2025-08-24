@@ -54,7 +54,7 @@ namespace OneBus.API.Controllers
         [ProducesResponseType(typeof(InvalidResult<ReadEmployeeDTO>), StatusCodes.Status422UnprocessableEntity)]
         [ProducesResponseType(typeof(NotFoundResult<ReadEmployeeDTO>), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ConflictResult<ReadEmployeeDTO>), StatusCodes.Status409Conflict)]
-        public override Task<IActionResult> UpdateAsync([FromRoute] ulong id, [FromBody] UpdateEmployeeDTO updateDTO, CancellationToken cancellationToken = default)
+        public override Task<IActionResult> UpdateAsync([FromRoute] long id, [FromBody] UpdateEmployeeDTO updateDTO, CancellationToken cancellationToken = default)
         {
             return base.UpdateAsync(id, updateDTO, cancellationToken);
         }        
@@ -72,7 +72,7 @@ namespace OneBus.API.Controllers
         /// <response code="404">Funcionário não encontrado</response>
         [ProducesResponseType(typeof(SuccessResult<bool>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(NotFoundResult<bool>), StatusCodes.Status404NotFound)]
-        public override Task<IActionResult> DeleteAsync([FromRoute] ulong id, CancellationToken cancellationToken = default)
+        public override Task<IActionResult> DeleteAsync([FromRoute] long id, CancellationToken cancellationToken = default)
         {
             return base.DeleteAsync(id, cancellationToken);
         }
@@ -106,7 +106,7 @@ namespace OneBus.API.Controllers
         /// <response code="404">Funcionário não encontrado</response>
         [ProducesResponseType(typeof(SuccessResult<ReadEmployeeDTO>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(NotFoundResult<ReadEmployeeDTO>), StatusCodes.Status404NotFound)]
-        public override Task<IActionResult> GetByIdAsync([FromRoute] ulong id, CancellationToken cancellationToken = default)
+        public override Task<IActionResult> GetByIdAsync([FromRoute] long id, CancellationToken cancellationToken = default)
         {
             return base.GetByIdAsync(id, cancellationToken);
         }

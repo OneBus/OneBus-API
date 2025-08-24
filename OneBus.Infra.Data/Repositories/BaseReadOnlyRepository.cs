@@ -63,7 +63,7 @@ namespace OneBus.Infra.Data.Repositories
                 .ToListAsync(cancellationToken);
         }
 
-        public virtual async Task<ulong> LongCountAsync(
+        public virtual async Task<long> LongCountAsync(
             TFilter filter,
             DbQueryOptions? dbQueryOptions = null,
             CancellationToken cancellationToken = default)
@@ -72,7 +72,7 @@ namespace OneBus.Infra.Data.Repositories
 
             IQueryable<TEntity> query = ApplyDbQueryOptions(dbQueryOptions);
 
-            return (ulong)await query
+            return await query
                 .Where(c => predicate(c))
                 .LongCountAsync(cancellationToken);
         }

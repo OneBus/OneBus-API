@@ -16,6 +16,6 @@ namespace OneBus.Application.Interfaces.Services
 
         Task<Result<TReadDTO>> UpdateAsync(TUpdateDTO updateDTO, CancellationToken cancellationToken = default);
 
-        Task<Result<bool>> DeleteAsync(ulong id, CancellationToken cancellationToken = default);
+        Task<Result<bool>> DeleteAsync(long id, CancellationToken cancellationToken = default);
     }
 }

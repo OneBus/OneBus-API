@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.RateLimiting;
 using OneBus.Application.DTOs.Login;
 using OneBus.Application.DTOs.User;
 using OneBus.Application.Interfaces.Services;
@@ -30,11 +29,10 @@ namespace OneBus.API.Controllers
         /// <param name="login"></param>
         /// <param name="cancellationToken"></param>
         /// <returns>Usuário autenticado</returns>
-        [EnableRateLimiting("login")]
         [AllowAnonymous]
         [HttpPost("login")]
         public Task<IActionResult> LoginAsync([FromBody] LoginDTO login, CancellationToken cancellationToken = default)
-        {
+        {            
             throw new NotImplementedException();
         }
 
@@ -74,7 +72,7 @@ namespace OneBus.API.Controllers
         [ProducesResponseType(typeof(InvalidResult<ReadUserDTO>), StatusCodes.Status422UnprocessableEntity)]
         [ProducesResponseType(typeof(NotFoundResult<ReadUserDTO>), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ConflictResult<ReadUserDTO>), StatusCodes.Status409Conflict)]
-        public override Task<IActionResult> UpdateAsync([FromRoute] ulong id, [FromBody] UpdateUserDTO updateDTO, CancellationToken cancellationToken = default)
+        public override Task<IActionResult> UpdateAsync([FromRoute] long id, [FromBody] UpdateUserDTO updateDTO, CancellationToken cancellationToken = default)
         {
             return base.UpdateAsync(id, updateDTO, cancellationToken);
         }        
@@ -92,7 +90,7 @@ namespace OneBus.API.Controllers
         /// <response code="404">Usuário não encontrado</response>
         [ProducesResponseType(typeof(SuccessResult<bool>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(NotFoundResult<bool>), StatusCodes.Status404NotFound)]
-        public override Task<IActionResult> DeleteAsync([FromRoute] ulong id, CancellationToken cancellationToken = default)
+        public override Task<IActionResult> DeleteAsync([FromRoute] long id, CancellationToken cancellationToken = default)
         {
             return base.DeleteAsync(id, cancellationToken);
         }
@@ -126,7 +124,7 @@ namespace OneBus.API.Controllers
         /// <response code="404">Usuário não encontrado</response>
         [ProducesResponseType(typeof(SuccessResult<ReadUserDTO>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(NotFoundResult<ReadUserDTO>), StatusCodes.Status404NotFound)]
-        public override Task<IActionResult> GetByIdAsync([FromRoute] ulong id, CancellationToken cancellationToken = default)
+        public override Task<IActionResult> GetByIdAsync([FromRoute] long id, CancellationToken cancellationToken = default)
         {
             return base.GetByIdAsync(id, cancellationToken);
         }

@@ -54,7 +54,7 @@ namespace OneBus.API.Controllers
         [ProducesResponseType(typeof(InvalidResult<ReadMaintenanceDTO>), StatusCodes.Status422UnprocessableEntity)]
         [ProducesResponseType(typeof(NotFoundResult<ReadMaintenanceDTO>), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ConflictResult<ReadMaintenanceDTO>), StatusCodes.Status409Conflict)]
-        public override Task<IActionResult> UpdateAsync([FromRoute] ulong id, [FromBody] UpdateMaintenanceDTO updateDTO, CancellationToken cancellationToken = default)
+        public override Task<IActionResult> UpdateAsync([FromRoute] long id, [FromBody] UpdateMaintenanceDTO updateDTO, CancellationToken cancellationToken = default)
         {
             return base.UpdateAsync(id, updateDTO, cancellationToken);
         }        
@@ -72,7 +72,7 @@ namespace OneBus.API.Controllers
         /// <response code="404">Manutenção não encontrada</response>
         [ProducesResponseType(typeof(SuccessResult<bool>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(NotFoundResult<bool>), StatusCodes.Status404NotFound)]
-        public override Task<IActionResult> DeleteAsync([FromRoute] ulong id, CancellationToken cancellationToken = default)
+        public override Task<IActionResult> DeleteAsync([FromRoute] long id, CancellationToken cancellationToken = default)
         {
             return base.DeleteAsync(id, cancellationToken);
         }
@@ -106,7 +106,7 @@ namespace OneBus.API.Controllers
         /// <response code="404">Manutenção não encontrada</response>
         [ProducesResponseType(typeof(SuccessResult<ReadMaintenanceDTO>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(NotFoundResult<ReadMaintenanceDTO>), StatusCodes.Status404NotFound)]
-        public override Task<IActionResult> GetByIdAsync([FromRoute] ulong id, CancellationToken cancellationToken = default)
+        public override Task<IActionResult> GetByIdAsync([FromRoute] long id, CancellationToken cancellationToken = default)
         {
             return base.GetByIdAsync(id, cancellationToken);
         }

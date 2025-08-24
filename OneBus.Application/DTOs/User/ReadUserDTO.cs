@@ -9,6 +9,6 @@
 
         public string Email { get; set; }
 
-        public ulong CompanyId { get; set; }
+        public long CompanyId { get; set; }
     }
 }

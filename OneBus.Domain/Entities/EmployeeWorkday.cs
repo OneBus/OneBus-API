@@ -6,7 +6,7 @@ namespace OneBus.Domain.Entities
     [NotMapped]
     public class EmployeeWorkday : BaseEntity
     {
-        public ulong EmployeeId { get; set; }
+        public long EmployeeId { get; set; }
 
         public TimeOnly StartTime { get; set; }
 

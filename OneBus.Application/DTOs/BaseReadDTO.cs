@@ -5,7 +5,7 @@ namespace OneBus.Application.DTOs
     public abstract class BaseReadDTO
     {
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public ulong? Id { get; set; }
+        public long? Id { get; set; }
 
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public DateTime CreatedAt { get; set; }

@@ -6,7 +6,7 @@ namespace OneBus.Domain.Entities
     [NotMapped]
     public class LineTime : BaseEntity
     {
-        public ulong LineId { get; set; }
+        public long LineId { get; set; }
 
         public TimeOnly StartTime { get; set; }
 

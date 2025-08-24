@@ -11,7 +11,7 @@ namespace OneBus.Domain.Entities
             Description = string.Empty;
         }
 
-        public ulong VehicleId { get; set; }
+        public long VehicleId { get; set; }
 
         public Sector Sector { get; set; }
 

@@ -12,7 +12,7 @@ namespace OneBus.Domain.Entities
             Name = string.Empty;
         }
 
-        public ulong CompanyId { get; set; }
+        public long CompanyId { get; set; }
 
         public string Number { get; set; }
 

@@ -5,11 +5,11 @@ namespace OneBus.Domain.Entities
     [NotMapped]
     public class BusOperation : BaseEntity
     {
-        public ulong LineTimeId { get; set; }
+        public long LineTimeId { get; set; }
 
-        public ulong EmployeeWorkDayId { get; set; }
+        public long EmployeeWorkDayId { get; set; }
 
-        public ulong BusId { get; set; }
+        public long BusId { get; set; }
 
         public DateOnly Date { get; set; }
 

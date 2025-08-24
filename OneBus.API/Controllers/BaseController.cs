@@ -34,7 +34,7 @@ namespace OneBus.API.Controllers
 
         [HttpPut("{id}")]
         public async virtual Task<IActionResult> UpdateAsync(
-            [FromRoute] ulong id,
+            [FromRoute] long id,
             [FromBody] TUpdateDTO updateDTO,
             CancellationToken cancellationToken = default)
         {
@@ -46,7 +46,7 @@ namespace OneBus.API.Controllers
 
         [HttpDelete("{id}")]
         public async virtual Task<IActionResult> DeleteAsync(
-            [FromRoute] ulong id,
+            [FromRoute] long id,
             CancellationToken cancellationToken = default)
         {
             return (await _baseService.DeleteAsync(id, cancellationToken)).ToActionResult();

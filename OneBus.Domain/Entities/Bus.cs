@@ -12,7 +12,7 @@ namespace OneBus.Domain.Entities
             ChassisModel = string.Empty;
         }
 
-        public ulong VehicleId { get; set; }
+        public long VehicleId { get; set; }
 
         public ServiceType ServiceType { get; set; }
 

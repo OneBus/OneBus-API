@@ -34,7 +34,7 @@ namespace OneBus.API.Controllers
        
         [HttpGet("{id}")]
         public async virtual Task<IActionResult> GetByIdAsync(
-            [FromRoute] ulong id, 
+            [FromRoute] long id, 
             CancellationToken cancellationToken = default)
         {
             return (await _baseReadOnlyService.GetByIdAsync(id, cancellationToken)).ToActionResult();
