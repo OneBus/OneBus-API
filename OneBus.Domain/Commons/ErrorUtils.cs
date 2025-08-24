@@ -6,9 +6,18 @@
         /// Registro não encontrado.
         /// </summary>
         /// <returns></returns>
-        public static Error EntityNotFound()
+        public static Error EntityNotFound(string field = "id")
         {
-            return new Error("Registro não encontrado.", "id");
+            return new Error("Registro não encontrado.", field);
+        }
+
+        /// <summary>
+        /// Valor inválido.
+        /// </summary>
+        /// <returns></returns>
+        public static Error InvalidParameter(string field = "id")
+        {
+            return new Error("Valor inválido.", field);
         }
 
         /// <summary>
