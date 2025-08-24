@@ -27,7 +27,13 @@ namespace OneBus.API.Controllers
         /// Efetuar login
         /// </summary>
         /// <remarks>
-        /// POST de Login
+        /// Example:
+        /// 
+        ///     POST /logins
+        ///     {
+        ///         "email": "helloworld@gmail.com",
+        ///         "password": "dasdfsf35346353tsd"
+        ///     }
         /// </remarks>
         /// <param name="login"></param>
         /// <param name="cancellationToken"></param>
