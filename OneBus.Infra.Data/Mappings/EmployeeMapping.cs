@@ -15,7 +15,6 @@ namespace OneBus.Infra.Data.Mappings
             builder.Property(c => c.Cpf).HasMaxLength(20);
             builder.Property(c => c.Email).HasMaxLength(80);
             builder.Property(c => c.CnhNumber).HasColumnName("NumeroCnh");
-            builder.Property(c => c.AddressId).HasColumnName("EnderecoId");
             builder.Property(c => c.CnhExpiration).HasColumnName("ValidadeCnh");
             builder.Property(c => c.HiringDate).HasColumnName("DataContratacao");
             builder.Property(c => c.Name).HasColumnName("Nome").HasMaxLength(80);
@@ -29,12 +28,7 @@ namespace OneBus.Infra.Data.Mappings
 
             builder.HasIndex(c => c.Cpf);
             builder.HasIndex(c => c.CnhNumber);
-            builder.HasIndex(c => c.Code);
-
-            builder
-                .HasOne(c => c.Address)
-                .WithMany(c => c.Employees)
-                .HasForeignKey(c => c.AddressId);
+            builder.HasIndex(c => c.Code);          
         }
     }
 }

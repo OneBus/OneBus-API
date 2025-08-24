@@ -18,12 +18,7 @@ namespace OneBus.Infra.Data.Mappings
             builder.Property(c => c.Number).HasColumnName("Numero").HasMaxLength(20);
             builder.Property(c => c.Type).HasColumnName("Tipo").HasConversion<byte>();
             builder.Property(c => c.MinNumberBuses).HasColumnName("NumeroMinimoOnibus");
-            builder.Property(c => c.MaxNumberBuses).HasColumnName("NumeroMaximoOnibus");
-
-            builder
-                .HasOne(c => c.Company)
-                .WithMany(c => c.Lines)
-                .HasForeignKey(c => c.CompanyId);
+            builder.Property(c => c.MaxNumberBuses).HasColumnName("NumeroMaximoOnibus");           
         }
     }
 }
