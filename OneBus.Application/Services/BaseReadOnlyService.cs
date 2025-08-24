@@ -25,7 +25,7 @@ namespace OneBus.Application.Services
             TFilter filter,
             CancellationToken cancellationToken = default)
         {
-            ulong totalItems = await _baseReadOnlyRepository.LongCountAsync(filter, dbQueryOptions: null, cancellationToken);
+            long totalItems = await _baseReadOnlyRepository.LongCountAsync(filter, dbQueryOptions: null, cancellationToken);
 
             if (totalItems < 1)
             {
@@ -42,7 +42,7 @@ namespace OneBus.Application.Services
         }
 
         public virtual async Task<Result<TReadDTO>> GetByIdAsync(
-            ulong id,
+            long id,
             CancellationToken cancellationToken = default)
         {
             TEntity? entity = await _baseReadOnlyRepository.GetOneAsync(c => c.Id == id, dbQueryOptions: null, cancellationToken);

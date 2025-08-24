@@ -1,4 +1,4 @@
-﻿namespace OneBus.Domain.Enums.StopTime
+﻿namespace OneBus.Domain.Enums
 {
     public enum DayType : byte
     {

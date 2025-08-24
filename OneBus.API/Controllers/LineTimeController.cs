@@ -1,21 +1,27 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using OneBus.API.Extensions;
 using OneBus.Application.DTOs.LineTime;
 using OneBus.Application.Interfaces.Services;
 using OneBus.Domain.Commons;
 using OneBus.Domain.Commons.Result;
-using OneBus.Domain.Entities;
 using OneBus.Domain.Filters;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace OneBus.API.Controllers
 {
+    [Route("api/v1/linesTimes")]
+    [ApiController]
+    [Produces("application/json")]
+    [Authorize]
     [SwaggerTag("Controlador responsável por gerenciar Horários da Linha")]
-    public class LineTimeController : BaseController<LineTime, CreateLineTimeDTO, ReadLineTimeDTO, UpdateLineTimeDTO, BaseFilter>
+    public class LineTimeController
     {
-        public LineTimeController(
-            IBaseService<LineTime, CreateLineTimeDTO, ReadLineTimeDTO, UpdateLineTimeDTO, BaseFilter> baseService) 
-            : base(baseService)
+        private readonly ILineTimeService _lineTimeService;
+
+        public LineTimeController(ILineTimeService lineTimeService)
         {
+            _lineTimeService = lineTimeService;
         }
 
         /// <summary>
@@ -29,11 +35,12 @@ namespace OneBus.API.Controllers
         /// <returns>Horário de Linha cadastrado</returns>
         /// <response code="200">Horário de Linha cadastrado com sucesso</response>
         /// <response code="422">Validação encontrou erros</response>
+        [HttpPost]
         [ProducesResponseType(typeof(SuccessResult<ReadLineTimeDTO>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(InvalidResult<ReadLineTimeDTO>), StatusCodes.Status422UnprocessableEntity)]
-        public override Task<IActionResult> CreateAsync([FromBody] CreateLineTimeDTO createDTO, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> CreateAsync([FromBody] CreateLineTimeDTO createDTO, CancellationToken cancellationToken = default)
         {
-            return base.CreateAsync(createDTO, cancellationToken);
+            return (await _lineTimeService.CreateAsync(createDTO, cancellationToken)).ToActionResult();
         }
 
         /// <summary>
@@ -50,35 +57,21 @@ namespace OneBus.API.Controllers
         /// <response code="422">Validação encontrou erros</response>
         /// <response code="404">Horário de Linha não encontrado</response>
         /// <response code="409">Conflito entre ids</response>
+        [HttpPut("{id}")]
         [ProducesResponseType(typeof(SuccessResult<ReadLineTimeDTO>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(InvalidResult<ReadLineTimeDTO>), StatusCodes.Status422UnprocessableEntity)]
         [ProducesResponseType(typeof(NotFoundResult<ReadLineTimeDTO>), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ConflictResult<ReadLineTimeDTO>), StatusCodes.Status409Conflict)]
-        public override Task<IActionResult> UpdateAsync([FromRoute] ulong id, [FromBody] UpdateLineTimeDTO updateDTO, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> UpdateAsync([FromRoute] long id, [FromBody] UpdateLineTimeDTO updateDTO, CancellationToken cancellationToken = default)
         {
-            return base.UpdateAsync(id, updateDTO, cancellationToken);
+            if (id != updateDTO.Id)
+                return ConflictResult<ReadLineTimeDTO>.Create(ErrorUtils.IdConflict()).ToActionResult();
+
+            return (await _lineTimeService.UpdateAsync(updateDTO, cancellationToken)).ToActionResult();
         }
 
         /// <summary>
-        /// Habilitar horário de linha 
-        /// </summary>
-        /// <remarks>
-        /// PUT para habilitar horário de linha 
-        /// </remarks>
-        /// <param name="id">Id do horário de linha</param>
-        /// <param name="cancellationToken"></param>
-        /// <returns>Horário de Linha habilitado</returns>
-        /// <response code="200">Horário de Linha habilitado com sucesso</response>
-        /// <response code="404">Horário de Linha não encontrado</response>
-        [ProducesResponseType(typeof(SuccessResult<bool>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(NotFoundResult<bool>), StatusCodes.Status404NotFound)]
-        public override Task<IActionResult> EnableAsync([FromRoute] ulong id, CancellationToken cancellationToken = default)
-        {
-            return base.EnableAsync(id, cancellationToken);
-        }
-
-        /// <summary>
-        /// Desabilitar horário de linha
+        /// Deletar horário de linha
         /// </summary>
         /// <remarks>
         /// DELETE de Horário de Linha 
@@ -88,11 +81,12 @@ namespace OneBus.API.Controllers
         /// <returns>Horário de Linha deletado</returns>
         /// <response code="200">Horário de Linha deletado com sucesso</response>
         /// <response code="404">Horário de Linha não encontrado</response>
+        [HttpDelete("{id}")]
         [ProducesResponseType(typeof(SuccessResult<bool>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(NotFoundResult<bool>), StatusCodes.Status404NotFound)]
-        public override Task<IActionResult> DisableAsync([FromRoute] ulong id, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> DeleteAsync([FromRoute] long id, CancellationToken cancellationToken = default)
         {
-            return base.DisableAsync(id, cancellationToken);
+            return (await _lineTimeService.DeleteAsync(id, cancellationToken)).ToActionResult();
         }
 
         /// <summary>
@@ -105,10 +99,11 @@ namespace OneBus.API.Controllers
         /// <param name="cancellationToken"></param>
         /// <returns>Horários de Linha paginados e filtrados</returns>
         /// <response code="200">Horários de Linha paginados e filtrados com sucesso</response>
+        [HttpGet]
         [ProducesResponseType(typeof(SuccessResult<Pagination<ReadLineTimeDTO>>), StatusCodes.Status200OK)]
-        public override Task<IActionResult> GetPaginedAsync([FromQuery] BaseFilter filter, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> GetPaginedAsync([FromQuery] BaseFilter filter, CancellationToken cancellationToken = default)
         {
-            return base.GetPaginedAsync(filter, cancellationToken);
+            return (await _lineTimeService.GetPaginedAsync(filter, cancellationToken)).ToActionResult();
         }
 
         /// <summary>
@@ -122,11 +117,12 @@ namespace OneBus.API.Controllers
         /// <returns>Horário de Linha encontrado</returns>
         /// <response code="200">Horário de Linha encontrado com sucesso</response>
         /// <response code="404">Horário de Linha não encontrado</response>
+        [HttpGet("{id}")]
         [ProducesResponseType(typeof(SuccessResult<ReadLineTimeDTO>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(NotFoundResult<ReadLineTimeDTO>), StatusCodes.Status404NotFound)]
-        public override Task<IActionResult> GetByIdAsync([FromRoute] ulong id, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> GetByIdAsync([FromRoute] long id, CancellationToken cancellationToken = default)
         {
-            return base.GetByIdAsync(id, cancellationToken);
+            return (await _lineTimeService.GetByIdAsync(id, cancellationToken)).ToActionResult();
         }
     }
 }

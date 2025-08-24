@@ -63,7 +63,7 @@ namespace OneBus.Infra.Data.Repositories
                 .ToListAsync(cancellationToken);
         }
 
-        public virtual async Task<ulong> LongCountAsync(
+        public virtual async Task<long> LongCountAsync(
             TFilter filter,
             DbQueryOptions? dbQueryOptions = null,
             CancellationToken cancellationToken = default)
@@ -72,7 +72,7 @@ namespace OneBus.Infra.Data.Repositories
 
             IQueryable<TEntity> query = ApplyDbQueryOptions(dbQueryOptions);
 
-            return (ulong)await query
+            return await query
                 .Where(c => predicate(c))
                 .LongCountAsync(cancellationToken);
         }
@@ -94,9 +94,7 @@ namespace OneBus.Infra.Data.Repositories
 
         protected virtual Predicate<TEntity> ApplyFilter(TFilter filter)
         {
-            return c
-                => (filter.IsEnabled == null || (filter.IsEnabled.Value ? c.DeletedAt == null : c.DeletedAt != null)) &&
-                   (filter.StartDateTime == null || filter.EndDateTime == null || (c.CreatedAt >= filter.StartDateTime && c.CreatedAt <= filter.EndDateTime));
+            return c => true;
         }
     }
 }

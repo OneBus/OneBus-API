@@ -2,6 +2,6 @@
 {
     public abstract class BaseUpdateDTO
     {
-        public ulong Id { get; set; }
+        public long Id { get; set; }
     }
 }

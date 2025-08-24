@@ -2,9 +2,9 @@
 {
     public class VehicleOperation : BaseEntity
     {
-        public ulong EmployeeWorkdayId { get; set; }
+        public long EmployeeWorkdayId { get; set; }
 
-        public ulong VehicleId { get; set; }
+        public long VehicleId { get; set; }
 
         public DateOnly Date { get; set; }
 

@@ -4,11 +4,12 @@
     {
         public ReadUserDTO()
         {
+            Name = string.Empty;
             Email = string.Empty;
         }
 
-        public string Email { get; set; }
+        public string Name { get; set; }
 
-        public ulong CompanyId { get; set; }
+        public string Email { get; set; }
     }
 }

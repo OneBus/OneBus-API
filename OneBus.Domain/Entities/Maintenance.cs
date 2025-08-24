@@ -1,6 +1,4 @@
-﻿using OneBus.Domain.Enums.Maintenance;
-
-namespace OneBus.Domain.Entities
+﻿namespace OneBus.Domain.Entities
 {
     public class Maintenance : BaseEntity
     {
@@ -9,9 +7,9 @@ namespace OneBus.Domain.Entities
             Description = string.Empty;
         }
 
-        public ulong VehicleId { get; set; }
+        public long VehicleId { get; set; }
 
-        public Sector Sector { get; set; }
+        public byte Sector { get; set; }
 
         public string Description { get; set; }
 

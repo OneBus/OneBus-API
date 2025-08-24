@@ -1,28 +1,21 @@
-﻿using OneBus.Domain.Extensions;
-
-namespace OneBus.Domain.Entities
+﻿namespace OneBus.Domain.Entities
 {
     public abstract class BaseEntity
     {
         protected BaseEntity()
         {
-            CreatedAt = DateTime.UtcNow.ToBrazilianDateTime();
+            CreatedAt = DateTime.UtcNow;
         }
 
-        public ulong Id { get; set; }
+        public long Id { get; set; }
 
         public DateTime CreatedAt { get; set; }
 
-        public DateTime? DeletedAt { get; set; }
+        public bool IsDeleted { get; set; }
 
-        public void Disable() 
+        public void Delete()
         {
-            DeletedAt = DateTime.UtcNow.ToBrazilianDateTime();
-        }
-        
-        public void Enable()
-        {
-            DeletedAt = null;
+            IsDeleted = true;
         }
     }
 }

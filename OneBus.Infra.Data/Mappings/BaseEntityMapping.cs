@@ -12,11 +12,8 @@ namespace OneBus.Infra.Data.Mappings
             builder.HasKey(c => c.Id);
             builder.Property(c => c.Id).UseIdentityColumn();
 
-            builder.Property(c => c.CreatedAt).HasColumnName("DataCriacao");
-            builder.Property(c => c.DeletedAt).HasColumnName("DataExclusao");
-
             //Sempre obter por padrão registros ativos em consultas
-            builder.HasQueryFilter(c => c.DeletedAt == null);
+            builder.HasQueryFilter(c => !c.IsDeleted);
         }
     }
 }
