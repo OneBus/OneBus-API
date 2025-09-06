@@ -27,7 +27,7 @@ namespace OneBus.API.Controllers
         /// Efetuar login
         /// </summary>
         /// <remarks>
-        /// Example:
+        /// Exemplo:
         /// 
         ///     POST /logins
         ///     {
