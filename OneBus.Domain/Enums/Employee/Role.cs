@@ -1,4 +1,6 @@
-﻿namespace OneBus.Domain.Enums.Employee
+﻿using System.Text.Json.Serialization;
+
+namespace OneBus.Domain.Enums.Employee
 {
     public enum Role : byte
     {
@@ -6,6 +8,7 @@
         Supervisor,
         Cobrador,
         Motorista,
+        [JsonStringEnumMemberName("Motorista e Cobrador")]
         Motorista_Cobrador
     }
 }
