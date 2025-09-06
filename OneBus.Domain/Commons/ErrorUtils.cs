@@ -3,6 +3,15 @@
     public static class ErrorUtils
     {
         /// <summary>
+        /// {Campo} já existe.
+        /// </summary>
+        /// <returns></returns>
+        public static Error AlreadyExists(string field)
+        {
+            return new Error($"{field} já existe.", field);
+        }
+
+        /// <summary>
         /// Registro não encontrado.
         /// </summary>
         /// <returns></returns>
