@@ -1,14 +1,15 @@
-using System.Text;
-using OneBus.Infra.Ioc;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http.Json;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+using OneBus.API.Converters;
 using OneBus.API.Handlers;
 using OneBus.Domain.Settings;
-using Microsoft.OpenApi.Models;
 using OneBus.Infra.Data.DbContexts;
-using Microsoft.EntityFrameworkCore;
+using OneBus.Infra.Ioc;
+using System.Text;
 using System.Text.Json.Serialization;
-using Microsoft.AspNetCore.Http.Json;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,7 +17,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services
     .AddControllers()
-    .AddJsonOptions(c => c.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
+    .AddJsonOptions(c => c.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()))
+    .AddJsonOptions(c => c.JsonSerializerOptions.Converters.Add(new TrimmingJsonConverter()));
 
 // Configuring json visualization for Enums 
 builder.Services.Configure<JsonOptions>(options =>
