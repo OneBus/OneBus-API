@@ -20,7 +20,6 @@ namespace OneBus.Infra.Data.Repositories
                 (filter.BloodType == null || c.BloodType == filter.BloodType) &&
                 (filter.Status == null || c.Status == filter.Status) &&
                 (filter.Role == null || c.Role == filter.Role) &&
-                (filter.CnhCategory == null || c.CnhCategory == filter.CnhCategory) &&
                 (string.IsNullOrWhiteSpace(value) ||
                 ((c.Name.ToLower().Contains(value) ||
                 c.Code.ToLower().Contains(value) ||

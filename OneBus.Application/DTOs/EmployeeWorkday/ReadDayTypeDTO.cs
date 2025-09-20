@@ -1,8 +1,8 @@
-﻿namespace OneBus.Application.DTOs.Employee
+﻿namespace OneBus.Application.DTOs.EmployeeWorkday
 {
-    public class ReadCnhCategoryDTO
+    public class ReadDayTypeDTO
     {
-        public ReadCnhCategoryDTO()
+        public ReadDayTypeDTO()
         {
             Name = string.Empty;
         }

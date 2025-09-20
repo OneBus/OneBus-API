@@ -104,7 +104,7 @@ namespace OneBus.API.Controllers
         [ProducesResponseType(typeof(SuccessResult<Pagination<ReadMaintenanceDTO>>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetPaginedAsync([FromQuery] BaseFilter filter, CancellationToken cancellationToken = default)
         {
-            return (await _maintenanceService.GetPaginedAsync(filter, cancellationToken)).ToActionResult();
+            return (await _maintenanceService.GetPaginedAsync(filter, cancellationToken: cancellationToken)).ToActionResult();
         }
 
         /// <summary>
@@ -123,7 +123,7 @@ namespace OneBus.API.Controllers
         [ProducesResponseType(typeof(NotFoundResult<ReadMaintenanceDTO>), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetByIdAsync([FromRoute] long id, CancellationToken cancellationToken = default)
         {
-            return (await _maintenanceService.GetByIdAsync(id, cancellationToken)).ToActionResult();
+            return (await _maintenanceService.GetByIdAsync(id, cancellationToken: cancellationToken)).ToActionResult();
         }
     }
 }

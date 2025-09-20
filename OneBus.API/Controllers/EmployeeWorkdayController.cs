@@ -10,7 +10,6 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace OneBus.API.Controllers
 {
-    [NonController]
     [Route("api/v1/employeesWorkdays")]
     [ApiController]
     [Produces("application/json")]
@@ -102,9 +101,11 @@ namespace OneBus.API.Controllers
         /// <response code="200">Horários dos Funcionários paginados e filtrados com sucesso</response>
         [HttpGet]
         [ProducesResponseType(typeof(SuccessResult<Pagination<ReadEmployeeWorkdayDTO>>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetPaginedAsync([FromQuery] BaseFilter filter, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> GetPaginedAsync([FromQuery] EmployeeWorkDayFilter filter, CancellationToken cancellationToken = default)
         {
-            return (await _employeeWorkdayService.GetPaginedAsync(filter, cancellationToken)).ToActionResult();
+            return (await _employeeWorkdayService.GetPaginedAsync(filter,
+                DbQueryOptions.Create(["Employee"]),
+                cancellationToken)).ToActionResult();
         }
 
         /// <summary>
@@ -123,7 +124,24 @@ namespace OneBus.API.Controllers
         [ProducesResponseType(typeof(NotFoundResult<ReadEmployeeWorkdayDTO>), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetByIdAsync([FromRoute] long id, CancellationToken cancellationToken = default)
         {
-            return (await _employeeWorkdayService.GetByIdAsync(id, cancellationToken)).ToActionResult();
+            return (await _employeeWorkdayService.GetByIdAsync(id,
+                DbQueryOptions.Create(["Employee"]),
+                cancellationToken)).ToActionResult();
+        }
+
+        /// <summary>
+        /// Listar tipos de dias
+        /// </summary>
+        /// <remarks>
+        /// GET de tipos de dias
+        /// </remarks>
+        /// <returns>Tipos de Dias disponíveis</returns>
+        /// <response code="200">Status retornados com sucesso</response>
+        [HttpGet("daysTypes")]
+        [ProducesResponseType(typeof(SuccessResult<IEnumerable<ReadDayTypeDTO>>), StatusCodes.Status200OK)]
+        public IActionResult GetDaysTypes()
+        {
+            return _employeeWorkdayService.GetDaysTypes().ToActionResult();
         }
     }
 }

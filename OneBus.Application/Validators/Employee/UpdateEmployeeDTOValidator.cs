@@ -47,10 +47,7 @@ namespace OneBus.Application.Validators.Employee
                 .MustAsync(async (employee, cnhNumber, ct) => !await CnhNumberAlreadyExistsAsync(employee.Id, cnhNumber, ct))
                 .OverridePropertyName("Número da CNH")
                 .WithMessage(ErrorUtils.AlreadyExists("Número da CNH").Message);
-
-            RuleFor(c => c.CnhCategory).Must(ValidationUtils.IsValidEnumValue<CnhCategory>)
-                .OverridePropertyName("Categoria da CNH");
-
+          
             RuleFor(c => c.Status).Must(ValidationUtils.IsValidEnumValue<EmployeeStatus>);
         }
 
