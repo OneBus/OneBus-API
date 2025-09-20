@@ -12,7 +12,7 @@
 
         public string[]? Includes { get; }               
         
-        public static DbQueryOptions Create(bool ignoreQueryFilter = false, params string[]? includes)
+        public static DbQueryOptions Create(string[]? includes = null, bool ignoreQueryFilter = false)
         {
             return new DbQueryOptions(ignoreQueryFilter, includes);
         }        
