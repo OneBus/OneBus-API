@@ -41,7 +41,7 @@ namespace OneBus.API.Controllers
         [ProducesResponseType(typeof(InvalidResult<ReadVehicleDTO>), StatusCodes.Status422UnprocessableEntity)]
         public async Task<IActionResult> CreateAsync([FromBody] CreateVehicleDTO createDTO, CancellationToken cancellationToken = default)
         {
-            return (await _vehicleService.CreateAsync(createDTO, cancellationToken)).ToActionResult();
+            return (await _vehicleService.CreateAsync(createDTO, cancellationToken: cancellationToken)).ToActionResult();
         }
 
         /// <summary>
@@ -104,7 +104,7 @@ namespace OneBus.API.Controllers
         [ProducesResponseType(typeof(SuccessResult<Pagination<ReadVehicleDTO>>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetPaginedAsync([FromQuery] BaseFilter filter, CancellationToken cancellationToken = default)
         {
-            return (await _vehicleService.GetPaginedAsync(filter, cancellationToken)).ToActionResult();
+            return (await _vehicleService.GetPaginedAsync(filter, cancellationToken: cancellationToken)).ToActionResult();
         }
 
         /// <summary>
@@ -123,7 +123,7 @@ namespace OneBus.API.Controllers
         [ProducesResponseType(typeof(NotFoundResult<ReadVehicleDTO>), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetByIdAsync([FromRoute] long id, CancellationToken cancellationToken = default)
         {
-            return (await _vehicleService.GetByIdAsync(id, cancellationToken)).ToActionResult();
+            return (await _vehicleService.GetByIdAsync(id, cancellationToken: cancellationToken)).ToActionResult();
         }
     }
 }

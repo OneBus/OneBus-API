@@ -103,7 +103,7 @@ namespace OneBus.API.Controllers
         [ProducesResponseType(typeof(SuccessResult<Pagination<ReadEmployeeDTO>>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetPaginedAsync([FromQuery] EmployeeFilter filter, CancellationToken cancellationToken = default)
         {
-            return (await _employeeService.GetPaginedAsync(filter, cancellationToken)).ToActionResult();
+            return (await _employeeService.GetPaginedAsync(filter, cancellationToken: cancellationToken)).ToActionResult();
         }
 
         /// <summary>
@@ -122,7 +122,7 @@ namespace OneBus.API.Controllers
         [ProducesResponseType(typeof(NotFoundResult<ReadEmployeeDTO>), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetByIdAsync([FromRoute] long id, CancellationToken cancellationToken = default)
         {
-            return (await _employeeService.GetByIdAsync(id, cancellationToken)).ToActionResult();
+            return (await _employeeService.GetByIdAsync(id, cancellationToken: cancellationToken)).ToActionResult();
         }
 
         /// <summary>
@@ -138,21 +138,6 @@ namespace OneBus.API.Controllers
         public IActionResult GetStatus()
         {
             return _employeeService.GetStatus().ToActionResult();
-        }
-
-        /// <summary>
-        /// Listar categorias de cnh
-        /// </summary>
-        /// <remarks>
-        /// GET de categorias de cnh
-        /// </remarks>
-        /// <returns>Categorias de cnh disponíveis</returns>
-        /// <response code="200">Categorias de cnh retornados com sucesso</response>
-        [HttpGet("cnhCategories")]
-        [ProducesResponseType(typeof(SuccessResult<IEnumerable<ReadCnhCategoryDTO>>), StatusCodes.Status200OK)]
-        public IActionResult GetCnhCategories()
-        {
-            return _employeeService.GetCnhCategories().ToActionResult();
         }
 
         /// <summary>
