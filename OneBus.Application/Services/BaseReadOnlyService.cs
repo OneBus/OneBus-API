@@ -23,9 +23,10 @@ namespace OneBus.Application.Services
 
         public virtual async Task<Result<Pagination<TReadDTO>>> GetPaginedAsync(
             TFilter filter,
+            DbQueryOptions? dbQueryOptions = null,
             CancellationToken cancellationToken = default)
         {
-            long totalItems = await _baseReadOnlyRepository.LongCountAsync(filter, dbQueryOptions: null, cancellationToken);
+            long totalItems = await _baseReadOnlyRepository.LongCountAsync(filter, dbQueryOptions, cancellationToken);
 
             if (totalItems < 1)
             {
@@ -33,7 +34,7 @@ namespace OneBus.Application.Services
                     .Create(new Pagination<TReadDTO>(items: [], totalItems, filter.CurrentPage, filter.PageSize));
             }
 
-            IEnumerable<TEntity> entities = await _baseReadOnlyRepository.GetPaginedAsync(filter, dbQueryOptions: null, cancellationToken);
+            IEnumerable<TEntity> entities = await _baseReadOnlyRepository.GetPaginedAsync(filter, dbQueryOptions, cancellationToken);
 
             IEnumerable<TReadDTO> entitiesDTO = entities.Adapt<IEnumerable<TReadDTO>>();
 
@@ -43,9 +44,10 @@ namespace OneBus.Application.Services
 
         public virtual async Task<Result<TReadDTO>> GetByIdAsync(
             long id,
+            DbQueryOptions? dbQueryOptions = null,
             CancellationToken cancellationToken = default)
         {
-            TEntity? entity = await _baseReadOnlyRepository.GetOneAsync(c => c.Id == id, dbQueryOptions: null, cancellationToken);
+            TEntity? entity = await _baseReadOnlyRepository.GetOneAsync(c => c.Id == id, dbQueryOptions, cancellationToken);
 
             if (entity is null)
                 return NotFoundResult<TReadDTO>.Create(ErrorUtils.EntityNotFound());
