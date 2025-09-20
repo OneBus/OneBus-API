@@ -3,7 +3,7 @@ using OneBus.Domain.Filters;
 
 namespace OneBus.Domain.Interfaces.Repositories
 {
-    public interface IEmployeeRepository : IBaseRepository<Employee, BaseFilter>
+    public interface IEmployeeRepository : IBaseRepository<Employee, EmployeeFilter>
     {
     }
 }

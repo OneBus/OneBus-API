@@ -4,6 +4,7 @@ using OneBus.Application.Interfaces.Services;
 using OneBus.Application.Services;
 using OneBus.Domain.Interfaces.Repositories;
 using OneBus.Infra.Data.Repositories;
+using System.Globalization;
 
 namespace OneBus.Infra.Ioc
 {
@@ -11,6 +12,7 @@ namespace OneBus.Infra.Ioc
     {
         public static IServiceCollection AddInfrastructure(this IServiceCollection services)
         {
+            ValidatorOptions.Global.LanguageManager.Culture = new CultureInfo("pt-BR");
             services.AddValidatorsFromAssembly(typeof(IBaseReadOnlyService<,,>).Assembly);
 
             services.Scan(scan => scan

@@ -3,7 +3,7 @@ using OneBus.Domain.Filters;
 
 namespace OneBus.Domain.Interfaces.Repositories
 {
-    public interface IEmployeeWorkdayRepository : IBaseRepository<EmployeeWorkday, BaseFilter>
+    public interface IEmployeeWorkdayRepository : IBaseRepository<EmployeeWorkday, EmployeeWorkDayFilter>
     {
     }
 }

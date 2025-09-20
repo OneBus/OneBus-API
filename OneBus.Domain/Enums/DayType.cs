@@ -4,7 +4,6 @@
     {
         Dias_Úteis,
         Sábados,
-        Domingos,
-        Feriados
+        Domingos_Feriados,
     }
 }

@@ -10,7 +10,6 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace OneBus.API.Controllers
 {
-    [NonController]
     [Route("api/v1/employees")]
     [ApiController]
     [Produces("application/json")]
@@ -102,9 +101,9 @@ namespace OneBus.API.Controllers
         /// <response code="200">Funcionários paginados e filtrados com sucesso</response>
         [HttpGet]
         [ProducesResponseType(typeof(SuccessResult<Pagination<ReadEmployeeDTO>>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetPaginedAsync([FromQuery] BaseFilter filter, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> GetPaginedAsync([FromQuery] EmployeeFilter filter, CancellationToken cancellationToken = default)
         {
-            return (await _employeeService.GetPaginedAsync(filter, cancellationToken)).ToActionResult();
+            return (await _employeeService.GetPaginedAsync(filter, cancellationToken: cancellationToken)).ToActionResult();
         }
 
         /// <summary>
@@ -123,7 +122,52 @@ namespace OneBus.API.Controllers
         [ProducesResponseType(typeof(NotFoundResult<ReadEmployeeDTO>), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetByIdAsync([FromRoute] long id, CancellationToken cancellationToken = default)
         {
-            return (await _employeeService.GetByIdAsync(id, cancellationToken)).ToActionResult();
+            return (await _employeeService.GetByIdAsync(id, cancellationToken: cancellationToken)).ToActionResult();
+        }
+
+        /// <summary>
+        /// Listar status
+        /// </summary>
+        /// <remarks>
+        /// GET de status
+        /// </remarks>
+        /// <returns>Status disponíveis</returns>
+        /// <response code="200">Status retornados com sucesso</response>
+        [HttpGet("status")]
+        [ProducesResponseType(typeof(SuccessResult<IEnumerable<ReadStatusDTO>>), StatusCodes.Status200OK)]
+        public IActionResult GetStatus()
+        {
+            return _employeeService.GetStatus().ToActionResult();
+        }
+
+        /// <summary>
+        /// Listar cargos
+        /// </summary>
+        /// <remarks>
+        /// GET de cargos
+        /// </remarks>
+        /// <returns>Cargos disponíveis</returns>
+        /// <response code="200">Cargos retornados com sucesso</response>
+        [HttpGet("roles")]
+        [ProducesResponseType(typeof(SuccessResult<IEnumerable<ReadRoleDTO>>), StatusCodes.Status200OK)]
+        public IActionResult GetRoles()
+        {
+            return _employeeService.GetRoles().ToActionResult();
+        }
+
+        /// <summary>
+        /// Listar tipos sanguíneos 
+        /// </summary>
+        /// <remarks>
+        /// GET de tipos sanguíneos
+        /// </remarks>
+        /// <returns>Tipos sanguíneos disponíveis</returns>
+        /// <response code="200">Tipos sanguíneos retornados com sucesso</response>
+        [HttpGet("bloodTypes")]
+        [ProducesResponseType(typeof(SuccessResult<IEnumerable<ReadBloodTypeDTO>>), StatusCodes.Status200OK)]
+        public IActionResult GetBloodTypes()
+        {
+            return _employeeService.GetBloodTypes().ToActionResult();
         }
     }
 }
