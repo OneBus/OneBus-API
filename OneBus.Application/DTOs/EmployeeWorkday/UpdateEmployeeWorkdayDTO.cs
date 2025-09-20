@@ -2,5 +2,8 @@
 {
     public class UpdateEmployeeWorkdayDTO : BaseUpdateDTO
     {
+        public TimeOnly StartTime { get; set; }
+
+        public TimeOnly EndTime { get; set; }
     }
 }
