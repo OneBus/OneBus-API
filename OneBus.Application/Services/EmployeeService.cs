@@ -1,11 +1,11 @@
 ﻿using FluentValidation;
 using OneBus.Application.DTOs.Employee;
 using OneBus.Application.Interfaces.Services;
-using OneBus.Application.Utils;
 using OneBus.Domain.Commons;
 using OneBus.Domain.Commons.Result;
 using OneBus.Domain.Entities;
 using OneBus.Domain.Enums.Employee;
+using OneBus.Domain.Extensions;
 using OneBus.Domain.Filters;
 using OneBus.Domain.Interfaces.Repositories;
 
@@ -22,37 +22,41 @@ namespace OneBus.Application.Services
         {
         }
 
-        public override async Task<Result<Pagination<ReadEmployeeDTO>>> GetPaginedAsync(EmployeeFilter filter, CancellationToken cancellationToken = default)
+        public override async Task<Result<Pagination<ReadEmployeeDTO>>> GetPaginedAsync(
+            EmployeeFilter filter,
+            DbQueryOptions? dbQueryOptions = null,
+            CancellationToken cancellationToken = default)
         {
-            var result = await base.GetPaginedAsync(filter, cancellationToken);
+            var result = await base.GetPaginedAsync(filter, cancellationToken: cancellationToken);
 
             if (!result.Sucess)
                 return result;
 
             foreach (var employee in result.Value!.Items)
             {
-                employee.BloodTypeName = EnumUtils.GetName<BloodType>(employee.BloodType);
-                employee.RoleName = EnumUtils.GetName<Role>(employee.Role);
-                employee.CnhCategoryName = EnumUtils.GetName<CnhCategory>(employee.CnhCategory);
-                employee.StatusName = EnumUtils.GetName<EmployeeStatus>(employee.Status);
+                employee.BloodTypeName = ((BloodType?)employee.BloodType)?.ToString()?.Localize();
+                employee.RoleName = ((Role)employee.Role).ToString().Localize();
+                employee.StatusName = ((EmployeeStatus)employee.Status).ToString().Localize();
             }
 
             return result;
         }
 
-        public override async Task<Result<ReadEmployeeDTO>> GetByIdAsync(long id, CancellationToken cancellationToken = default)
+        public override async Task<Result<ReadEmployeeDTO>> GetByIdAsync(
+            long id,
+            DbQueryOptions? dbQueryOptions = null,
+            CancellationToken cancellationToken = default)
         {
-            var result = await base.GetByIdAsync(id, cancellationToken);
+            var result = await base.GetByIdAsync(id, cancellationToken: cancellationToken);
 
             if (!result.Sucess)
                 return result;
 
             var employee = result.Value!;
 
-            employee.BloodTypeName = EnumUtils.GetName<BloodType>(employee.BloodType);
-            employee.RoleName = EnumUtils.GetName<Role>(employee.Role);
-            employee.CnhCategoryName = EnumUtils.GetName<CnhCategory>(employee.CnhCategory);
-            employee.StatusName = EnumUtils.GetName<EmployeeStatus>(employee.Status);
+            employee.BloodTypeName = ((BloodType?)employee.BloodType)?.ToString()?.Localize();
+            employee.RoleName = ((Role)employee.Role).ToString().Localize();
+            employee.StatusName = ((EmployeeStatus)employee.Status).ToString().Localize();
 
             return result;
         }
@@ -65,26 +69,11 @@ namespace OneBus.Application.Services
 
             foreach (var value in values)
             {
-                status.Add(new ReadStatusDTO { Value = (byte)value, Name = value.GetDisplayName() });
+                status.Add(new ReadStatusDTO { Value = (byte)value, Name = value.ToString().Localize() });
             }
 
             return SuccessResult<IEnumerable<ReadStatusDTO>>.Create(status);
-        }
-
-        public Result<IEnumerable<ReadCnhCategoryDTO>> GetCnhCategories()
-        {
-            var values = Enum.GetValues<CnhCategory>();
-
-            List<ReadCnhCategoryDTO> cnhCategories = [];
-
-            foreach (var value in values)
-            {
-                cnhCategories.Add(new ReadCnhCategoryDTO { Value = (byte)value, Name = value.GetDisplayName() });
-            }
-
-            return SuccessResult<IEnumerable<ReadCnhCategoryDTO>>.Create(cnhCategories);
-        }
-
+        }       
         public Result<IEnumerable<ReadRoleDTO>> GetRoles()
         {
             var values = Enum.GetValues<Role>();
@@ -93,7 +82,7 @@ namespace OneBus.Application.Services
 
             foreach (var value in values)
             {
-                roles.Add(new ReadRoleDTO { Value = (byte)value, Name = value.GetDisplayName() });
+                roles.Add(new ReadRoleDTO { Value = (byte)value, Name = value.ToString().Localize() });
             }
 
             return SuccessResult<IEnumerable<ReadRoleDTO>>.Create(roles);
@@ -107,7 +96,7 @@ namespace OneBus.Application.Services
 
             foreach (var value in values)
             {
-                bloodTypes.Add(new ReadBloodTypeDTO { Value = (byte)value, Name = value.GetDisplayName() });
+                bloodTypes.Add(new ReadBloodTypeDTO { Value = (byte)value, Name = value.ToString().Localize() });
             }
 
             return SuccessResult<IEnumerable<ReadBloodTypeDTO>>.Create(bloodTypes);
@@ -125,7 +114,6 @@ namespace OneBus.Application.Services
             entity.Phone = updateDTO.Phone;
             entity.HiringDate = updateDTO.HiringDate;
             entity.CnhNumber = updateDTO.CnhNumber;
-            entity.CnhCategory = updateDTO.CnhCategory;
             entity.CnhExpiration = updateDTO.CnhExpiration;
             entity.Status = updateDTO.Status;
             entity.Image = updateDTO.Image;

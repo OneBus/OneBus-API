@@ -9,9 +9,7 @@ namespace OneBus.Application.Interfaces.Services
         IBaseService<Employee, CreateEmployeeDTO, ReadEmployeeDTO, UpdateEmployeeDTO, EmployeeFilter>
     {
         Result<IEnumerable<ReadBloodTypeDTO>> GetBloodTypes();
-        
-        Result<IEnumerable<ReadCnhCategoryDTO>> GetCnhCategories();
-        
+                
         Result<IEnumerable<ReadRoleDTO>> GetRoles();
         
         Result<IEnumerable<ReadStatusDTO>> GetStatus();
