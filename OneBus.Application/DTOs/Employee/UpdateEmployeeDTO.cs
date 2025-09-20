@@ -32,8 +32,6 @@
 
         public string? CnhNumber { get; set; }
 
-        public byte? CnhCategory { get; set; }
-
         public DateOnly? CnhExpiration { get; set; }
 
         public byte Status { get; set; }
