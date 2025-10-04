@@ -10,6 +10,11 @@ namespace OneBus.Infra.Data.Mappings
             base.Configure(builder);
 
             builder
+                .HasOne(c => c.LineTime)
+                .WithMany(c => c.VehicleOperations)
+                .HasForeignKey(c => c.LineTimeId);
+
+            builder
                 .HasOne(c => c.Vehicle)
                 .WithMany(c => c.VehicleOperations)
                 .HasForeignKey(c => c.VehicleId);
