@@ -12,6 +12,6 @@
 
         public Line? Line { get; set; }
 
-        public ICollection<BusOperation>? BusOperations { get; set; }
+        public ICollection<VehicleOperation>? VehicleOperations { get; set; }
     }
 }

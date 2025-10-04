@@ -55,7 +55,21 @@
 
         public byte[]? Image { get; set; }
 
-        public ICollection<Bus>? Buses { get; set; }
+        public byte? BusServiceType { get; set; }
+
+        public string? BusChassisBrand { get; set; }
+
+        public string? BusChassisModel { get; set; }
+
+        public short? BusChassisYear { get; set; }
+
+        public bool? BusHasLowFloor { get; set; }
+
+        public bool? BusHasLeftDoors { get; set; }
+
+        public DateOnly? BusInsuranceExpiration { get; set; }
+
+        public DateOnly? BusFumigateExpiration { get; set; }
 
         public ICollection<Maintenance>? Maintenances { get; set; }
 
