@@ -10,6 +10,8 @@
             Renavam = string.Empty;
         }
 
+        public byte Type { get; set; }
+
         public string Prefix { get; set; }
 
         public byte NumberDoors { get; set; }

@@ -12,6 +12,8 @@
 
         public byte Type { get; set; }
 
+        public string? TypeName { get; set; }
+        
         public string Prefix { get; set; }
 
         public byte NumberDoors { get; set; }
@@ -22,7 +24,11 @@
 
         public byte FuelType { get; set; }
 
+        public string? FuelTypeName { get; set; }
+
         public byte Brand { get; set; }
+
+        public string? BrandName { get; set; }
 
         public string Model { get; set; }
 
@@ -31,6 +37,8 @@
         public string Plate { get; set; }
 
         public byte? Color { get; set; }
+
+        public string? ColorName { get; set; }
 
         public string? BodyworkNumber { get; set; }
 
@@ -48,15 +56,23 @@
 
         public byte TransmissionType { get; set; }
 
+        public string? TransmissionTypeName { get; set; }
+
         public DateOnly AcquisitionDate { get; set; }
 
         public byte Status { get; set; }
+
+        public string? StatusName { get; set; }
 
         public byte[]? Image { get; set; }
 
         public byte? BusServiceType { get; set; }
 
+        public string? BusServiceTypeName { get; set; }
+
         public byte? BusChassisBrand { get; set; }
+        
+        public string? BusChassisBrandName { get; set; }
 
         public string? BusChassisModel { get; set; }
 
