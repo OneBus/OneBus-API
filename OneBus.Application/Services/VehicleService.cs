@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using OneBus.Application.DTOs.Vehicle;
 using OneBus.Application.Interfaces.Services;
+using OneBus.Domain.Commons;
 using OneBus.Domain.Commons.Result;
 using OneBus.Domain.Entities;
 using OneBus.Domain.Enums.Vehicle;
@@ -19,6 +20,55 @@ namespace OneBus.Application.Services
             IValidator<UpdateVehicleDTO> updateValidator)
             : base(baseRepository, createValidator, updateValidator)
         {
+        }
+
+        public override async Task<Result<Pagination<ReadVehicleDTO>>> GetPaginedAsync(
+            BaseFilter filter, 
+            DbQueryOptions? dbQueryOptions = null, 
+            CancellationToken cancellationToken = default)
+        {
+            var result = await base.GetPaginedAsync(filter, cancellationToken: cancellationToken);
+
+            if (!result.Sucess)
+                return result;
+
+            foreach (var vehicle in result.Value!.Items)
+            {
+                vehicle.ColorName = ((Color?)vehicle.Color)?.ToString()?.Localize();
+                vehicle.TypeName = ((VehicleType)vehicle.Type).ToString().Localize();
+                vehicle.BrandName = ((VehicleBrands)vehicle.Brand).ToString().Localize();
+                vehicle.FuelTypeName = ((FuelType)vehicle.FuelType).ToString().Localize();
+                vehicle.StatusName = ((VehicleStatus)vehicle.Status).ToString().Localize();
+                vehicle.TransmissionTypeName = ((VehicleStatus)vehicle.TransmissionType).ToString().Localize();
+                vehicle.BusServiceTypeName = ((BusServiceType?)vehicle.BusServiceType)?.ToString()?.Localize();
+                vehicle.BusChassisBrandName = ((BusChassisBrands?)vehicle.BusChassisBrand)?.ToString()?.Localize();
+            }
+
+            return result;
+        }
+
+        public override async Task<Result<ReadVehicleDTO>> GetByIdAsync(
+            long id, 
+            DbQueryOptions? dbQueryOptions = null, 
+            CancellationToken cancellationToken = default)
+        {
+            var result = await base.GetByIdAsync(id, cancellationToken: cancellationToken);
+
+            if (!result.Sucess)
+                return result;
+
+            var vehicle = result.Value!;
+
+            vehicle.ColorName = ((Color?)vehicle.Color)?.ToString()?.Localize();
+            vehicle.TypeName = ((VehicleType)vehicle.Type).ToString().Localize();
+            vehicle.BrandName = ((VehicleBrands)vehicle.Brand).ToString().Localize();
+            vehicle.FuelTypeName = ((FuelType)vehicle.FuelType).ToString().Localize();
+            vehicle.StatusName = ((VehicleStatus)vehicle.Status).ToString().Localize();
+            vehicle.TransmissionTypeName = ((VehicleStatus)vehicle.TransmissionType).ToString().Localize();
+            vehicle.BusServiceTypeName = ((BusServiceType?)vehicle.BusServiceType)?.ToString()?.Localize();
+            vehicle.BusChassisBrandName = ((BusChassisBrands?)vehicle.BusChassisBrand)?.ToString()?.Localize();
+
+            return result;
         }
 
         public Result<IEnumerable<ReadVehicleStatusDTO>> GetStatus()
