@@ -169,18 +169,18 @@ namespace OneBus.Application.Services
             return SuccessResult<IEnumerable<ReadTransmissionTypeDTO>>.Create(status);
         }
 
-        public Result<IEnumerable<ReadTypeDTO>> GetVehicleTypes()
+        public Result<IEnumerable<ReadVehicleTypeDTO>> GetVehicleTypes()
         {
             var values = Enum.GetValues<VehicleType>();
 
-            List<ReadTypeDTO> status = [];
+            List<ReadVehicleTypeDTO> status = [];
 
             foreach (var value in values)
             {
-                status.Add(new ReadTypeDTO { Value = (byte)value, Name = value.ToString().Localize() });
+                status.Add(new ReadVehicleTypeDTO { Value = (byte)value, Name = value.ToString().Localize() });
             }
 
-            return SuccessResult<IEnumerable<ReadTypeDTO>>.Create(status);
+            return SuccessResult<IEnumerable<ReadVehicleTypeDTO>>.Create(status);
         }
 
         protected override void UpdateFields(Vehicle entity, UpdateVehicleDTO updateDTO)

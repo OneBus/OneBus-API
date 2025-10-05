@@ -239,7 +239,7 @@ namespace OneBus.API.Controllers
         /// <returns>Tipos de veículo disponíveis</returns>
         /// <response code="200">Tipos de veículo retornados com sucesso</response>
         [HttpGet("types")]
-        [ProducesResponseType(typeof(SuccessResult<IEnumerable<ReadTypeDTO>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(SuccessResult<IEnumerable<ReadVehicleTypeDTO>>), StatusCodes.Status200OK)]
         public IActionResult GetVehicleTypes()
         {
             return _vehicleService.GetVehicleTypes().ToActionResult();
