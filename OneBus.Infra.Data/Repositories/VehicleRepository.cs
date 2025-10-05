@@ -5,7 +5,7 @@ using OneBus.Infra.Data.DbContexts;
 
 namespace OneBus.Infra.Data.Repositories
 {
-    public class VehicleRepository : BaseRepository<Vehicle, BaseFilter>, IVehicleRepository
+    public class VehicleRepository : BaseRepository<Vehicle, VehicleFilter>, IVehicleRepository
     {
         public VehicleRepository(OneBusDbContext dbContext) : base(dbContext)
         {

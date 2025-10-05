@@ -101,7 +101,7 @@ namespace OneBus.API.Controllers
         /// <response code="200">Veículos paginados e filtrados com sucesso</response>
         [HttpGet]
         [ProducesResponseType(typeof(SuccessResult<Pagination<ReadVehicleDTO>>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetPaginedAsync([FromQuery] BaseFilter filter, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> GetPaginedAsync([FromQuery] VehicleFilter filter, CancellationToken cancellationToken = default)
         {
             return (await _vehicleService.GetPaginedAsync(filter, cancellationToken: cancellationToken)).ToActionResult();
         }

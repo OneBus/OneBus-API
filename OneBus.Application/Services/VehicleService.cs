@@ -11,11 +11,11 @@ using OneBus.Domain.Interfaces.Repositories;
 
 namespace OneBus.Application.Services
 {
-    public class VehicleService : BaseService<Vehicle, CreateVehicleDTO, ReadVehicleDTO, UpdateVehicleDTO, BaseFilter>,
+    public class VehicleService : BaseService<Vehicle, CreateVehicleDTO, ReadVehicleDTO, UpdateVehicleDTO, VehicleFilter>,
         IVehicleService
     {
         public VehicleService(
-            IBaseRepository<Vehicle, BaseFilter> baseRepository,
+            IBaseRepository<Vehicle, VehicleFilter> baseRepository,
             IValidator<CreateVehicleDTO> createValidator,
             IValidator<UpdateVehicleDTO> updateValidator)
             : base(baseRepository, createValidator, updateValidator)
@@ -23,7 +23,7 @@ namespace OneBus.Application.Services
         }
 
         public override async Task<Result<Pagination<ReadVehicleDTO>>> GetPaginedAsync(
-            BaseFilter filter, 
+            VehicleFilter filter, 
             DbQueryOptions? dbQueryOptions = null, 
             CancellationToken cancellationToken = default)
         {

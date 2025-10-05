@@ -6,7 +6,7 @@ using OneBus.Domain.Filters;
 namespace OneBus.Application.Interfaces.Services
 {
     public interface IVehicleService :
-        IBaseService<Vehicle, CreateVehicleDTO, ReadVehicleDTO, UpdateVehicleDTO, BaseFilter>
+        IBaseService<Vehicle, CreateVehicleDTO, ReadVehicleDTO, UpdateVehicleDTO, VehicleFilter>
     {
         Result<IEnumerable<ReadBrandDTO>> GetBrands();
 
