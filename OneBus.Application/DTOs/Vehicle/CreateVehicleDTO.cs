@@ -8,6 +8,7 @@
             Model = string.Empty;
             Plate = string.Empty;
             Renavam = string.Empty;
+            Licensing = string.Empty;
         }
 
         public byte Type { get; set; }
@@ -42,7 +43,7 @@
 
         public DateOnly IpvaExpiration { get; set; }
 
-        public DateOnly LicensingExpiration { get; set; }
+        public string Licensing { get; set; }
 
         public string Renavam { get; set; }
 
