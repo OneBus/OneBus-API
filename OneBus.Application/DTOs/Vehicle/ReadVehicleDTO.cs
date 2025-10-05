@@ -5,11 +5,12 @@
         public ReadVehicleDTO()
         {
             Prefix = string.Empty;
-            Brand = string.Empty;
             Model = string.Empty;
             Plate = string.Empty;
             Renavam = string.Empty;
         }
+
+        public byte Type { get; set; }
 
         public string Prefix { get; set; }
 
@@ -21,7 +22,7 @@
 
         public byte FuelType { get; set; }
 
-        public string Brand { get; set; }
+        public byte Brand { get; set; }
 
         public string Model { get; set; }
 
@@ -29,7 +30,7 @@
 
         public string Plate { get; set; }
 
-        public string? Color { get; set; }
+        public byte? Color { get; set; }
 
         public string? BodyworkNumber { get; set; }
 
@@ -55,7 +56,7 @@
 
         public byte? BusServiceType { get; set; }
 
-        public string? BusChassisBrand { get; set; }
+        public byte? BusChassisBrand { get; set; }
 
         public string? BusChassisModel { get; set; }
 
