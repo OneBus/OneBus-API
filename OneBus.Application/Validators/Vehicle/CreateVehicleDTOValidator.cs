@@ -37,6 +37,10 @@ namespace OneBus.Application.Validators.Vehicle
                .NotEmpty()
                .OverridePropertyName("Modelo");
 
+            RuleFor(c => c.Licensing)
+              .NotEmpty()
+              .OverridePropertyName("Licenciamento");
+
             RuleFor(c => c.Plate)
               .MustAsync(async (plate, ct) => !await IsPlateInUseAsync(plate, ct))
               .WithMessage(ErrorUtils.AlreadyExists("Placa").Message)
@@ -71,6 +75,15 @@ namespace OneBus.Application.Validators.Vehicle
                .Must(ValidationUtils.IsValidEnumValue<VehicleStatus>)
                .OverridePropertyName("Status");
 
+            RuleFor(c => c.Color)
+              .Must(ValidationUtils.IsValidEnumValue<Color>)
+              .When(c => c.Color != null)
+              .OverridePropertyName("Cor");
+
+            RuleFor(c => c.TransmissionType)
+             .Must(ValidationUtils.IsValidEnumValue<TransmissionType>)
+             .OverridePropertyName("Tipo de Transmissão");
+
             RuleFor(c => c.BusServiceType)
                .Must(ValidationUtils.IsValidEnumValue<BusServiceType>)
                .OverridePropertyName("Tipo de Serviço");
@@ -83,14 +96,25 @@ namespace OneBus.Application.Validators.Vehicle
                .NotEmpty()
                .OverridePropertyName("Modelo do Chassi");
 
-            RuleFor(c => c.Color)
-              .Must(ValidationUtils.IsValidEnumValue<Color>)
-              .When(c => c.Color != null)
-              .OverridePropertyName("Cor");
+            RuleFor(c => c.BusChassisYear)
+               .NotNull()
+               .When(c => c.BusChassisYear != null)
+               .OverridePropertyName("Ano do Chassi");
 
-            RuleFor(c => c.TransmissionType)
-             .Must(ValidationUtils.IsValidEnumValue<TransmissionType>)
-             .OverridePropertyName("Tipo de Transmissão");
+            RuleFor(c => c.BusHasLowFloor)
+               .NotNull()
+               .When(c => c.BusHasLowFloor != null)
+               .OverridePropertyName("Possui Piso Baixo");
+
+            RuleFor(c => c.BusHasLeftDoors)
+               .NotNull()
+               .When(c => c.BusHasLeftDoors != null)
+               .OverridePropertyName("Possui Portas a Esquerda");
+
+            RuleFor(c => c.BusInsuranceExpiration)
+               .NotNull()
+               .When(c => c.BusInsuranceExpiration != null)
+               .OverridePropertyName("Vencimento do Seguro");
         }
 
         private async Task<bool> IsPrefixInUseAsync(string prefix, CancellationToken cancellationToken = default)
