@@ -10,7 +10,6 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace OneBus.API.Controllers
 {
-    [NonController]
     [Route("api/v1/vehicles")]
     [ApiController]
     [Produces("application/json")]
@@ -135,7 +134,7 @@ namespace OneBus.API.Controllers
         /// <returns>Status disponíveis</returns>
         /// <response code="200">Status retornados com sucesso</response>
         [HttpGet("status")]
-        [ProducesResponseType(typeof(SuccessResult<IEnumerable<ReadStatusDTO>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(SuccessResult<IEnumerable<ReadVehicleStatusDTO>>), StatusCodes.Status200OK)]
         public IActionResult GetStatus()
         {
             return _vehicleService.GetStatus().ToActionResult();
