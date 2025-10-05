@@ -61,6 +61,12 @@ namespace OneBus.Application.Validators.Vehicle
             .WithMessage(ErrorUtils.AlreadyExists("Número da Carroceria").Message)
             .OverridePropertyName("Número da Carroceria");
 
+            RuleFor(c => c.EngineNumber)
+            .MustAsync(async (engineNumber, ct) => !await IsEngineNumberInUseAsync(engineNumber, ct))
+            .When(c => !string.IsNullOrWhiteSpace(c.EngineNumber))
+            .WithMessage(ErrorUtils.AlreadyExists("Número do Motor").Message)
+            .OverridePropertyName("Número do Motor");
+
             RuleFor(c => c.Status)
                .Must(ValidationUtils.IsValidEnumValue<VehicleStatus>)
                .OverridePropertyName("Status");
@@ -83,7 +89,7 @@ namespace OneBus.Application.Validators.Vehicle
               .OverridePropertyName("Cor");
 
             RuleFor(c => c.TransmissionType)
-             .Must(ValidationUtils.IsValidEnumValue<TransmissionType>)            
+             .Must(ValidationUtils.IsValidEnumValue<TransmissionType>)
              .OverridePropertyName("Tipo de Transmissão");
         }
 
@@ -114,6 +120,12 @@ namespace OneBus.Application.Validators.Vehicle
         private async Task<bool> IsBodyworkNumberInUseAsync(string? bodyworkNumber, CancellationToken cancellationToken = default)
         {
             return await _vehicleRepository.AnyAsync(c => !string.IsNullOrWhiteSpace(c.BodyworkNumber) && c.BodyworkNumber.ToLower().Equals(bodyworkNumber),
+                cancellationToken: cancellationToken);
+        }
+
+        private async Task<bool> IsEngineNumberInUseAsync(string? engineNumber, CancellationToken cancellationToken = default)
+        {
+            return await _vehicleRepository.AnyAsync(c => !string.IsNullOrWhiteSpace(c.EngineNumber) && c.EngineNumber.ToLower().Equals(engineNumber),
                 cancellationToken: cancellationToken);
         }
     }
