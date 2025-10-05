@@ -13,6 +13,7 @@ namespace OneBus.Infra.Data.Mappings
             builder.Property(c => c.Plate).HasMaxLength(20);
             builder.Property(c => c.Model).HasMaxLength(50);
             builder.Property(c => c.Prefix).HasMaxLength(30);
+            builder.Property(c => c.Licensing).HasMaxLength(50);
             builder.Property(c => c.EngineNumber).HasMaxLength(20);
             builder.Property(c => c.NumberChassis).HasMaxLength(20);
             builder.Property(c => c.BodyworkNumber).HasMaxLength(20);
