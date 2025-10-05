@@ -1,9 +1,9 @@
 ﻿using FluentValidation;
 using OneBus.Application.DTOs.Employee;
-using OneBus.Application.Utils;
 using OneBus.Domain.Commons;
 using OneBus.Domain.Enums.Employee;
 using OneBus.Domain.Interfaces.Repositories;
+using OneBus.Domain.Utils;
 
 namespace OneBus.Application.Validators.Employee
 {

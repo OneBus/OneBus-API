@@ -1,4 +1,4 @@
-﻿namespace OneBus.Application.Utils
+﻿namespace OneBus.Domain.Utils
 {
     public static class ValidationUtils
     {

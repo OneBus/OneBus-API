@@ -1,9 +1,9 @@
 ﻿using FluentValidation;
 using OneBus.Application.DTOs.Vehicle;
-using OneBus.Application.Utils;
 using OneBus.Domain.Commons;
 using OneBus.Domain.Enums.Vehicle;
 using OneBus.Domain.Interfaces.Repositories;
+using OneBus.Domain.Utils;
 
 namespace OneBus.Application.Validators.Vehicle
 {
