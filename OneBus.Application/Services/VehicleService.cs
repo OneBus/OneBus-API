@@ -195,6 +195,7 @@ namespace OneBus.Application.Services
             entity.Status = updateDTO.Status;
             entity.Renavam = updateDTO.Renavam;
             entity.FuelType = updateDTO.FuelType;
+            entity.Licensing = updateDTO.Licensing;
             entity.AxesNumber = updateDTO.AxesNumber;
             entity.NumberDoors = updateDTO.NumberDoors;
             entity.NumberSeats = updateDTO.NumberSeats;
@@ -211,7 +212,6 @@ namespace OneBus.Application.Services
             entity.BusHasLeftDoors = updateDTO.BusHasLeftDoors;
             entity.HasAccessibility = updateDTO.HasAccessibility;
             entity.TransmissionType = updateDTO.TransmissionType;
-            entity.LicensingExpiration = updateDTO.LicensingExpiration;
             entity.BusFumigateExpiration = updateDTO.BusFumigateExpiration;
             entity.BusInsuranceExpiration = updateDTO.BusInsuranceExpiration;
         }
