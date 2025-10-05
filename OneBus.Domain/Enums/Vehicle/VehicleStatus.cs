@@ -2,10 +2,10 @@
 {
     public enum VehicleStatus : byte
     {
-        Disponível,
-        Operação,
-        Manutenção,
+        Desativado, 
+        Em_Manutenção, 
         Reservado,
-        Fora_Operação
+        Em_Operação, 
+        Disponível
     }
 }

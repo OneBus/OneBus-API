@@ -2,11 +2,11 @@
 {
     public enum FuelType : byte
     {
-        Diesel,
-        Gás,
-        Elétrico,
-        Híbrido,
-        Gasolina,
-        Etanol,
+        Gasolina, 
+        Etanol, 
+        Diesel, 
+        Gas_Natural, 
+        Eletrico, 
+        Outros
     }
 }
