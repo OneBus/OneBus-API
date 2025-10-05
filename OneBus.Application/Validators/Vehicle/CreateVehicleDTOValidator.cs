@@ -86,14 +86,17 @@ namespace OneBus.Application.Validators.Vehicle
 
             RuleFor(c => c.BusServiceType)
                .Must(ValidationUtils.IsValidEnumValue<BusServiceType>)
+               .When(c => c.BusServiceType != null)
                .OverridePropertyName("Tipo de Serviço");
 
             RuleFor(c => c.BusChassisBrand)
                .Must(ValidationUtils.IsValidEnumValue<BusChassisBrands>)
+               .When(c => c.BusChassisBrand != null)
                .OverridePropertyName("Marca do Chassi");
 
             RuleFor(c => c.BusChassisModel)
                .NotEmpty()
+               .When(c => c.BusChassisModel != null)
                .OverridePropertyName("Modelo do Chassi");
 
             RuleFor(c => c.BusChassisYear)
