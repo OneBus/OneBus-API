@@ -6,7 +6,7 @@
         Etanol, 
         Diesel, 
         Gas_Natural, 
-        Eletrico, 
+        Elétrico, 
         Outros
     }
 }

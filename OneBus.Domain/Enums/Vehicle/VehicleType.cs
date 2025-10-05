@@ -2,9 +2,9 @@
 {
     public enum VehicleType : byte
     {
-        Onibus, 
-        Micro_Onibus, 
-        Onibus_Articulado, 
+        Ônibus,
+        Micro_Ônibus,
+        Ônibus_Articulado, 
         Van, 
         Caminhão, 
         Carro

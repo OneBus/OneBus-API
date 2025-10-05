@@ -133,6 +133,51 @@ namespace OneBus.Domain.Resources {
         }
         
         /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Em Manutenção.
+        /// </summary>
+        internal static string Em_Manutenção {
+            get {
+                return ResourceManager.GetString("Em_Manutenção", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Em Operação.
+        /// </summary>
+        internal static string Em_Operação {
+            get {
+                return ResourceManager.GetString("Em_Operação", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Gás Natural.
+        /// </summary>
+        internal static string Gas_Natural {
+            get {
+                return ResourceManager.GetString("Gas_Natural", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Mercedes Benz.
+        /// </summary>
+        internal static string Mercedes_Benz {
+            get {
+                return ResourceManager.GetString("Mercedes_Benz", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Micro Ônibus.
+        /// </summary>
+        internal static string Micro_Ônibus {
+            get {
+                return ResourceManager.GetString("Micro_Ônibus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a Motorista e Cobrador.
         /// </summary>
         internal static string Motorista_Cobrador {
@@ -156,6 +201,15 @@ namespace OneBus.Domain.Resources {
         internal static string O_Positive {
             get {
                 return ResourceManager.GetString("O_Positive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Ônibus Articulado.
+        /// </summary>
+        internal static string Ônibus_Articulado {
+            get {
+                return ResourceManager.GetString("Ônibus_Articulado", resourceCulture);
             }
         }
         
