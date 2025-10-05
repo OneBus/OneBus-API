@@ -39,8 +39,8 @@ namespace OneBus.Application.Services
                 vehicle.BrandName = ((VehicleBrands)vehicle.Brand).ToString().Localize();
                 vehicle.FuelTypeName = ((FuelType)vehicle.FuelType).ToString().Localize();
                 vehicle.StatusName = ((VehicleStatus)vehicle.Status).ToString().Localize();
-                vehicle.TransmissionTypeName = ((VehicleStatus)vehicle.TransmissionType).ToString().Localize();
                 vehicle.BusServiceTypeName = ((BusServiceType?)vehicle.BusServiceType)?.ToString()?.Localize();
+                vehicle.TransmissionTypeName = ((TransmissionType)vehicle.TransmissionType).ToString().Localize();
                 vehicle.BusChassisBrandName = ((BusChassisBrands?)vehicle.BusChassisBrand)?.ToString()?.Localize();
             }
 
@@ -64,8 +64,8 @@ namespace OneBus.Application.Services
             vehicle.BrandName = ((VehicleBrands)vehicle.Brand).ToString().Localize();
             vehicle.FuelTypeName = ((FuelType)vehicle.FuelType).ToString().Localize();
             vehicle.StatusName = ((VehicleStatus)vehicle.Status).ToString().Localize();
-            vehicle.TransmissionTypeName = ((VehicleStatus)vehicle.TransmissionType).ToString().Localize();
             vehicle.BusServiceTypeName = ((BusServiceType?)vehicle.BusServiceType)?.ToString()?.Localize();
+            vehicle.TransmissionTypeName = ((TransmissionType)vehicle.TransmissionType).ToString().Localize();
             vehicle.BusChassisBrandName = ((BusChassisBrands?)vehicle.BusChassisBrand)?.ToString()?.Localize();
 
             return result;
