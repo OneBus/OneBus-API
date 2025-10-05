@@ -134,7 +134,7 @@ namespace OneBus.API.Controllers
         /// <returns>Status disponíveis</returns>
         /// <response code="200">Status retornados com sucesso</response>
         [HttpGet("status")]
-        [ProducesResponseType(typeof(SuccessResult<IEnumerable<ReadStatusDTO>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(SuccessResult<IEnumerable<ReadEmployeeStatusDTO>>), StatusCodes.Status200OK)]
         public IActionResult GetStatus()
         {
             return _employeeService.GetStatus().ToActionResult();

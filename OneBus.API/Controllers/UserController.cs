@@ -31,8 +31,8 @@ namespace OneBus.API.Controllers
         /// 
         ///     POST /logins
         ///     {
-        ///         "email": "helloworld@gmail.com",
-        ///         "password": "dasdfsf35346353tsd"
+        ///         "email": "onebus@admin",
+        ///         "password": "onebus@2025"
         ///     }
         /// </remarks>
         /// <param name="login"></param>

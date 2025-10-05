@@ -10,7 +10,6 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace OneBus.API.Controllers
 {
-    [NonController]
     [Route("api/v1/vehicles")]
     [ApiController]
     [Produces("application/json")]
@@ -102,7 +101,7 @@ namespace OneBus.API.Controllers
         /// <response code="200">Veículos paginados e filtrados com sucesso</response>
         [HttpGet]
         [ProducesResponseType(typeof(SuccessResult<Pagination<ReadVehicleDTO>>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetPaginedAsync([FromQuery] BaseFilter filter, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> GetPaginedAsync([FromQuery] VehicleFilter filter, CancellationToken cancellationToken = default)
         {
             return (await _vehicleService.GetPaginedAsync(filter, cancellationToken: cancellationToken)).ToActionResult();
         }
@@ -124,6 +123,126 @@ namespace OneBus.API.Controllers
         public async Task<IActionResult> GetByIdAsync([FromRoute] long id, CancellationToken cancellationToken = default)
         {
             return (await _vehicleService.GetByIdAsync(id, cancellationToken: cancellationToken)).ToActionResult();
+        }
+
+        /// <summary>
+        /// Listar status
+        /// </summary>
+        /// <remarks>
+        /// GET de status
+        /// </remarks>
+        /// <returns>Status disponíveis</returns>
+        /// <response code="200">Status retornados com sucesso</response>
+        [HttpGet("status")]
+        [ProducesResponseType(typeof(SuccessResult<IEnumerable<ReadVehicleStatusDTO>>), StatusCodes.Status200OK)]
+        public IActionResult GetStatus()
+        {
+            return _vehicleService.GetStatus().ToActionResult();
+        }
+
+        /// <summary>
+        /// Listar marcas
+        /// </summary>
+        /// <remarks>
+        /// GET de marcas
+        /// </remarks>
+        /// <returns>Marcas disponíveis</returns>
+        /// <response code="200">Marcas retornadas com sucesso</response>
+        [HttpGet("brands")]
+        [ProducesResponseType(typeof(SuccessResult<IEnumerable<ReadBrandDTO>>), StatusCodes.Status200OK)]
+        public IActionResult GetBrands()
+        {
+            return _vehicleService.GetBrands().ToActionResult();
+        }
+
+        /// <summary>
+        /// Listar marcas de chassis
+        /// </summary>
+        /// <remarks>
+        /// GET de marcas de chassis
+        /// </remarks>
+        /// <returns>Marcas de chassis disponíveis</returns>
+        /// <response code="200">Marcas de chassis retornadas com sucesso</response>
+        [HttpGet("chassisBrands")]
+        [ProducesResponseType(typeof(SuccessResult<IEnumerable<ReadBusChassisBrandDTO>>), StatusCodes.Status200OK)]
+        public IActionResult GetBusChassisBrands()
+        {
+            return _vehicleService.GetBusChassisBrands().ToActionResult();
+        }
+
+        /// <summary>
+        /// Listar tipos de serviço
+        /// </summary>
+        /// <remarks>
+        /// GET de tipos de serviço
+        /// </remarks>
+        /// <returns>Tipos de serviço disponíveis</returns>
+        /// <response code="200">Tipos de serviço retornados com sucesso</response>
+        [HttpGet("serviceTypes")]
+        [ProducesResponseType(typeof(SuccessResult<IEnumerable<ReadBusServiceTypeDTO>>), StatusCodes.Status200OK)]
+        public IActionResult GetBusServiceTypes()
+        {
+            return _vehicleService.GetBusServiceTypes().ToActionResult();
+        }
+
+        /// <summary>
+        /// Listar cores
+        /// </summary>
+        /// <remarks>
+        /// GET de cores
+        /// </remarks>
+        /// <returns>Cores disponíveis</returns>
+        /// <response code="200">Cores retornadas com sucesso</response>
+        [HttpGet("colors")]
+        [ProducesResponseType(typeof(SuccessResult<IEnumerable<ReadColorDTO>>), StatusCodes.Status200OK)]
+        public IActionResult GetColors()
+        {
+            return _vehicleService.GetColors().ToActionResult();
+        }
+
+        /// <summary>
+        /// Listar tipos de combustíveis
+        /// </summary>
+        /// <remarks>
+        /// GET de tipos de combustíveis
+        /// </remarks>
+        /// <returns>Tipos de combustíveis disponíveis</returns>
+        /// <response code="200">Tipos de combustíveis retornados com sucesso</response>
+        [HttpGet("fuelTypes")]
+        [ProducesResponseType(typeof(SuccessResult<IEnumerable<ReadFuelTypeDTO>>), StatusCodes.Status200OK)]
+        public IActionResult GetFuelTypes()
+        {
+            return _vehicleService.GetFuelTypes().ToActionResult();
+        }
+
+        /// <summary>
+        /// Listar tipos de transmissão
+        /// </summary>
+        /// <remarks>
+        /// GET de tipos de transmissão
+        /// </remarks>
+        /// <returns>Tipos de transmissão disponíveis</returns>
+        /// <response code="200">Tipos de transmissão retornados com sucesso</response>
+        [HttpGet("transmissionTypes")]
+        [ProducesResponseType(typeof(SuccessResult<IEnumerable<ReadTransmissionTypeDTO>>), StatusCodes.Status200OK)]
+        public IActionResult GetTransmissionTypes()
+        {
+            return _vehicleService.GetTransmissionTypes().ToActionResult();
+        }
+
+        /// <summary>
+        /// Listar tipos de veículo
+        /// </summary>
+        /// <remarks>
+        /// GET de tipos de veículo
+        /// </remarks>
+        /// <returns>Tipos de veículo disponíveis</returns>
+        /// <response code="200">Tipos de veículo retornados com sucesso</response>
+        [HttpGet("types")]
+        [ProducesResponseType(typeof(SuccessResult<IEnumerable<ReadTypeDTO>>), StatusCodes.Status200OK)]
+        public IActionResult GetVehicleTypes()
+        {
+            return _vehicleService.GetVehicleTypes().ToActionResult();
         }
     }
 }

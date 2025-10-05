@@ -141,6 +141,21 @@
   <data name="Domingos_Feriados" xml:space="preserve">
     <value>Domingos e Feriados</value>
   </data>
+  <data name="Em_Manutenção" xml:space="preserve">
+    <value>Em Manutenção</value>
+  </data>
+  <data name="Em_Operação" xml:space="preserve">
+    <value>Em Operação</value>
+  </data>
+  <data name="Gas_Natural" xml:space="preserve">
+    <value>Gás Natural</value>
+  </data>
+  <data name="Mercedes_Benz" xml:space="preserve">
+    <value>Mercedes Benz</value>
+  </data>
+  <data name="Micro_Ônibus" xml:space="preserve">
+    <value>Micro Ônibus</value>
+  </data>
   <data name="Motorista_Cobrador" xml:space="preserve">
     <value>Motorista e Cobrador</value>
   </data>
@@ -152,5 +167,8 @@
   </data>
   <data name="Processo_Contratação" xml:space="preserve">
     <value>Em Processo de Contratação</value>
+  </data>
+  <data name="Ônibus_Articulado" xml:space="preserve">
+    <value>Ônibus Articulado</value>
   </data>
 </root>

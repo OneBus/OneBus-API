@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using OneBus.Infra.Data.DbContexts;
@@ -11,9 +12,11 @@ using OneBus.Infra.Data.DbContexts;
 namespace OneBus.Infra.Data.Migrations
 {
     [DbContext(typeof(OneBusDbContext))]
-    partial class OneBusDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251004225605_RemovingBusTables")]
+    partial class RemovingBusTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -342,11 +345,16 @@ namespace OneBus.Infra.Data.Migrations
                         .IsUnicode(false)
                         .HasColumnType("character varying(20)");
 
-                    b.Property<byte>("Brand")
-                        .HasColumnType("smallint");
+                    b.Property<string>("Brand")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .IsUnicode(false)
+                        .HasColumnType("character varying(50)");
 
-                    b.Property<byte?>("BusChassisBrand")
-                        .HasColumnType("smallint");
+                    b.Property<string>("BusChassisBrand")
+                        .HasMaxLength(50)
+                        .IsUnicode(false)
+                        .HasColumnType("character varying(50)");
 
                     b.Property<string>("BusChassisModel")
                         .HasMaxLength(50)
@@ -371,8 +379,10 @@ namespace OneBus.Infra.Data.Migrations
                     b.Property<byte?>("BusServiceType")
                         .HasColumnType("smallint");
 
-                    b.Property<byte?>("Color")
-                        .HasColumnType("smallint");
+                    b.Property<string>("Color")
+                        .HasMaxLength(20)
+                        .IsUnicode(false)
+                        .HasColumnType("character varying(20)");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
@@ -397,11 +407,8 @@ namespace OneBus.Infra.Data.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
 
-                    b.Property<string>("Licensing")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .IsUnicode(false)
-                        .HasColumnType("character varying(50)");
+                    b.Property<DateOnly>("LicensingExpiration")
+                        .HasColumnType("date");
 
                     b.Property<string>("Model")
                         .IsRequired()

@@ -1,6 +1,6 @@
-﻿namespace OneBus.Domain.Enums.Bus
+﻿namespace OneBus.Domain.Enums.Vehicle
 {   
-    public enum ServiceType : byte
+    public enum BusServiceType : byte
     {
         Municipal,
         Intermunicipal,

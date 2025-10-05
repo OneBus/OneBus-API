@@ -1,8 +1,8 @@
-﻿namespace OneBus.Application.DTOs.Employee
+﻿namespace OneBus.Application.DTOs.Vehicle
 {
-    public class ReadStatusDTO
+    public class ReadVehicleStatusDTO
     {
-        public ReadStatusDTO()
+        public ReadVehicleStatusDTO()
         {
             Name = string.Empty;
         }

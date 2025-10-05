@@ -10,14 +10,15 @@ namespace OneBus.Infra.Data.Mappings
             base.Configure(builder);
 
             builder.Property(c => c.Renavam).HasMaxLength(20);
-            builder.Property(c => c.Color).HasMaxLength(20);
-            builder.Property(c => c.Brand).HasMaxLength(50);
             builder.Property(c => c.Plate).HasMaxLength(20);
             builder.Property(c => c.Model).HasMaxLength(50);
             builder.Property(c => c.Prefix).HasMaxLength(30);
+            builder.Property(c => c.Licensing).HasMaxLength(50);
             builder.Property(c => c.EngineNumber).HasMaxLength(20);
             builder.Property(c => c.NumberChassis).HasMaxLength(20);
             builder.Property(c => c.BodyworkNumber).HasMaxLength(20);
+
+            builder.Property(c => c.BusChassisModel).HasMaxLength(50);
 
             builder.HasIndex(c => c.Plate);
             builder.HasIndex(c => c.Prefix);

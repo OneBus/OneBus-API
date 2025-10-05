@@ -3,7 +3,7 @@ using OneBus.Domain.Filters;
 
 namespace OneBus.Domain.Interfaces.Repositories
 {
-    public interface IVehicleRepository : IBaseRepository<Vehicle, BaseFilter>
+    public interface IVehicleRepository : IBaseRepository<Vehicle, VehicleFilter>
     {
     }
 }
