@@ -30,6 +30,7 @@ namespace OneBus.Infra.Data.Repositories
                 c.Model.ToLower().Contains(value) ||
                 c.Plate.ToLower().Contains(value) ||
                 c.Renavam.ToLower().Contains(value) ||
+                c.Licensing!.ToLower().Contains(value) ||
                 c.NumberChassis!.ToLower().Contains(value) ||
                 c.BodyworkNumber!.ToLower().Contains(value) ||
                 c.BusChassisModel!.ToLower().Contains(value) ||
