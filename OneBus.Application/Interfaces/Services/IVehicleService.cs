@@ -18,7 +18,7 @@ namespace OneBus.Application.Interfaces.Services
         
         Result<IEnumerable<ReadFuelTypeDTO>> GetFuelTypes();
         
-        Result<IEnumerable<ReadStatusDTO>> GetStatus();
+        Result<IEnumerable<ReadVehicleStatusDTO>> GetStatus();
         
         Result<IEnumerable<ReadTransmissionTypeDTO>> GetTransmissionTypes();
         

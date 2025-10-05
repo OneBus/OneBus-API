@@ -21,18 +21,18 @@ namespace OneBus.Application.Services
         {
         }
 
-        public Result<IEnumerable<ReadStatusDTO>> GetStatus()
+        public Result<IEnumerable<ReadVehicleStatusDTO>> GetStatus()
         {
             var values = Enum.GetValues<VehicleStatus>();
 
-            List<ReadStatusDTO> status = [];
+            List<ReadVehicleStatusDTO> status = [];
 
             foreach (var value in values)
             {
-                status.Add(new ReadStatusDTO { Value = (byte)value, Name = value.ToString().Localize() });
+                status.Add(new ReadVehicleStatusDTO { Value = (byte)value, Name = value.ToString().Localize() });
             }
 
-            return SuccessResult<IEnumerable<ReadStatusDTO>>.Create(status);
+            return SuccessResult<IEnumerable<ReadVehicleStatusDTO>>.Create(status);
         }
 
         public Result<IEnumerable<ReadBrandDTO>> GetBrands()
