@@ -2,8 +2,10 @@
 {
     public enum LineType : byte
     {
-        Corredor,
+        Corredor, 
+        Intermunicipal, 
+        Municipal, 
         Seletivo,
-        Normal,        
+        Suburbano
     }
 }
