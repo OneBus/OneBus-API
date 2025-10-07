@@ -52,25 +52,25 @@ namespace OneBus.Application.Validators.Employee
 
         private async Task<bool> CpfAlreadyExistsAsync(string cpf, CancellationToken cancellationToken = default)
         {
-            return await _employeeRepository.AnyAsync(c => c.Cpf.ToLower().Equals(cpf),
+            return await _employeeRepository.AnyAsync(c => c.Cpf.ToLower().Equals(cpf.ToLower()),
                 cancellationToken: cancellationToken);
         }
 
         private async Task<bool> CodeAlreadyExistsAsync(string code, CancellationToken cancellationToken = default)
         {
-            return await _employeeRepository.AnyAsync(c => c.Code.ToLower().Equals(code),
+            return await _employeeRepository.AnyAsync(c => c.Code.ToLower().Equals(code.ToLower()),
                 cancellationToken: cancellationToken);
         }
 
         private async Task<bool> EmailAlreadyExistsAsync(string email, CancellationToken cancellationToken = default)
         {
-            return await _employeeRepository.AnyAsync(c => c.Email.ToLower().Equals(email),
+            return await _employeeRepository.AnyAsync(c => c.Email.ToLower().Equals(email.ToLower()),
                 cancellationToken: cancellationToken);
         }
 
         private async Task<bool> PhoneAlreadyExistsAsync(string phone, CancellationToken cancellationToken = default)
         {
-            return await _employeeRepository.AnyAsync(c => c.Phone.ToLower().Equals(phone),
+            return await _employeeRepository.AnyAsync(c => c.Phone.ToLower().Equals(phone.ToLower()),
                 cancellationToken: cancellationToken);
         }
 
@@ -79,7 +79,7 @@ namespace OneBus.Application.Validators.Employee
             if (string.IsNullOrWhiteSpace(cnhNumber))
                 return false;
 
-            return await _employeeRepository.AnyAsync(c => c.CnhNumber!.ToLower().Equals(cnhNumber),
+            return await _employeeRepository.AnyAsync(c => c.CnhNumber!.ToLower().Equals(cnhNumber.ToLower()),
                 cancellationToken: cancellationToken);
         }
     }

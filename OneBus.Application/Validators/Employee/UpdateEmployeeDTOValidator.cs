@@ -53,25 +53,25 @@ namespace OneBus.Application.Validators.Employee
 
         private async Task<bool> CpfAlreadyExistsAsync(long id, string cpf, CancellationToken cancellationToken = default)
         {
-            return await _employeeRepository.AnyAsync(c => c.Cpf.ToLower().Equals(cpf) && c.Id != id,
+            return await _employeeRepository.AnyAsync(c => c.Cpf.ToLower().Equals(cpf.ToLower()) && c.Id != id,
                 cancellationToken: cancellationToken);
         }
 
         private async Task<bool> CodeAlreadyExistsAsync(long id, string code, CancellationToken cancellationToken = default)
         {
-            return await _employeeRepository.AnyAsync(c => c.Code.ToLower().Equals(code) && c.Id != id,
+            return await _employeeRepository.AnyAsync(c => c.Code.ToLower().Equals(code.ToLower()) && c.Id != id,
                 cancellationToken: cancellationToken);
         }
 
         private async Task<bool> EmailAlreadyExistsAsync(long id, string email, CancellationToken cancellationToken = default)
         {
-            return await _employeeRepository.AnyAsync(c => c.Email.ToLower().Equals(email) && c.Id != id,
+            return await _employeeRepository.AnyAsync(c => c.Email.ToLower().Equals(email.ToLower()) && c.Id != id,
                 cancellationToken: cancellationToken);
         }
 
         private async Task<bool> PhoneAlreadyExistsAsync(long id, string phone, CancellationToken cancellationToken = default)
         {
-            return await _employeeRepository.AnyAsync(c => c.Phone.ToLower().Equals(phone) && c.Id != id,
+            return await _employeeRepository.AnyAsync(c => c.Phone.ToLower().Equals(phone.ToLower()) && c.Id != id,
                 cancellationToken: cancellationToken);
         }
 
@@ -80,7 +80,7 @@ namespace OneBus.Application.Validators.Employee
             if (string.IsNullOrWhiteSpace(cnhNumber))
                 return false;
 
-            return await _employeeRepository.AnyAsync(c => c.CnhNumber!.ToLower().Equals(cnhNumber) && c.Id != id,
+            return await _employeeRepository.AnyAsync(c => c.CnhNumber!.ToLower().Equals(cnhNumber.ToLower()) && c.Id != id,
                 cancellationToken: cancellationToken);
         }
     }
