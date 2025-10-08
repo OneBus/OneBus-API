@@ -1,9 +1,9 @@
 ﻿using FluentValidation;
 using OneBus.Application.DTOs.Vehicle;
-using OneBus.Application.Utils;
 using OneBus.Domain.Commons;
 using OneBus.Domain.Enums.Vehicle;
 using OneBus.Domain.Interfaces.Repositories;
+using OneBus.Domain.Utils;
 
 namespace OneBus.Application.Validators.Vehicle
 {
@@ -106,7 +106,7 @@ namespace OneBus.Application.Validators.Vehicle
                .NotNull()
                .When(c => c.BusHasLowFloor != null)
                .OverridePropertyName("Possui Piso Baixo");
-            
+
             RuleFor(c => c.BusHasLeftDoors)
                .NotNull()
                .When(c => c.BusHasLeftDoors != null)
@@ -120,37 +120,46 @@ namespace OneBus.Application.Validators.Vehicle
 
         private async Task<bool> IsPrefixInUseAsync(long id, string prefix, CancellationToken cancellationToken = default)
         {
-            return await _vehicleRepository.AnyAsync(c => c.Prefix.ToLower().Equals(prefix) && c.Status != (byte)VehicleStatus.Desativado && c.Id != id,
+            return await _vehicleRepository.AnyAsync(c => c.Prefix.ToLower().Equals(prefix.ToLower()) && c.Status != (byte)VehicleStatus.Desativado && c.Id != id,
                 cancellationToken: cancellationToken);
         }
 
         private async Task<bool> IsPlateInUseAsync(long id, string plate, CancellationToken cancellationToken = default)
         {
-            return await _vehicleRepository.AnyAsync(c => c.Plate.ToLower().Equals(plate) && c.Id != id,
+            return await _vehicleRepository.AnyAsync(c => c.Plate.ToLower().Equals(plate.ToLower()) && c.Id != id,
                 cancellationToken: cancellationToken);
         }
 
         private async Task<bool> IsRenavamInUseAsync(long id, string renavam, CancellationToken cancellationToken = default)
         {
-            return await _vehicleRepository.AnyAsync(c => c.Renavam.ToLower().Equals(renavam) && c.Id != id,
+            return await _vehicleRepository.AnyAsync(c => c.Renavam.ToLower().Equals(renavam.ToLower()) && c.Id != id,
                 cancellationToken: cancellationToken);
         }
 
         private async Task<bool> IsNumberChassisInUseAsync(long id, string? numberChassis, CancellationToken cancellationToken = default)
         {
-            return await _vehicleRepository.AnyAsync(c => !string.IsNullOrWhiteSpace(c.NumberChassis) && c.NumberChassis.ToLower().Equals(numberChassis) && c.Id != id,
+            if (string.IsNullOrWhiteSpace(numberChassis))
+                return false;
+
+            return await _vehicleRepository.AnyAsync(c => c.NumberChassis!.ToLower().Equals(numberChassis.ToLower()) && c.Id != id,
                 cancellationToken: cancellationToken);
         }
 
         private async Task<bool> IsBodyworkNumberInUseAsync(long id, string? bodyworkNumber, CancellationToken cancellationToken = default)
         {
-            return await _vehicleRepository.AnyAsync(c => !string.IsNullOrWhiteSpace(c.BodyworkNumber) && c.BodyworkNumber.ToLower().Equals(bodyworkNumber) && c.Id != id,
+            if (string.IsNullOrWhiteSpace(bodyworkNumber))
+                return false;
+
+            return await _vehicleRepository.AnyAsync(c => c.BodyworkNumber!.ToLower().Equals(bodyworkNumber.ToLower()) && c.Id != id,
                 cancellationToken: cancellationToken);
         }
 
         private async Task<bool> IsEngineNumberInUseAsync(long id, string? engineNumber, CancellationToken cancellationToken = default)
         {
-            return await _vehicleRepository.AnyAsync(c => !string.IsNullOrWhiteSpace(c.EngineNumber) && c.EngineNumber.ToLower().Equals(engineNumber) && c.Id != id,
+            if (string.IsNullOrWhiteSpace(engineNumber))
+                return false;
+
+            return await _vehicleRepository.AnyAsync(c => c.EngineNumber!.ToLower().Equals(engineNumber.ToLower()) && c.Id != id,
                 cancellationToken: cancellationToken);
         }
     }

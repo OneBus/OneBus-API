@@ -18,9 +18,7 @@
 
         public decimal Mileage { get; set; }
 
-        public byte MinNumberBuses { get; set; }
-            
-        public byte MaxNumberBuses { get; set; }      
+        public byte DirectionType { get; set; }
 
         public ICollection<LineTime>? LineTimes { get; set; }
     }

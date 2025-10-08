@@ -10,7 +10,6 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace OneBus.API.Controllers
 {
-    [NonController]
     [Route("api/v1/lines")]
     [ApiController]
     [Produces("application/json")]
@@ -102,7 +101,7 @@ namespace OneBus.API.Controllers
         /// <response code="200">Linhas paginadas e filtradas com sucesso</response>
         [HttpGet]
         [ProducesResponseType(typeof(SuccessResult<Pagination<ReadLineDTO>>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetPaginedAsync([FromQuery] BaseFilter filter, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> GetPaginedAsync([FromQuery] LineFilter filter, CancellationToken cancellationToken = default)
         {
             return (await _lineService.GetPaginedAsync(filter, cancellationToken: cancellationToken)).ToActionResult();
         }
@@ -124,6 +123,36 @@ namespace OneBus.API.Controllers
         public async Task<IActionResult> GetByIdAsync([FromRoute] long id, CancellationToken cancellationToken = default)
         {
             return (await _lineService.GetByIdAsync(id, cancellationToken: cancellationToken)).ToActionResult();
+        }
+
+        /// <summary>
+        /// Listar tipos de linhas
+        /// </summary>
+        /// <remarks>
+        /// GET de tipos de linhas
+        /// </remarks>
+        /// <returns>Tipos de linhas disponíveis</returns>
+        /// <response code="200">Tipos de linhas retornadas com sucesso</response>
+        [HttpGet("types")]
+        [ProducesResponseType(typeof(SuccessResult<IEnumerable<ReadLineTypeDTO>>), StatusCodes.Status200OK)]
+        public IActionResult GetVehicleTypes()
+        {
+            return _lineService.GetLineTypes().ToActionResult();
+        }
+
+        /// <summary>
+        /// Listar tipos de direção
+        /// </summary>
+        /// <remarks>
+        /// GET de tipos de direção
+        /// </remarks>
+        /// <returns>Tipos de direção disponíveis</returns>
+        /// <response code="200">Tipos de direção retornadas com sucesso</response>
+        [HttpGet("directionTypes")]
+        [ProducesResponseType(typeof(SuccessResult<IEnumerable<ReadDirectionTypeDTO>>), StatusCodes.Status200OK)]
+        public IActionResult GetDirectionTypes()
+        {
+            return _lineService.GetDirectionTypes().ToActionResult();
         }
     }
 }

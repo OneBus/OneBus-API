@@ -1,8 +1,8 @@
-﻿namespace OneBus.Application.DTOs.Vehicle
+﻿namespace OneBus.Application.DTOs.Line
 {
-    public class ReadTypeDTO
+    public class ReadDirectionTypeDTO
     {
-        public ReadTypeDTO()
+        public ReadDirectionTypeDTO()
         {
             Name = string.Empty;
         }

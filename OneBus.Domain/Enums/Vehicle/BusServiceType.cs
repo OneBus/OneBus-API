@@ -4,6 +4,7 @@
     {
         Municipal,
         Intermunicipal,
-        Suburbano
+        Suburbano,
+        Seletivo
     }
 }
