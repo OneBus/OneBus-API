@@ -1,6 +1,6 @@
 ﻿namespace OneBus.Domain.Enums.Line
 {
-    public enum DirectionType
+    public enum DirectionType : byte
     {
         Ida, 
         Volta,
