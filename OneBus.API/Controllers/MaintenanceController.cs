@@ -10,7 +10,6 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace OneBus.API.Controllers
 {
-    [NonController]
     [Route("api/v1/maintenances")]
     [ApiController]
     [Produces("application/json")]
@@ -102,9 +101,11 @@ namespace OneBus.API.Controllers
         /// <response code="200">Manutenções paginadas e filtradas com sucesso</response>
         [HttpGet]
         [ProducesResponseType(typeof(SuccessResult<Pagination<ReadMaintenanceDTO>>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetPaginedAsync([FromQuery] BaseFilter filter, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> GetPaginedAsync([FromQuery] MaintenanceFilter filter, CancellationToken cancellationToken = default)
         {
-            return (await _maintenanceService.GetPaginedAsync(filter, cancellationToken: cancellationToken)).ToActionResult();
+            return (await _maintenanceService.GetPaginedAsync(filter,
+                DbQueryOptions.Create(["Vehicle"]),
+                cancellationToken)).ToActionResult();
         }
 
         /// <summary>
@@ -123,7 +124,24 @@ namespace OneBus.API.Controllers
         [ProducesResponseType(typeof(NotFoundResult<ReadMaintenanceDTO>), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetByIdAsync([FromRoute] long id, CancellationToken cancellationToken = default)
         {
-            return (await _maintenanceService.GetByIdAsync(id, cancellationToken: cancellationToken)).ToActionResult();
+            return (await _maintenanceService.GetByIdAsync(id,
+                 DbQueryOptions.Create(["Vehicle"]),
+                 cancellationToken)).ToActionResult();
+        }
+
+        /// <summary>
+        /// Listar tipos de setores
+        /// </summary>
+        /// <remarks>
+        /// GET de tipos de setores
+        /// </remarks>
+        /// <returns>Tipos de Setores disponíveis</returns>
+        /// <response code="200">Setores retornados com sucesso</response>
+        [HttpGet("sectors")]
+        [ProducesResponseType(typeof(SuccessResult<IEnumerable<ReadSectorDTO>>), StatusCodes.Status200OK)]
+        public IActionResult GetSectors()
+        {
+            return _maintenanceService.GetSectors().ToActionResult();
         }
     }
 }
