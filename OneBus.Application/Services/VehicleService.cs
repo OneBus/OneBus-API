@@ -27,7 +27,7 @@ namespace OneBus.Application.Services
             DbQueryOptions? dbQueryOptions = null, 
             CancellationToken cancellationToken = default)
         {
-            var result = await base.GetPaginedAsync(filter, cancellationToken: cancellationToken);
+            var result = await base.GetPaginedAsync(filter, dbQueryOptions, cancellationToken);
 
             if (!result.Sucess)
                 return result;
@@ -52,7 +52,7 @@ namespace OneBus.Application.Services
             DbQueryOptions? dbQueryOptions = null, 
             CancellationToken cancellationToken = default)
         {
-            var result = await base.GetByIdAsync(id, cancellationToken: cancellationToken);
+            var result = await base.GetByIdAsync(id, dbQueryOptions, cancellationToken);
 
             if (!result.Sucess)
                 return result;
