@@ -39,7 +39,8 @@ namespace OneBus.Application.Validators.Line
             if (line is null)
                 return false;
 
-            return await _lineRepository.AnyAsync(c => c.Number.ToLower().Equals(number.ToLower()) && c.Type == line.Type && c.Id != id,
+            return await _lineRepository.AnyAsync(c => c.Number.ToLower().Equals(number.ToLower()) &&
+                                                       c.Type == line.Type && c.DirectionType == line.DirectionType && c.Id != id,
                 cancellationToken: cancellationToken);
         }
     }

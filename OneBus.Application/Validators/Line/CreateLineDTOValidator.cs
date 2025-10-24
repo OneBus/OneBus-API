@@ -24,7 +24,7 @@ namespace OneBus.Application.Validators.Line
                .OverridePropertyName("Tipo de Direção");
 
             RuleFor(c => c.Number)
-               .MustAsync(async (line, number, ct) => !await IsNumberInUse(number, line.Type, ct))
+               .MustAsync(async (line, number, ct) => !await IsNumberInUse(number, line.Type, line.DirectionType, ct))
                .WithMessage(ErrorUtils.AlreadyExists("Número").Message)
                .NotEmpty()
                .OverridePropertyName("Número");
@@ -34,9 +34,9 @@ namespace OneBus.Application.Validators.Line
                 .OverridePropertyName("Nome");
         }
 
-        private async Task<bool> IsNumberInUse(string number, byte type, CancellationToken cancellationToken = default)
+        private async Task<bool> IsNumberInUse(string number, byte type, byte directionType, CancellationToken cancellationToken = default)
         {
-            return await _lineRepository.AnyAsync(c => c.Number.ToLower().Equals(number.ToLower()) && c.Type == type,
+            return await _lineRepository.AnyAsync(c => c.Number.ToLower().Equals(number.ToLower()) && c.Type == type && c.DirectionType == directionType,
                 cancellationToken: cancellationToken);
         }
     }
