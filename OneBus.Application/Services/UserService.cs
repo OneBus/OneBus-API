@@ -49,9 +49,6 @@ namespace OneBus.Application.Services
             return SuccessResult<TokenModel>.Create(tokenModel);
         }
 
-        protected override void UpdateFields(User entity, UpdateUserDTO updateDTO)
-        {
-            throw new NotImplementedException();
-        }
+        protected override void UpdateFields(User entity, UpdateUserDTO updateDTO) { }
     }
 }

@@ -5,7 +5,7 @@ using OneBus.Domain.Filters;
 namespace OneBus.Application.Interfaces.Services
 {
     public interface ILineTimeService : 
-        IBaseService<LineTime, CreateLineTimeDTO, ReadLineTimeDTO, UpdateLineTimeDTO, BaseFilter>
+        IBaseService<LineTime, CreateLineTimeDTO, ReadLineTimeDTO, UpdateLineTimeDTO, LineTimeFilter>
     {
     }
 }
