@@ -26,12 +26,7 @@ namespace OneBus.Application.Validators.EmployeeWorkday
                 .OverridePropertyName(EmployeeIdPropertyName);
 
             RuleFor(c => c.DayType).Must(ValidationUtils.IsValidEnumValue<DayType>)
-               .OverridePropertyName("Dia da Semana");
-
-            RuleFor(c => c.EndTime)
-                .Must((dto, endTime) => endTime > dto.StartTime)
-                .WithMessage("Horário inválido")
-                .OverridePropertyName("Horário de Saída");
+               .OverridePropertyName("Dia da Semana");            
         }
 
         private async Task<bool> ExistsAsync(long employeeId, CancellationToken ct = default)
