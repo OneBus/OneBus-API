@@ -34,12 +34,7 @@ namespace OneBus.Application.Validators.Maintenance
 
             RuleFor(c => c.Sector)
                 .Must(ValidationUtils.IsValidEnumValue<Sector>)
-                .OverridePropertyName("Setor");
-
-            RuleFor(c => c.EndDate)
-               .Must((dto, endTime) => endTime >= dto.StartDate)
-               .WithMessage("Horário inválido")
-               .OverridePropertyName("Horário de Término");
+                .OverridePropertyName("Setor");          
         }
 
         private async Task<bool> ExistsAsync(long vehicleId, CancellationToken ct = default)

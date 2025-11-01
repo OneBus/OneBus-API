@@ -11,6 +11,8 @@ namespace OneBus.Application.Validators.Line
     {
         private readonly ILineRepository _lineRepository;
 
+        //TODO: Não deixar a mesma linha pode pode ter sentido de ida e volta, mas não de circular e
+        //uma linha circular não pode ter outro cadastro com sentido de ida ou volta
         public CreateLineDTOValidator(ILineRepository lineRepository)
         {
             _lineRepository = lineRepository;
