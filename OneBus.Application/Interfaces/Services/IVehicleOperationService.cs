@@ -5,7 +5,7 @@ using OneBus.Domain.Filters;
 namespace OneBus.Application.Interfaces.Services
 {
     public interface IVehicleOperationService : 
-        IBaseService<VehicleOperation, CreateVehicleOperationDTO, ReadVehicleOperationDTO, UpdateVehicleOperationDTO, BaseFilter>
+        IBaseService<VehicleOperation, CreateVehicleOperationDTO, ReadVehicleOperationDTO, UpdateVehicleOperationDTO, VehicleOperationFilter>
     {
     }
 }
