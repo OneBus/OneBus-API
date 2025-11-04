@@ -5,7 +5,5 @@
         public TimeOnly Time { get; set; }
 
         public byte DayType { get; set; }
-
-        public byte DirectionType { get; set; }
     }
 }
