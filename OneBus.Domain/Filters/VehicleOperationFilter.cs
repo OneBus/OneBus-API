@@ -14,8 +14,6 @@
 
         public byte? LineDirectionType { get; set; }
 
-        public byte? LineTimeDirectionType { get; set; }
-
         public byte? LineTimeDayType { get; set; }
 
         public byte? VehicleStatus { get; set; }
