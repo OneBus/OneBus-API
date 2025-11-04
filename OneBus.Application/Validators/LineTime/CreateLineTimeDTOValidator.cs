@@ -2,7 +2,6 @@
 using OneBus.Application.DTOs.LineTime;
 using OneBus.Domain.Commons;
 using OneBus.Domain.Enums;
-using OneBus.Domain.Enums.Line;
 using OneBus.Domain.Interfaces.Repositories;
 using OneBus.Domain.Utils;
 
@@ -24,11 +23,7 @@ namespace OneBus.Application.Validators.LineTime
             RuleFor(c => c.LineId)
                 .MustAsync(ExistsAsync)
                 .WithMessage(ErrorUtils.EntityNotFound(LineIdPropertyName).Message)
-                .OverridePropertyName(LineIdPropertyName);
-
-            RuleFor(c => c.DirectionType)
-              .Must(ValidationUtils.IsValidEnumValue<DirectionType>)
-              .OverridePropertyName("Tipo de Direção");
+                .OverridePropertyName(LineIdPropertyName);           
 
             RuleFor(c => c.DayType).Must(ValidationUtils.IsValidEnumValue<DayType>)
               .OverridePropertyName("Dia da Semana");

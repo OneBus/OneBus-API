@@ -11,11 +11,7 @@ namespace OneBus.Application.Validators.LineTime
         public UpdateLineTimeDTOValidator()
         {
             RuleFor(c => c.Id).GreaterThan(0);
-
-            RuleFor(c => c.DirectionType)
-              .Must(ValidationUtils.IsValidEnumValue<DirectionType>)
-              .OverridePropertyName("Tipo de Direção");
-
+           
             RuleFor(c => c.DayType).Must(ValidationUtils.IsValidEnumValue<DayType>)
               .OverridePropertyName("Dia da Semana");
         }        
