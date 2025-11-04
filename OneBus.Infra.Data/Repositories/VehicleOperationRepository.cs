@@ -28,7 +28,6 @@ namespace OneBus.Infra.Data.Repositories
                 (filter.EmployeeStatus == null || c.EmployeeWorkday!.Employee!.Status == filter.EmployeeStatus) &&
                 (filter.LineDirectionType == null || c.LineTime!.Line!.DirectionType == filter.LineDirectionType) &&
                 (filter.VehicleBusServiceType == null || c.Vehicle!.BusServiceType == filter.VehicleBusServiceType) &&
-                (filter.LineTimeDirectionType == null || c.LineTime!.DirectionType == filter.LineTimeDirectionType) &&
                 (filter.VehicleBusChassisBrand == null || c.Vehicle!.BusChassisBrand == filter.VehicleBusChassisBrand) &&
                 (filter.EmployeeWorkDayDayType == null || c.EmployeeWorkday!.DayType == filter.EmployeeWorkDayDayType) &&
                 (filter.EmployeeBloodType == null || c.EmployeeWorkday!.Employee!.BloodType == filter.EmployeeBloodType) &&
