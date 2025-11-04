@@ -36,7 +36,7 @@ namespace OneBus.Application.Services
             foreach (var lineTime in result.Value!.Items)
             {
                 lineTime.DayTypeName = ((DayType)lineTime.DayType).ToString().Localize();
-                lineTime.DirectionTypeName = ((DirectionType)lineTime.DirectionType).ToString().Localize();
+                lineTime.LineDirectionTypeName = ((DirectionType)lineTime.LineDirectionType).ToString().Localize();
             }
 
             return result;
@@ -54,7 +54,7 @@ namespace OneBus.Application.Services
 
             var lineTime = result.Value!;
             lineTime.DayTypeName = ((DayType)lineTime.DayType).ToString().Localize();
-            lineTime.DirectionTypeName = ((DirectionType)lineTime.DirectionType).ToString().Localize();
+            lineTime.LineDirectionTypeName = ((DirectionType)lineTime.LineDirectionType).ToString().Localize();
 
             return result;
         }
@@ -63,7 +63,6 @@ namespace OneBus.Application.Services
         {
             entity.Time = updateDTO.Time;
             entity.DayType = updateDTO.DayType;
-            entity.DirectionType = updateDTO.DirectionType;
         }
     }
 }
