@@ -12,10 +12,6 @@ namespace OneBus.Application.DTOs.VehicleOperation
         
         public string? LineTimeDayTypeName { get; set; }
 
-        public byte? LineTimeDirectionType { get; set; }
-        
-        public string? LineTimeDirectionTypeName { get; set; }
-
         [JsonPropertyName("lineId")]
         public long? LineTimeLineId { get; set; }
 
@@ -62,6 +58,12 @@ namespace OneBus.Application.DTOs.VehicleOperation
         [JsonPropertyName("employeeCode")]
         public string? EmployeeWorkdayEmployeeCode { get; set; }
 
+        [JsonPropertyName("employeeStatus")]
+        public byte? EmployeeWorkdayEmployeeStatus { get; set; }
+
+        [JsonPropertyName("employeeStatusName")]
+        public string? EmployeeWorkdayEmployeeStatusName { get; set; }
+
         public long VehicleId { get; set; }
 
         public string? VehiclePrefix { get; set; }
@@ -73,5 +75,7 @@ namespace OneBus.Application.DTOs.VehicleOperation
         public byte? VehicleStatus { get; set; }
 
         public string? VehicleStatusName { get; set; }
+
+        public byte[]? VehicleImage { get; set; }
     }
 }
