@@ -37,7 +37,8 @@ namespace OneBus.Application.Services
             foreach (var vehicleOperation in result.Value!.Items)
             {
                 vehicleOperation.VehicleTypeName = ((VehicleType?)vehicleOperation.VehicleType)?.ToString()?.Localize();
-                vehicleOperation.LineTimeDayTypeName = ((DayType?)vehicleOperation.LineTimeDayType)?.ToString()?.Localize();
+                vehicleOperation.LineTimeDayTypeName = ((DayType?)vehicleOperation.LineTimeDayType)?.ToString()?.Localize();                
+                vehicleOperation.VehicleStatusName = ((VehicleStatus?)vehicleOperation.VehicleStatus)?.ToString()?.Localize();
                 vehicleOperation.LineTimeLineTypeName = ((LineType?)vehicleOperation.LineTimeLineType)?.ToString()?.Localize();
                 vehicleOperation.LineTimeDirectionTypeName = ((DirectionType?)vehicleOperation.LineTimeDirectionType)?.ToString()?.Localize();
                 vehicleOperation.EmployeeWorkdayDayTypeName = ((DayType?)vehicleOperation.EmployeeWorkdayDayType)?.ToString()?.Localize();
@@ -60,6 +61,7 @@ namespace OneBus.Application.Services
             var vehicleOperation = result.Value!;
             vehicleOperation.VehicleTypeName = ((VehicleType?)vehicleOperation.VehicleType)?.ToString()?.Localize();
             vehicleOperation.LineTimeDayTypeName = ((DayType?)vehicleOperation.LineTimeDayType)?.ToString()?.Localize();
+            vehicleOperation.VehicleStatusName = ((VehicleStatus?)vehicleOperation.VehicleStatus)?.ToString()?.Localize();
             vehicleOperation.LineTimeLineTypeName = ((LineType?)vehicleOperation.LineTimeLineType)?.ToString()?.Localize();
             vehicleOperation.LineTimeDirectionTypeName = ((DirectionType?)vehicleOperation.LineTimeDirectionType)?.ToString()?.Localize();
             vehicleOperation.EmployeeWorkdayDayTypeName = ((DayType?)vehicleOperation.EmployeeWorkdayDayType)?.ToString()?.Localize();
