@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using OneBus.Application.Interfaces.Services;
 using OneBus.Application.Services;
+using OneBus.Application.Workers;
 using OneBus.Domain.Interfaces.Repositories;
 using OneBus.Infra.Data.Repositories;
 using System.Globalization;
@@ -27,7 +28,10 @@ namespace OneBus.Infra.Ioc
             .AsImplementedInterfaces()
             .WithScopedLifetime());
 
+            services.AddHostedService<VehicleOperationWorker>();
+
             services.AddScoped<ITokenService, TokenService>();
+            services.AddScoped<IDashboardService, DashboardService>();
             return services;
         }
     }

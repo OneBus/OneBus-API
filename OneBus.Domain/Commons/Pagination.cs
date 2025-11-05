@@ -10,12 +10,12 @@
         /// <summary>
         /// A página atual (começando do 1, geralmente).
         /// </summary>
-        public uint CurrentPage { get; private set; }
+        public int CurrentPage { get; private set; }
 
         /// <summary>
         /// Quantidade de itens por página.
         /// </summary>
-        public uint PageSize { get; private set; }
+        public int PageSize { get; private set; }
 
         /// <summary>
         /// Total de itens no conjunto original (com filtros de página).
@@ -25,7 +25,7 @@
         /// <summary>
         /// Número total de páginas (calculado).
         /// </summary>
-        public uint TotalPages { get; private set; }
+        public int TotalPages { get; private set; }
 
         /// <summary>
         /// Se existe uma página anterior.
@@ -37,13 +37,13 @@
         /// </summary>
         public bool HasNextPage { get { return CurrentPage < TotalPages; } }
 
-        public Pagination(IEnumerable<T> items, long totalItems, uint currentPage, uint pageSize)
+        public Pagination(IEnumerable<T> items, long totalItems, int currentPage, int pageSize)
         {
             Items = [.. items];
             TotalItems = totalItems;
             CurrentPage = currentPage;
             PageSize = pageSize;
-            TotalPages = (uint)Math.Ceiling(totalItems / (double)pageSize);
+            TotalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
         }
     }
 }

@@ -8,8 +8,6 @@
         
         public byte DayType { get; set; }
 
-        public byte DirectionType { get; set; }
-
         public Line? Line { get; set; }
 
         public ICollection<VehicleOperation>? VehicleOperations { get; set; }

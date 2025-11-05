@@ -5,6 +5,7 @@ using OneBus.Domain.Commons;
 using OneBus.Domain.Commons.Result;
 using OneBus.Domain.Entities;
 using OneBus.Domain.Enums;
+using OneBus.Domain.Enums.Employee;
 using OneBus.Domain.Enums.Line;
 using OneBus.Domain.Enums.Vehicle;
 using OneBus.Domain.Extensions;
@@ -37,11 +38,12 @@ namespace OneBus.Application.Services
             foreach (var vehicleOperation in result.Value!.Items)
             {
                 vehicleOperation.VehicleTypeName = ((VehicleType?)vehicleOperation.VehicleType)?.ToString()?.Localize();
-                vehicleOperation.LineTimeDayTypeName = ((DayType?)vehicleOperation.LineTimeDayType)?.ToString()?.Localize();
+                vehicleOperation.LineTimeDayTypeName = ((DayType?)vehicleOperation.LineTimeDayType)?.ToString()?.Localize();                
+                vehicleOperation.VehicleStatusName = ((VehicleStatus?)vehicleOperation.VehicleStatus)?.ToString()?.Localize();
                 vehicleOperation.LineTimeLineTypeName = ((LineType?)vehicleOperation.LineTimeLineType)?.ToString()?.Localize();
-                vehicleOperation.LineTimeDirectionTypeName = ((DirectionType?)vehicleOperation.LineTimeDirectionType)?.ToString()?.Localize();
                 vehicleOperation.EmployeeWorkdayDayTypeName = ((DayType?)vehicleOperation.EmployeeWorkdayDayType)?.ToString()?.Localize();
                 vehicleOperation.LineTimeLineDirectionTypeName = ((DirectionType?)vehicleOperation.LineTimeLineDirectionType)?.ToString()?.Localize();
+                vehicleOperation.EmployeeWorkdayEmployeeStatusName = ((EmployeeStatus?)vehicleOperation.EmployeeWorkdayEmployeeStatus)?.ToString()?.Localize();
             }
 
             return result;
@@ -60,10 +62,11 @@ namespace OneBus.Application.Services
             var vehicleOperation = result.Value!;
             vehicleOperation.VehicleTypeName = ((VehicleType?)vehicleOperation.VehicleType)?.ToString()?.Localize();
             vehicleOperation.LineTimeDayTypeName = ((DayType?)vehicleOperation.LineTimeDayType)?.ToString()?.Localize();
+            vehicleOperation.VehicleStatusName = ((VehicleStatus?)vehicleOperation.VehicleStatus)?.ToString()?.Localize();
             vehicleOperation.LineTimeLineTypeName = ((LineType?)vehicleOperation.LineTimeLineType)?.ToString()?.Localize();
-            vehicleOperation.LineTimeDirectionTypeName = ((DirectionType?)vehicleOperation.LineTimeDirectionType)?.ToString()?.Localize();
             vehicleOperation.EmployeeWorkdayDayTypeName = ((DayType?)vehicleOperation.EmployeeWorkdayDayType)?.ToString()?.Localize();
             vehicleOperation.LineTimeLineDirectionTypeName = ((DirectionType?)vehicleOperation.LineTimeLineDirectionType)?.ToString()?.Localize();
+            vehicleOperation.EmployeeWorkdayEmployeeStatusName = ((EmployeeStatus?)vehicleOperation.EmployeeWorkdayEmployeeStatus)?.ToString()?.Localize();
 
             return result;
         }

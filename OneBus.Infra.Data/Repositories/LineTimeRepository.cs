@@ -18,7 +18,7 @@ namespace OneBus.Infra.Data.Repositories
 
             return c =>
                 (filter.DayType == null || c.DayType == filter.DayType) &&
-                (filter.DirectionType == null || c.DirectionType == filter.DirectionType) &&
+                (filter.DirectionType == null || c.Line!.DirectionType == filter.DirectionType) &&
                 (string.IsNullOrWhiteSpace(value) ||
                 ((c.Line!.Name.ToLower().Contains(value) ||
                 c.Line.Mileage.ToString().Contains(value) ||
