@@ -69,5 +69,9 @@ namespace OneBus.Application.DTOs.VehicleOperation
         public byte? VehicleType { get; set; }
        
         public string? VehicleTypeName { get; set; }
+
+        public byte? VehicleStatus { get; set; }
+
+        public string? VehicleStatusName { get; set; }
     }
 }
