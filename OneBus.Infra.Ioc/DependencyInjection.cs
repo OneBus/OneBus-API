@@ -28,6 +28,7 @@ namespace OneBus.Infra.Ioc
             .WithScopedLifetime());
 
             services.AddScoped<ITokenService, TokenService>();
+            services.AddScoped<IDashboardService, DashboardService>();
             return services;
         }
     }
