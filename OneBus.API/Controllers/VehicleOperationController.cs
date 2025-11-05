@@ -10,7 +10,6 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace OneBus.API.Controllers
 {
-    [NonController]
     [Route("api/v1/vehiclesOperations")]
     [ApiController]
     [Produces("application/json")]
@@ -102,9 +101,11 @@ namespace OneBus.API.Controllers
         /// <response code="200">Operações de Veículos paginadas e filtradas com sucesso</response>
         [HttpGet]
         [ProducesResponseType(typeof(SuccessResult<Pagination<ReadVehicleOperationDTO>>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetPaginedAsync([FromQuery] BaseFilter filter, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> GetPaginedAsync([FromQuery] VehicleOperationFilter filter, CancellationToken cancellationToken = default)
         {
-            return (await _vehicleOperationService.GetPaginedAsync(filter, cancellationToken: cancellationToken)).ToActionResult();
+            return (await _vehicleOperationService.GetPaginedAsync(filter,
+                DbQueryOptions.Create(["LineTime.Line", "EmployeeWorkday.Employee", "Vehicle"]),
+                cancellationToken)).ToActionResult();
         }
 
         /// <summary>
@@ -123,7 +124,9 @@ namespace OneBus.API.Controllers
         [ProducesResponseType(typeof(NotFoundResult<ReadVehicleOperationDTO>), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetByIdAsync([FromRoute] long id, CancellationToken cancellationToken = default)
         {
-            return (await _vehicleOperationService.GetByIdAsync(id, cancellationToken: cancellationToken)).ToActionResult();
+            return (await _vehicleOperationService.GetByIdAsync(id, 
+                DbQueryOptions.Create(["LineTime.Line", "EmployeeWorkday.Employee", "Vehicle"]), 
+                cancellationToken)).ToActionResult();
         }
     }
 }

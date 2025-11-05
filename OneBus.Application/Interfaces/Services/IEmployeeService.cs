@@ -12,6 +12,6 @@ namespace OneBus.Application.Interfaces.Services
                 
         Result<IEnumerable<ReadRoleDTO>> GetRoles();
         
-        Result<IEnumerable<ReadStatusDTO>> GetStatus();
+        Result<IEnumerable<ReadEmployeeStatusDTO>> GetStatus();
     }
 }

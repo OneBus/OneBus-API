@@ -4,14 +4,12 @@
     {
         public long LineId { get; set; }
 
-        public TimeOnly StartTime { get; set; }
-
-        public TimeOnly EndTime { get; set; }
-
+        public TimeOnly Time { get; set; }
+        
         public byte DayType { get; set; }
 
         public Line? Line { get; set; }
 
-        public ICollection<BusOperation>? BusOperations { get; set; }
+        public ICollection<VehicleOperation>? VehicleOperations { get; set; }
     }
 }

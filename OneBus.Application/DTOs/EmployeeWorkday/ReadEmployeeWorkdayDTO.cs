@@ -5,6 +5,8 @@
         public long EmployeeId { get; set; }
 
         public string? EmployeeName { get; set; }
+        
+        public byte[]? EmployeeImage { get; set; }
 
         public string? EmployeeCpf { get; set; }
 

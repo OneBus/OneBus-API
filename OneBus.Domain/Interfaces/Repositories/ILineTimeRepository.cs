@@ -3,7 +3,7 @@ using OneBus.Domain.Filters;
 
 namespace OneBus.Domain.Interfaces.Repositories
 {
-    public interface ILineTimeRepository : IBaseRepository<LineTime, BaseFilter>
+    public interface ILineTimeRepository : IBaseRepository<LineTime, LineTimeFilter>
     {
     }
 }

@@ -5,10 +5,10 @@
         public Vehicle()
         {
             Prefix = string.Empty;
-            Brand = string.Empty;
             Model = string.Empty;
             Plate = string.Empty;
             Renavam = string.Empty;
+            Licensing = string.Empty;
         }
 
         public byte Type { get; set; }
@@ -23,7 +23,7 @@
 
         public byte FuelType { get; set; }
 
-        public string Brand { get; set; }
+        public byte Brand { get; set; }
 
         public string Model { get; set; }
 
@@ -31,7 +31,7 @@
 
         public string Plate { get; set; }
 
-        public string? Color { get; set; }
+        public byte? Color { get; set; }
 
         public string? BodyworkNumber { get; set; }
 
@@ -43,7 +43,7 @@
 
         public DateOnly IpvaExpiration { get; set; }
 
-        public DateOnly LicensingExpiration { get; set; }
+        public string Licensing { get; set; }
 
         public string Renavam { get; set; }
 
@@ -55,7 +55,21 @@
 
         public byte[]? Image { get; set; }
 
-        public ICollection<Bus>? Buses { get; set; }
+        public byte? BusServiceType { get; set; }
+
+        public byte? BusChassisBrand { get; set; }
+
+        public string? BusChassisModel { get; set; }
+
+        public short? BusChassisYear { get; set; }
+
+        public bool? BusHasLowFloor { get; set; }
+
+        public bool? BusHasLeftDoors { get; set; }
+
+        public DateOnly? BusInsuranceExpiration { get; set; }
+
+        public DateOnly? BusFumigateExpiration { get; set; }
 
         public ICollection<Maintenance>? Maintenances { get; set; }
 

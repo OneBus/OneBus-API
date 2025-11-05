@@ -1,0 +1,37 @@
+﻿namespace OneBus.Domain.Enums.Vehicle
+{
+    public enum VehicleBrands : byte
+    {
+        Fiat, 
+        Chevrolet, 
+        Toyota, 
+        Hyundai, 
+        Renault, 
+        Jeep, 
+        Honda, 
+        Citroen, 
+        Ford, 
+        Caio, 
+        Marcopolo, 
+        Comil, 
+        Busccar, 
+        Neobus, 
+        Bepobus, 
+        Mascarello, 
+        Irizar, 
+        Ciferal, 
+        Volare, 
+        Scania, 
+        Tecnobus, 
+        Mercedes_Benz, 
+        Maxibus, 
+        Ibrava, 
+        AMD, 
+        BYD, 
+        Higer, 
+        Ankai, 
+        Neostar, 
+        Nielson, 
+        Outros
+    }
+}

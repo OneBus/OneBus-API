@@ -27,7 +27,7 @@ namespace OneBus.Application.Services
             DbQueryOptions? dbQueryOptions = null,
             CancellationToken cancellationToken = default)
         {
-            var result = await base.GetPaginedAsync(filter, cancellationToken: cancellationToken);
+            var result = await base.GetPaginedAsync(filter, dbQueryOptions, cancellationToken);
 
             if (!result.Sucess)
                 return result;
@@ -47,7 +47,7 @@ namespace OneBus.Application.Services
             DbQueryOptions? dbQueryOptions = null,
             CancellationToken cancellationToken = default)
         {
-            var result = await base.GetByIdAsync(id, cancellationToken: cancellationToken);
+            var result = await base.GetByIdAsync(id, dbQueryOptions, cancellationToken);
 
             if (!result.Sucess)
                 return result;
@@ -61,18 +61,18 @@ namespace OneBus.Application.Services
             return result;
         }
 
-        public Result<IEnumerable<ReadStatusDTO>> GetStatus()
+        public Result<IEnumerable<ReadEmployeeStatusDTO>> GetStatus()
         {
             var values = Enum.GetValues<EmployeeStatus>();
 
-            List<ReadStatusDTO> status = [];
+            List<ReadEmployeeStatusDTO> status = [];
 
             foreach (var value in values)
             {
-                status.Add(new ReadStatusDTO { Value = (byte)value, Name = value.ToString().Localize() });
+                status.Add(new ReadEmployeeStatusDTO { Value = (byte)value, Name = value.ToString().Localize() });
             }
 
-            return SuccessResult<IEnumerable<ReadStatusDTO>>.Create(status);
+            return SuccessResult<IEnumerable<ReadEmployeeStatusDTO>>.Create(status);
         }       
         public Result<IEnumerable<ReadRoleDTO>> GetRoles()
         {

@@ -17,101 +17,10 @@ namespace OneBus.Infra.Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.8")
+                .HasAnnotation("ProductVersion", "9.0.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
-
-            modelBuilder.Entity("OneBus.Domain.Entities.Bus", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
-
-                    b.Property<string>("ChassisBrand")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .IsUnicode(false)
-                        .HasColumnType("character varying(50)");
-
-                    b.Property<string>("ChassisModel")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .IsUnicode(false)
-                        .HasColumnType("character varying(50)");
-
-                    b.Property<int>("ChassisYear")
-                        .HasColumnType("integer");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateOnly>("FumigateExpiration")
-                        .HasColumnType("date");
-
-                    b.Property<bool>("HasLeftDoors")
-                        .HasColumnType("boolean");
-
-                    b.Property<bool>("HasLowFloor")
-                        .HasColumnType("boolean");
-
-                    b.Property<DateOnly>("InsuranceExpiration")
-                        .HasColumnType("date");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
-
-                    b.Property<byte>("ServiceType")
-                        .HasColumnType("smallint");
-
-                    b.Property<long>("VehicleId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("VehicleId");
-
-                    b.ToTable("Bus");
-                });
-
-            modelBuilder.Entity("OneBus.Domain.Entities.BusOperation", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
-
-                    b.Property<long>("BusId")
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateOnly>("Date")
-                        .HasColumnType("date");
-
-                    b.Property<long>("EmployeeWorkDayId")
-                        .HasColumnType("bigint");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
-
-                    b.Property<long>("LineTimeId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BusId");
-
-                    b.HasIndex("EmployeeWorkDayId");
-
-                    b.HasIndex("LineTimeId");
-
-                    b.ToTable("BusOperation");
-                });
 
             modelBuilder.Entity("OneBus.Domain.Entities.Employee", b =>
                 {
@@ -244,18 +153,15 @@ namespace OneBus.Infra.Data.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<byte>("DirectionType")
+                        .HasColumnType("smallint");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
-
-                    b.Property<byte>("MaxNumberBuses")
-                        .HasColumnType("smallint");
 
                     b.Property<decimal>("Mileage")
                         .HasPrecision(19, 4)
                         .HasColumnType("numeric(19,4)");
-
-                    b.Property<byte>("MinNumberBuses")
-                        .HasColumnType("smallint");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -294,16 +200,13 @@ namespace OneBus.Infra.Data.Migrations
                     b.Property<byte>("DayType")
                         .HasColumnType("smallint");
 
-                    b.Property<TimeOnly>("EndTime")
-                        .HasColumnType("time without time zone");
-
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
 
                     b.Property<long>("LineId")
                         .HasColumnType("bigint");
 
-                    b.Property<TimeOnly>("StartTime")
+                    b.Property<TimeOnly>("Time")
                         .HasColumnType("time without time zone");
 
                     b.HasKey("Id");
@@ -433,16 +336,37 @@ namespace OneBus.Infra.Data.Migrations
                         .IsUnicode(false)
                         .HasColumnType("character varying(20)");
 
-                    b.Property<string>("Brand")
-                        .IsRequired()
+                    b.Property<byte>("Brand")
+                        .HasColumnType("smallint");
+
+                    b.Property<byte?>("BusChassisBrand")
+                        .HasColumnType("smallint");
+
+                    b.Property<string>("BusChassisModel")
                         .HasMaxLength(50)
                         .IsUnicode(false)
                         .HasColumnType("character varying(50)");
 
-                    b.Property<string>("Color")
-                        .HasMaxLength(20)
-                        .IsUnicode(false)
-                        .HasColumnType("character varying(20)");
+                    b.Property<short?>("BusChassisYear")
+                        .HasColumnType("smallint");
+
+                    b.Property<DateOnly?>("BusFumigateExpiration")
+                        .HasColumnType("date");
+
+                    b.Property<bool?>("BusHasLeftDoors")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool?>("BusHasLowFloor")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateOnly?>("BusInsuranceExpiration")
+                        .HasColumnType("date");
+
+                    b.Property<byte?>("BusServiceType")
+                        .HasColumnType("smallint");
+
+                    b.Property<byte?>("Color")
+                        .HasColumnType("smallint");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
@@ -467,8 +391,11 @@ namespace OneBus.Infra.Data.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
 
-                    b.Property<DateOnly>("LicensingExpiration")
-                        .HasColumnType("date");
+                    b.Property<string>("Licensing")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .IsUnicode(false)
+                        .HasColumnType("character varying(50)");
 
                     b.Property<string>("Model")
                         .IsRequired()
@@ -539,14 +466,14 @@ namespace OneBus.Infra.Data.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<DateOnly>("Date")
-                        .HasColumnType("date");
-
                     b.Property<long>("EmployeeWorkdayId")
                         .HasColumnType("bigint");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
+
+                    b.Property<long>("LineTimeId")
+                        .HasColumnType("bigint");
 
                     b.Property<long>("VehicleId")
                         .HasColumnType("bigint");
@@ -555,47 +482,11 @@ namespace OneBus.Infra.Data.Migrations
 
                     b.HasIndex("EmployeeWorkdayId");
 
+                    b.HasIndex("LineTimeId");
+
                     b.HasIndex("VehicleId");
 
                     b.ToTable("VehicleOperation");
-                });
-
-            modelBuilder.Entity("OneBus.Domain.Entities.Bus", b =>
-                {
-                    b.HasOne("OneBus.Domain.Entities.Vehicle", "Vehicle")
-                        .WithMany("Buses")
-                        .HasForeignKey("VehicleId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Vehicle");
-                });
-
-            modelBuilder.Entity("OneBus.Domain.Entities.BusOperation", b =>
-                {
-                    b.HasOne("OneBus.Domain.Entities.Bus", "Bus")
-                        .WithMany("BusOperations")
-                        .HasForeignKey("BusId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("OneBus.Domain.Entities.EmployeeWorkday", "EmployeeWorkday")
-                        .WithMany("BusOperations")
-                        .HasForeignKey("EmployeeWorkDayId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("OneBus.Domain.Entities.LineTime", "LineTime")
-                        .WithMany("BusOperations")
-                        .HasForeignKey("LineTimeId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Bus");
-
-                    b.Navigation("EmployeeWorkday");
-
-                    b.Navigation("LineTime");
                 });
 
             modelBuilder.Entity("OneBus.Domain.Entities.EmployeeWorkday", b =>
@@ -639,6 +530,12 @@ namespace OneBus.Infra.Data.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("OneBus.Domain.Entities.LineTime", "LineTime")
+                        .WithMany("VehicleOperations")
+                        .HasForeignKey("LineTimeId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("OneBus.Domain.Entities.Vehicle", "Vehicle")
                         .WithMany("VehicleOperations")
                         .HasForeignKey("VehicleId")
@@ -647,12 +544,9 @@ namespace OneBus.Infra.Data.Migrations
 
                     b.Navigation("EmployeeWorkday");
 
-                    b.Navigation("Vehicle");
-                });
+                    b.Navigation("LineTime");
 
-            modelBuilder.Entity("OneBus.Domain.Entities.Bus", b =>
-                {
-                    b.Navigation("BusOperations");
+                    b.Navigation("Vehicle");
                 });
 
             modelBuilder.Entity("OneBus.Domain.Entities.Employee", b =>
@@ -662,8 +556,6 @@ namespace OneBus.Infra.Data.Migrations
 
             modelBuilder.Entity("OneBus.Domain.Entities.EmployeeWorkday", b =>
                 {
-                    b.Navigation("BusOperations");
-
                     b.Navigation("VehicleOperations");
                 });
 
@@ -674,13 +566,11 @@ namespace OneBus.Infra.Data.Migrations
 
             modelBuilder.Entity("OneBus.Domain.Entities.LineTime", b =>
                 {
-                    b.Navigation("BusOperations");
+                    b.Navigation("VehicleOperations");
                 });
 
             modelBuilder.Entity("OneBus.Domain.Entities.Vehicle", b =>
                 {
-                    b.Navigation("Buses");
-
                     b.Navigation("Maintenances");
 
                     b.Navigation("VehicleOperations");

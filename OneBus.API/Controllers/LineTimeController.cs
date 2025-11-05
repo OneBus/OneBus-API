@@ -10,7 +10,6 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace OneBus.API.Controllers
 {
-    [NonController]
     [Route("api/v1/linesTimes")]
     [ApiController]
     [Produces("application/json")]
@@ -102,9 +101,11 @@ namespace OneBus.API.Controllers
         /// <response code="200">Horários de Linha paginados e filtrados com sucesso</response>
         [HttpGet]
         [ProducesResponseType(typeof(SuccessResult<Pagination<ReadLineTimeDTO>>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetPaginedAsync([FromQuery] BaseFilter filter, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> GetPaginedAsync([FromQuery] LineTimeFilter filter, CancellationToken cancellationToken = default)
         {
-            return (await _lineTimeService.GetPaginedAsync(filter, cancellationToken: cancellationToken)).ToActionResult();
+            return (await _lineTimeService.GetPaginedAsync(filter,
+                DbQueryOptions.Create(["Line"]),
+                cancellationToken)).ToActionResult();
         }
 
         /// <summary>
@@ -123,7 +124,9 @@ namespace OneBus.API.Controllers
         [ProducesResponseType(typeof(NotFoundResult<ReadLineTimeDTO>), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetByIdAsync([FromRoute] long id, CancellationToken cancellationToken = default)
         {
-            return (await _lineTimeService.GetByIdAsync(id, cancellationToken: cancellationToken)).ToActionResult();
+            return (await _lineTimeService.GetByIdAsync(id,
+                DbQueryOptions.Create(["Line"]), 
+                cancellationToken)).ToActionResult();
         }
     }
 }

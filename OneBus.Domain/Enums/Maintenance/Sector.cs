@@ -6,6 +6,7 @@
         Funilaria,
         Mecânica,
         Elétrica,
-        Inspeção
+        Inspeção,
+        Outros
     }
 }
