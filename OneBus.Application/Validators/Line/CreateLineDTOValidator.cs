@@ -11,8 +11,8 @@ namespace OneBus.Application.Validators.Line
     {
         private readonly ILineRepository _lineRepository;
 
-        //TODO: Não deixar a mesma linha pode pode ter sentido de ida e volta, mas não de circular e
-        //uma linha circular não pode ter outro cadastro com sentido de ida ou volta
+        public const string InvalidDirectionType = "Tipo de Direção inválida, verifique se a linha é circular ou a direção é repetida.";
+
         public CreateLineDTOValidator(ILineRepository lineRepository)
         {
             _lineRepository = lineRepository;
@@ -20,9 +20,11 @@ namespace OneBus.Application.Validators.Line
             RuleFor(c => c.Type)
                .Must(ValidationUtils.IsValidEnumValue<LineType>)
                .OverridePropertyName("Tipo");
-            
+
             RuleFor(c => c.DirectionType)
                .Must(ValidationUtils.IsValidEnumValue<DirectionType>)
+               .MustAsync(IsValidDirectionTypeAsync)
+               .WithMessage(InvalidDirectionType)
                .OverridePropertyName("Tipo de Direção");
 
             RuleFor(c => c.Number)
@@ -34,6 +36,28 @@ namespace OneBus.Application.Validators.Line
             RuleFor(c => c.Name)
                 .NotEmpty()
                 .OverridePropertyName("Nome");
+        }
+
+        private async Task<bool> IsValidDirectionTypeAsync(CreateLineDTO lineDTO, byte directionType, CancellationToken cancellationToken = default)
+        {
+            var lines = await _lineRepository.GetManyAsync(c => c.Number.ToLower().Equals(lineDTO.Number.ToLower()) && c.Type == lineDTO.Type,
+                                                         cancellationToken: cancellationToken);
+
+            if (lines is null || !lines.Any())
+                return true;
+
+            if (lines.Any(c => c.DirectionType == directionType))
+                return false;
+
+            if (directionType is (byte)DirectionType.Circular &&
+                lines.Any(c => c.DirectionType is (byte)DirectionType.Ida or (byte)DirectionType.Volta))
+                return false;
+
+            if (directionType is (byte)DirectionType.Ida or (byte)DirectionType.Volta &&
+                lines.Any(c => c.DirectionType is (byte)DirectionType.Circular))
+                return false;
+
+            return true;
         }
 
         private async Task<bool> IsNumberInUse(string number, byte type, byte directionType, CancellationToken cancellationToken = default)

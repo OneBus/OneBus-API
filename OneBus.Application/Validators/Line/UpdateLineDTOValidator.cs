@@ -19,6 +19,8 @@ namespace OneBus.Application.Validators.Line
 
             RuleFor(c => c.DirectionType)
                .Must(ValidationUtils.IsValidEnumValue<DirectionType>)
+               .MustAsync(IsValidDirectionTypeAsync)
+               .WithMessage(CreateLineDTOValidator.InvalidDirectionType)
                .OverridePropertyName("Tipo de Direção");
 
             RuleFor(c => c.Number)
@@ -30,6 +32,33 @@ namespace OneBus.Application.Validators.Line
             RuleFor(c => c.Name)
                 .NotEmpty()
                 .OverridePropertyName("Nome");
+        }
+
+        private async Task<bool> IsValidDirectionTypeAsync(UpdateLineDTO lineDTO, byte directionType, CancellationToken cancellationToken = default)
+        {
+            var line = await _lineRepository.GetOneAsync(c => c.Id == lineDTO.Id, cancellationToken: cancellationToken);
+
+            if (line is null)
+                return false;
+
+            var lines = await _lineRepository.GetManyAsync(c => c.Number.ToLower().Equals(line.Number.ToLower()) && c.Type == line.Type,
+                                                          cancellationToken: cancellationToken);
+
+            if (lines is null || !lines.Any())
+                return false;
+
+            if (lines.Any(c => c.DirectionType == directionType))
+                return false;
+
+            if (directionType is (byte)DirectionType.Circular &&
+                lines.Any(c => c.DirectionType is (byte)DirectionType.Ida or (byte)DirectionType.Volta))
+                return false;
+
+            if (directionType is (byte)DirectionType.Ida or (byte)DirectionType.Volta &&
+                lines.Any(c => c.DirectionType is (byte)DirectionType.Circular))
+                return false;
+
+            return true;
         }
 
         private async Task<bool> IsNumberInUse(long id, string number, CancellationToken cancellationToken = default)
