@@ -16,10 +16,10 @@ namespace OneBus.Domain.Filters
         public string? Value { get; set; }           
 
         [DefaultValue(1)]
-        public uint CurrentPage { get; set; }
+        public int CurrentPage { get; set; }
 
         [DefaultValue(15)]
-        public uint PageSize { get; set; }
+        public int PageSize { get; set; }
 
         [DefaultValue("id")]
         public string OrderField { get; set; }
