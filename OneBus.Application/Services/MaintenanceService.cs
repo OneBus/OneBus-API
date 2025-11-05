@@ -14,12 +14,16 @@ namespace OneBus.Application.Services
     public class MaintenanceService : BaseService<Maintenance, CreateMaintenanceDTO, ReadMaintenanceDTO, UpdateMaintenanceDTO, MaintenanceFilter>,
         IMaintenanceService
     {
+        private readonly IVehicleRepository _vehicleRepository;
+
         public MaintenanceService(
             IBaseRepository<Maintenance, MaintenanceFilter> baseRepository,
             IValidator<CreateMaintenanceDTO> createValidator,
-            IValidator<UpdateMaintenanceDTO> updateValidator)
+            IValidator<UpdateMaintenanceDTO> updateValidator,
+            IVehicleRepository vehicleRepository)
             : base(baseRepository, createValidator, updateValidator)
         {
+            _vehicleRepository = vehicleRepository;
         }
 
         public async override Task<Result<Pagination<ReadMaintenanceDTO>>> GetPaginedAsync(
@@ -68,6 +72,19 @@ namespace OneBus.Application.Services
             }
 
             return SuccessResult<IEnumerable<ReadSectorDTO>>.Create(status);
+        }
+
+        public async override Task<Result<ReadMaintenanceDTO>> CreateAsync(
+            CreateMaintenanceDTO createDTO,
+            CancellationToken cancellationToken = default)
+        {
+            var result = await base.CreateAsync(createDTO, cancellationToken);
+
+            if (!result.Sucess)
+                return result;
+
+            await _vehicleRepository.SetStatusAsync([createDTO.VehicleId], Domain.Enums.Vehicle.VehicleStatus.Em_Manutenção, cancellationToken);
+            return result;
         }
 
         protected override void UpdateFields(Maintenance entity, UpdateMaintenanceDTO updateDTO)
