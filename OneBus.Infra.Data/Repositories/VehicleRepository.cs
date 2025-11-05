@@ -1,4 +1,6 @@
-﻿using OneBus.Domain.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using OneBus.Domain.Entities;
+using OneBus.Domain.Enums.Vehicle;
 using OneBus.Domain.Filters;
 using OneBus.Domain.Interfaces.Repositories;
 using OneBus.Infra.Data.DbContexts;
@@ -10,6 +12,20 @@ namespace OneBus.Infra.Data.Repositories
     {
         public VehicleRepository(OneBusDbContext dbContext) : base(dbContext)
         {
+        }
+
+        public virtual async Task<bool> SetStatusAsync(
+            IEnumerable<long> ids,
+            VehicleStatus status,
+            CancellationToken cancellationToken = default)
+        {
+            ArgumentNullException.ThrowIfNull(ids, nameof(ids));
+
+            return await _dbSet
+                .Where(c => ids.Contains(c.Id))
+                .ExecuteUpdateAsync(setters => setters
+                        .SetProperty(c => c.Status, (byte)status),
+                        cancellationToken) == ids.LongCount();
         }
 
         protected override Expression<Func<Vehicle, bool>> ApplyFilter(VehicleFilter filter)
