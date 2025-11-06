@@ -47,7 +47,7 @@ namespace OneBus.Application.Validators.Line
             if (lines is null || !lines.Any())
                 return false;
 
-            if (lines.Any(c => c.DirectionType == directionType))
+            if (lines.Any(c => c.DirectionType == directionType && c.Id != line.Id))
                 return false;
 
             if (directionType is (byte)DirectionType.Circular &&
