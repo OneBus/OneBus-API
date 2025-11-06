@@ -73,17 +73,24 @@ namespace OneBus.Application.Workers
             if (vehicleOperations is null || !vehicleOperations.Any())
                 return;
 
-            await SyncRangeOperationsAsync(vehicleOperations, cancellationToken);
-            await SyncOutOfRangeOperationsAsync(vehicleOperations, cancellationToken);
+            var currentTime = TimeOnly.FromDateTime(DateTime.UtcNow.ToLocalTime());
+
+            await SyncRangeOperationsAsync(vehicleOperations, currentTime, cancellationToken);
+            await SyncOutOfRangeOperationsAsync(vehicleOperations, currentTime, cancellationToken);
         }
 
-        private async Task SyncOutOfRangeOperationsAsync(IEnumerable<ReadVehicleOperationDTO> vehicleOperations, CancellationToken cancellationToken)
+        private async Task SyncOutOfRangeOperationsAsync(
+            IEnumerable<ReadVehicleOperationDTO> vehicleOperations,
+            TimeOnly currentTime,
+            CancellationToken cancellationToken)
         {
             if (vehicleOperations is null || !vehicleOperations.Any())
                 return;
 
-            var rangeOperations = vehicleOperations.Where(c => (c.LineTimeTime < c.EmployeeWorkdayStartTime ||
-                                                                c.LineTimeTime > c.EmployeeWorkdayEndTime) &&
+            var rangeOperations = vehicleOperations.Where(c => (currentTime < c.LineTimeTime ||
+                                                                currentTime < c.EmployeeWorkdayStartTime ||
+                                                                currentTime > c.EmployeeWorkdayEndTime ||
+                                                                c.EmployeeWorkdayEmployeeStatus is not (byte)EmployeeStatus.Ativo) &&
                                                                c.VehicleStatus is (byte)VehicleStatus.Em_Operação);
 
             if (!rangeOperations.Any())
@@ -96,13 +103,17 @@ namespace OneBus.Application.Workers
             await vehicleRepository.SetStatusAsync(vehicleIds, VehicleStatus.Disponível, cancellationToken);
         }
 
-        private async Task SyncRangeOperationsAsync(IEnumerable<ReadVehicleOperationDTO> vehicleOperations, CancellationToken cancellationToken)
+        private async Task SyncRangeOperationsAsync(
+            IEnumerable<ReadVehicleOperationDTO> vehicleOperations,
+            TimeOnly currentTime,
+            CancellationToken cancellationToken)
         {
             if (vehicleOperations is null || !vehicleOperations.Any())
                 return;
 
-            var rangeOperations = vehicleOperations.Where(c => c.LineTimeTime >= c.EmployeeWorkdayStartTime &&
-                                                               c.LineTimeTime <= c.EmployeeWorkdayEndTime &&
+            var rangeOperations = vehicleOperations.Where(c => currentTime >= c.LineTimeTime &&
+                                                               currentTime >= c.EmployeeWorkdayStartTime &&
+                                                               currentTime <= c.EmployeeWorkdayEndTime &&
                                                                c.VehicleStatus is (byte)VehicleStatus.Disponível &&
                                                                c.EmployeeWorkdayEmployeeStatus is (byte)EmployeeStatus.Ativo);
 
