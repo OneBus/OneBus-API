@@ -87,11 +87,7 @@ namespace OneBus.Application.Workers
             if (vehicleOperations is null || !vehicleOperations.Any())
                 return;
 
-            var rangeOperations = vehicleOperations.Where(c => (currentTime < c.LineTimeTime ||
-                                                                currentTime < c.EmployeeWorkdayStartTime ||
-                                                                currentTime > c.EmployeeWorkdayEndTime ||
-                                                                c.EmployeeWorkdayEmployeeStatus is not (byte)EmployeeStatus.Ativo) &&
-                                                               c.VehicleStatus is (byte)VehicleStatus.Em_Operação);
+            var rangeOperations = vehicleOperations.Where(c => IsNotOperational(c, currentTime));
 
             if (!rangeOperations.Any())
                 return;
@@ -103,6 +99,16 @@ namespace OneBus.Application.Workers
             await vehicleRepository.SetStatusAsync(vehicleIds, VehicleStatus.Disponível, cancellationToken);
         }
 
+        private static bool IsNotOperational(ReadVehicleOperationDTO operation, TimeOnly currentTime)
+        {
+            var baseCondition = ((currentTime < operation.EmployeeWorkdayStartTime || currentTime > TimeOnly.MaxValue) &&
+                                  operation.LineTimeTime < currentTime && currentTime < operation.LineTimeTime) ||
+                                currentTime > operation.EmployeeWorkdayEndTime || currentTime < TimeOnly.MinValue;
+
+            return (baseCondition || currentTime < operation.LineTimeTime || operation.EmployeeWorkdayEmployeeStatus is not (byte)EmployeeStatus.Ativo) &&
+                   operation.VehicleStatus is (byte)VehicleStatus.Em_Operação;
+        }
+
         private async Task SyncRangeOperationsAsync(
             IEnumerable<ReadVehicleOperationDTO> vehicleOperations,
             TimeOnly currentTime,
@@ -111,11 +117,7 @@ namespace OneBus.Application.Workers
             if (vehicleOperations is null || !vehicleOperations.Any())
                 return;
 
-            var rangeOperations = vehicleOperations.Where(c => currentTime >= c.LineTimeTime &&
-                                                               currentTime >= c.EmployeeWorkdayStartTime &&
-                                                               currentTime <= c.EmployeeWorkdayEndTime &&
-                                                               c.VehicleStatus is (byte)VehicleStatus.Disponível &&
-                                                               c.EmployeeWorkdayEmployeeStatus is (byte)EmployeeStatus.Ativo);
+            var rangeOperations = vehicleOperations.Where(c => IsOperational(c, currentTime));
 
             if (!rangeOperations.Any())
                 return;
@@ -125,6 +127,18 @@ namespace OneBus.Application.Workers
 
             var vehicleIds = rangeOperations.Select(c => c.VehicleId);
             await vehicleRepository.SetStatusAsync(vehicleIds, VehicleStatus.Em_Operação, cancellationToken);
+        }
+
+        private static bool IsOperational(ReadVehicleOperationDTO operation, TimeOnly currentTime)
+        {
+            var baseCondition = (currentTime >= operation.EmployeeWorkdayStartTime && currentTime <= TimeOnly.MaxValue &&
+                                 operation.LineTimeTime >= currentTime) ||
+                                (currentTime <= operation.EmployeeWorkdayEndTime && currentTime >= TimeOnly.MinValue);
+
+            return baseCondition &&
+                   currentTime >= operation.LineTimeTime &&
+                   operation.VehicleStatus is (byte)VehicleStatus.Disponível &&
+                   operation.EmployeeWorkdayEmployeeStatus is (byte)EmployeeStatus.Ativo;
         }
     }
 }
