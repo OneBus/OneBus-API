@@ -9,22 +9,25 @@ namespace OneBus.Application.Validators.VehicleOperation
     {
         private readonly IVehicleRepository _vehicleRepository;
         private readonly ILineTimeRepository _lineTimeRepository;
-        private readonly IEmployeeWorkdayRepository _employeeWorkdayRepository;       
+        private readonly IEmployeeWorkdayRepository _employeeWorkdayRepository;
+        private readonly IVehicleOperationRepository _vehicleOperationRepository;
 
         public UpdateVehicleOperationDTOValidator(
             IVehicleRepository vehicleRepository,
             ILineTimeRepository lineTimeRepository,
-            IEmployeeWorkdayRepository employeeWorkdayRepository)
+            IEmployeeWorkdayRepository employeeWorkdayRepository,
+            IVehicleOperationRepository vehicleOperationRepository)
         {
             _vehicleRepository = vehicleRepository;
             _lineTimeRepository = lineTimeRepository;
             _employeeWorkdayRepository = employeeWorkdayRepository;
+            _vehicleOperationRepository = vehicleOperationRepository;
 
             RuleFor(c => c.Id).GreaterThan(0);
 
             RuleFor(c => c.VehicleId)
-                .MustAsync(VehicleExistsAsync)
-                .WithMessage(ErrorUtils.EntityNotFound(CreateVehicleOperationDTOValidator.VehicleIdPropertyName).Message)
+                .MustAsync(IsValidVehicleAsync)
+                .WithMessage(CreateVehicleOperationDTOValidator.InvalidVehicle)
                 .OverridePropertyName(CreateVehicleOperationDTOValidator.VehicleIdPropertyName);
 
             RuleFor(c => c.LineTimeId)
@@ -38,9 +41,20 @@ namespace OneBus.Application.Validators.VehicleOperation
               .OverridePropertyName(CreateVehicleOperationDTOValidator.EmployeeWorkdayIdPropertyName);
         }
 
-        private async Task<bool> VehicleExistsAsync(long vehicleId, CancellationToken ct = default)
+        private async Task<bool> IsValidVehicleAsync(
+             UpdateVehicleOperationDTO vehicleOperation,
+             long vehicleId,
+             CancellationToken cancellationToken = default)
         {
-            return await _vehicleRepository.AnyAsync(c => c.Id == vehicleId, cancellationToken: ct);
+            var vehicleExists = await _vehicleRepository.AnyAsync(c => c.Id == vehicleId, cancellationToken: cancellationToken);
+
+            if (!vehicleExists)
+                return false;
+
+            return !await _vehicleOperationRepository.AnyAsync(c => c.VehicleId == vehicleOperation.VehicleId &&
+                                                                    c.LineTimeId == vehicleOperation.LineTimeId &&
+                                                                    c.Id != vehicleOperation.Id,
+                                                               cancellationToken: cancellationToken);
         }
 
         private async Task<bool> LineTimeExistsAsync(long lineTimeId, CancellationToken ct = default)
